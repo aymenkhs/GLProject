@@ -16,8 +16,36 @@ public abstract class Personne extends User {
         this.dateNaissance = dateNaissance;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getMatricule() {
+        return matricule;
+    }
+
+    public Date getDateNaissance() {
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(Date dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
     protected static boolean ajoutPersonne(String userNameS, String passwordS, String emailS, String nomS, String prenomS,
-                                            Date dateNaissanceS, String type, Langue langue){
+                                           Date dateNaissanceS, String type, Langue langue){
 
         String requete = "insert into Personne(userName, nom, prenom, DateN, email, password, langue, type) values('" +
                 userNameS + "','" + nomS + "'," + prenomS+ ",'" + dateNaissanceS + "','" + emailS + "','" + passwordS

@@ -16,6 +16,22 @@ public class Instructeur extends Personne {
         this.dommaine = dommaine;
     }
 
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getDommaine() {
+        return dommaine;
+    }
+
+    public void setDommaine(String dommaine) {
+        this.dommaine = dommaine;
+    }
+
     @Override
     public void edit() {
 
@@ -40,6 +56,15 @@ public class Instructeur extends Personne {
                     return inst;
                 }
             }
+        }
+        return null;
+    }
+
+    public static String getUserWithMat(String matricule) throws SQLException{
+        String request = "select userName From Enseignant where matriculeEns = '" + matricule +"'";
+        ResultSet res = dataBase.selectRequest(request);
+        if(res.next()){
+            return res.getString("userName");
         }
         return null;
     }

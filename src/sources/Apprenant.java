@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public class Apprenant extends Personne {
+    private static int cmpt = 0;
+
     private String specialite;
     private int anneeEtude;
 
