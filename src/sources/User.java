@@ -49,13 +49,6 @@ public abstract class User {
         this.lang = lang;
     }
 
-    public boolean login(String userN, String passw){
-        if(userName.equals(userN) && password.equals(passw)){
-            return true;
-        }
-        return false;
-    }
-
     public static void setDataBase(Jdbc db){
         dataBase = db;
     }
@@ -66,26 +59,60 @@ public abstract class User {
 
     public abstract void edit();
 
-    protected static boolean UserNameExist(String userNameS) throws SQLException {
-        String request = "select userName From Personne where userName = '" + userNameS +"'";
-
-        ResultSet res = dataBase.selectRequest(request);
-
-        if(res.next()){
-            return true;
+    public static boolean login(String userN, String passw){
+        if(UserNameExist(userN)){
+            return passwordMatch(userN,passw);
         }
         return false;
     }
 
-    protected static String userType(String userNameS)throws SQLException{
+    private static boolean passwordMatch(String userN, String passw){
+        String request = "select password From Personne where userName = '" + userN +"'";
+
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                if (passw.equals(res.getString("password"))){
+                    return true;
+                }
+            }
+        }catch (SQLException e){ return false;}
+        return false;
+    }
+
+    protected static boolean UserNameExist(String userNameS){
+        String request = "select userName From Personne where userName = '" + userNameS +"'";
+
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                return true;
+            }
+        }catch (SQLException e){ return false;}
+        return false;
+    }
+
+    protected static boolean emailExist(String email){
+        String request = "select userName From Personne where email = '" + email +"'";
+
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                return true;
+            }
+        }catch (SQLException e){ return false;}
+        return false;
+    }
+
+    public static String userType(String userNameS){
         String request = "select type From Personne where userName = '" + userNameS +"'";
 
         ResultSet res = dataBase.selectRequest(request);
-
-        if(res.next()){
-            return res.getString("type");
-        }
+        try{
+            if(res.next()){
+                return res.getString("type");
+            }
+        }catch(SQLException e){ return "";}
         return "";
     }
-
 }

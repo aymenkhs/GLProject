@@ -1,14 +1,15 @@
 package sources;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public abstract class Personne extends User {
 
     protected String nom, prenom, matricule;
-    protected Date dateNaissance;
+    protected LocalDate dateNaissance;
 
     public Personne(String userName, String password, String email,Langue lang, String nom, String prenom,
-                    String matricule, Date dateNaissance) {
+                    String matricule, LocalDate dateNaissance) {
         super(userName, password, email,lang);
         this.nom = nom;
         this.prenom = prenom;
@@ -36,20 +37,20 @@ public abstract class Personne extends User {
         return matricule;
     }
 
-    public Date getDateNaissance() {
+    public LocalDate getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance(Date dateNaissance) {
+    public void setDateNaissance(LocalDate dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 
     protected static boolean ajoutPersonne(String userNameS, String passwordS, String emailS, String nomS, String prenomS,
-                                           Date dateNaissanceS, String type, Langue langue){
+                                           LocalDate dateNaissanceS, String type, Langue langue){
 
         String requete = "insert into Personne(userName, nom, prenom, DateN, email, password, langue, type) values('" +
-                userNameS + "','" + nomS + "'," + prenomS+ ",'" + dateNaissanceS + "','" + emailS + "','" + passwordS
-                + langue.name() + "','" + type +")" ;
+                userNameS + "','" + nomS + "','" + prenomS+ "','" + dateNaissanceS.format(DateTimeFormatter.ofPattern("d/MM/uuuu"))
+                + "','" + emailS + "','" + passwordS+ "','" + langue.name() + "','" + type +"')" ;
         int cp = 0;
 
         try{

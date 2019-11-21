@@ -4,6 +4,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import sources.Admin;
+import sources.Apprenant;
+import sources.Instructeur;
+import sources.User;
 
 import java.time.LocalDate;
 
@@ -19,8 +23,10 @@ public class LogSignScene {
     private PasswordField userPassword;
 
     private PasswordField userPasswordText;
-    private TextField lastNameText, firstNameText, emailText, matriculeText, userNameText;
+    private TextField lastNameText, firstNameText, emailText, userNameText;
     private TextField speText, yearText, moduleText, gradeText;
+
+    private Label matriculeText;
 
     private DatePicker dateNaissance;
 
@@ -32,16 +38,15 @@ public class LogSignScene {
         this.createLoginScene();
     }
 
-
     public void createLoginScene(){
 
         loginGrid = DefaultFct.defaultGrid();
 
         Button loginButton = new Button("Login");
         GridPane.setConstraints(loginButton, 0, 3);
-        loginButton.setOnAction(e -> login());
+        loginButton.setOnAction(e -> loginAction());
 
-        Button signinButton = new Button("Sign in");
+        Button signinButton = new Button("Sign up");
         GridPane.setConstraints(signinButton, 1, 3);
         signinButton.setOnAction(e -> createSignInScene());
 
@@ -63,33 +68,56 @@ public class LogSignScene {
         window.setScene(loginScene);
     }
 
-    public void login(){
+    private void loginAction(){
+        if(verifeLogin()){
+            if(User.login(userName.getText(), userPassword.getText())){
+                String type = User.userType(userName.getText());
+                if(type.equals("Etudiant")){
+                    Apprenant app = Apprenant.LoadApprenant(userName.getText());
+                    launchHomeScreen(app);
+                }else if(type.equals("Enseignant")){
+                    Instructeur inst = Instructeur.LoadInstructeur(userName.getText());
+                    launchHomeScreen(inst);
+                }else{ //admin
+                    // call loaddmin when it writen
+                }
+            }
+        }
+    }
 
+    private boolean verifeLogin() {
+        String redPromptText = "-fx-prompt-text-fill: red";
+        if (emptyField(redPromptText, userName)) return false;
+        if (emptyField(redPromptText, userPassword)) return false;
+        return true;
     }
 
     public void createSignInScene(){
         signInGrid = DefaultFct.defaultGrid();
 
         Label typeChoiceLabel = new Label("Vous etes un : ");
-        Label userNameLabel = new Label("User Name");
-        Label userPasswordLabel = new Label("Password");
-        Label emailLabel = new Label("Email");
-        Label lastNameLabel = new Label("Nom");
+        Label userNameLabel = new Label("User Name *");
+        Label userPasswordLabel = new Label("Password *");
+        Label emailLabel = new Label("Email *");
+        Label lastNameLabel = new Label("Nom *");
         Label matriculeLabel = new Label("Matricule");
-        Label firstNameLabel = new Label("Prenom");
+        Label firstNameLabel = new Label("Prenom *");
         Label dateNaissanceLabel = new Label("Date de  Naissance");
 
         userNameText = new TextField();
         lastNameText = new TextField();
         firstNameText = new TextField();
-        matriculeText = new TextField();
         dateNaissance = new DatePicker(LocalDate.now());
         userPasswordText = new PasswordField();
         emailText = new TextField();
 
         typeChoice = new ComboBox<>();
         typeChoice.getItems().addAll("Etudiant", "Enseignant");
+        typeChoice.setOnAction(e -> changerType());
         typeChoice.setValue("Etudiant");
+
+        matriculeText = new Label(Apprenant.genererMatricule());
+        userNameText.setText(matriculeText.getText());
 
         GridPane.setConstraints(typeChoiceLabel, 0, 0);
         GridPane.setConstraints(typeChoice, 1, 0);
@@ -108,9 +136,9 @@ public class LogSignScene {
         GridPane.setConstraints(userPasswordLabel, 0, 6);
         GridPane.setConstraints(userPasswordText, 1, 6);
 
-        Button signinButton = new Button("Sign in");
+        Button signinButton = new Button("Sign Up");
         GridPane.setConstraints(signinButton, 2, 8);
-        //signinButton.setOnAction(e -> );
+        signinButton.setOnAction(e ->signAction());
 
         Button returnButton = new Button("Retour");
         GridPane.setConstraints(returnButton, 0, 8);
@@ -120,10 +148,77 @@ public class LogSignScene {
                 dateNaissanceLabel, userNameLabel, userPasswordLabel, matriculeText, lastNameText, firstNameText,
                 dateNaissance, emailText, typeChoice, userNameText, userPasswordText, signinButton, returnButton);
 
-        Scene signinScene = new Scene(signInGrid, 800, 500);
+        signInGrid.setStyle("-fx-background-color: #b9d8ff");
+        Scene signinScene = new Scene(signInGrid, 600, 333);
         window.setScene(signinScene);
     }
 
+    private void changerType(){
+        String lastMatricule = matriculeText.getText();
 
+        if(typeChoice.getValue().equals("Etudiant")){
+            matriculeText.setText(Apprenant.genererMatricule());
+        }else{
+            matriculeText.setText(Instructeur.genererMatricule());
+        }
+        if(userNameText.getText().isEmpty() || userNameText.getText().equals(lastMatricule)){
+            userNameText.setText(matriculeText.getText());
+        }
+    }
 
+    private void signAction(){
+        if(verife()){
+            if(typeChoice.getValue().equals("Etudiant")){
+                Apprenant app = Apprenant.SignUp(userNameText.getText(), userPasswordText.getText(), emailText.getText(),
+                        firstNameText.getText(), lastNameText.getText(), matriculeText.getText(), dateNaissance.getValue(),
+                        "isil", "L3");
+                if (app != null) {
+                    launchHomeScreen(app);
+                }else{
+                    AlertBox.displayError("Le UserName ou l'email que vous avez entrer existe deja");
+                }
+            }else{
+                Instructeur inst = Instructeur.SignUp(userNameText.getText(), userPasswordText.getText(), emailText.getText(),
+                        firstNameText.getText(), lastNameText.getText(), matriculeText.getText(), dateNaissance.getValue(),
+                        "grd", "dom");
+                if (inst != null) {
+                    launchHomeScreen(inst);
+                }else{
+                    AlertBox.displayError("Le UserName ou l'email que vous avez entrer existe deja");
+                }
+            }
+        }
+    }
+
+    private boolean verife() {
+        String redPromptText = "-fx-prompt-text-fill: red";
+
+        if (emptyField(redPromptText, lastNameText)) return false;
+        if (emptyField(redPromptText, firstNameText)) return false;
+        if (emptyField(redPromptText, emailText)) return false;
+        if (emptyField(redPromptText, userNameText)) return false;
+        if (emptyField(redPromptText, userPasswordText)) return false;
+        return true;
+    }
+
+    private boolean emptyField(String redPromptText, TextField textField) {
+        if(textField.getText().isBlank()) {
+            textField.setPromptText("Ce champ doit etre remplis");
+            textField.setStyle(redPromptText);
+            return true;
+        }
+        return false;
+    }
+
+    private void launchHomeScreen(Apprenant app){
+        StudentUI s = new StudentUI(window, app);
+    }
+
+    private void launchHomeScreen(Instructeur inst){
+
+    }
+
+    private void launchHomeScreen(Admin adm){
+
+    }
 }

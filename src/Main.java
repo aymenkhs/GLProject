@@ -1,6 +1,7 @@
 import dataBase.Jdbc;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import sources.User;
 import userInterface.LogSignScene;
 
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ public class Main extends Application {
 
         try {
             db = new Jdbc(); // creation de la base de donnes
-            //User.setDataBase(db);
+            User.setDataBase(db);
             //System.out.println(User.UserNameExist("truc"));
         } catch (SQLException e) {
             //System.out.println(e);
