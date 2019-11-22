@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class Instructeur extends Personne {
     private static int cmpt = 0;
+
     private String grade, dommaine;
 
     public Instructeur(String userName, String password, String email,Langue lang, String nom, String prenom,
@@ -16,27 +17,10 @@ public class Instructeur extends Personne {
         this.dommaine = dommaine;
     }
 
-    public String getGrade() {
-        return grade;
-    }
 
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
 
-    public String getDommaine() {
-        return dommaine;
-    }
 
-    public void setDommaine(String dommaine) {
-        this.dommaine = dommaine;
-    }
-
-    @Override
-    public void edit() {
-
-    }
-
+    // Methodes Static
     public static Instructeur LoadInstructeur(String userNameS){
         if(UserNameExist(userNameS) || userType(userNameS).toLowerCase().equals("enseignant")) {
             String requestUser = "select * From Personne where userName = '" + userNameS + "'";

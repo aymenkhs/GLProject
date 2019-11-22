@@ -4,10 +4,10 @@ import dataBase.Jdbc;
 
 public class Cour {
     private static Jdbc dataBase;
-    private static int cmpt = 0;
 
+    private String nomCour;
 
-
+    // Methodes Static
     public static void setDataBase(Jdbc db){
         dataBase = db;
     }

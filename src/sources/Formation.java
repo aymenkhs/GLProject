@@ -13,6 +13,7 @@ public class Formation {
     private int numFormation;
     private String nomFormation, description;
     private Instructeur inst;
+    private ArrayList<Cour> listCours;
 
     public Formation(int numFormation, String nomFormation, String description, Instructeur inst) {
         this.numFormation = numFormation;
@@ -21,6 +22,8 @@ public class Formation {
         this.inst = inst;
     }
 
+
+    // Methodes Static
     public static void setDataBase(Jdbc db){
         dataBase = db;
     }

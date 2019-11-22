@@ -16,9 +16,9 @@ public class Apprenant extends Personne {
         this.anneeEtude = anneeEtude;
     }
 
-    @Override
-    public void edit() {}
 
+
+    // Methodes Static
     public static Apprenant LoadApprenant(String userNameS) {
         if(UserNameExist(userNameS) || userType(userNameS).toLowerCase().equals("etudiant")) {
             String requestUser = "select * From Personne where userName = '" + userNameS + "'";

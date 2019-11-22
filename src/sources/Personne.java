@@ -17,6 +17,8 @@ public abstract class Personne extends User {
         this.dateNaissance = dateNaissance;
     }
 
+
+    // geters && seters dont on pourraits avoir besoin (on supprimmera ce qui ne sont pas utilisera la fin du projet)
     public String getNom() {
         return nom;
     }
@@ -44,6 +46,10 @@ public abstract class Personne extends User {
     public void setDateNaissance(LocalDate dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
+
+
+
+    // Methodes Static (ajout de personne dans la table assossier dans la base de donnes)
 
     protected static boolean ajoutPersonne(String userNameS, String passwordS, String emailS, String nomS, String prenomS,
                                            LocalDate dateNaissanceS, String type, Langue langue){
