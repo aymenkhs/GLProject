@@ -5,11 +5,12 @@ import java.time.format.DateTimeFormatter;
 
 public abstract class Personne extends User {
 
-    protected String nom, prenom, matricule;
+    protected String nom, prenom;
+    protected int matricule;
     protected LocalDate dateNaissance;
 
     public Personne(String userName, String password, String email,Langue lang, String nom, String prenom,
-                    String matricule, LocalDate dateNaissance) {
+                    int matricule, LocalDate dateNaissance) {
         super(userName, password, email,lang);
         this.nom = nom;
         this.prenom = prenom;
@@ -35,7 +36,7 @@ public abstract class Personne extends User {
         this.prenom = prenom;
     }
 
-    public String getMatricule() {
+    public int getMatricule() {
         return matricule;
     }
 

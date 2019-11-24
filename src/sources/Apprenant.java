@@ -5,11 +5,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class Apprenant extends Personne {
-    private static int cmpt = 0;
 
     private String specialite, anneeEtude;
 
-    public Apprenant(String userName, String password, String email, Langue lang, String nom, String prenom, String matricule,
+    public Apprenant(String userName, String password, String email, Langue lang, String nom, String prenom, int matricule,
                      LocalDate dateNaissance, String specialite, String anneeEtude) {
         super(userName, password, email, lang, nom, prenom, matricule, dateNaissance);
         this.specialite = specialite;
@@ -32,7 +31,7 @@ public class Apprenant extends Personne {
                         Apprenant app = new Apprenant(userNameS, resUser.getString("password"),
                                 resUser.getString("email"),Langue.valueOf(resUser.getString("langue"))
                                 ,resUser.getString("nom"), resUser.getString("prenom"),
-                                resUser.getString("matricule"), resUser.getDate("DateN").toLocalDate(),
+                                resEtud.getInt("matriculeEtud"), resUser.getDate("DateN").toLocalDate(),
                                 resEtud.getString("specialite"), resEtud.getString("anneeCour"));
 
                         return app;
@@ -43,16 +42,13 @@ public class Apprenant extends Personne {
         return null;
     }
 
-    public static String genererMatricule(){ return "Etud" + cmpt + "#"; }
-
     public static Apprenant SignUp(String userNameS, String passwordS, String emailS, String nomS, String prenomS,
-                                   String matriculeS, LocalDate dateNaissanceS, String specialiteS,
+                                   int matriculeS, LocalDate dateNaissanceS, String specialiteS,
                                    String anneeEtudeS){
 
         if(!UserNameExist(userNameS) && !emailExist(emailS)){
             if(ajoutPersonne(userNameS,passwordS,emailS,nomS,prenomS,dateNaissanceS,"etudiant", Langue.French)){
                 if(ajoutApprenant(userNameS, matriculeS, specialiteS, anneeEtudeS)){
-                    cmpt++;
                     Apprenant app = new Apprenant(userNameS, passwordS, emailS, Langue.French ,nomS, prenomS,
                             matriculeS, dateNaissanceS, specialiteS, anneeEtudeS);
                     return app;
@@ -62,10 +58,10 @@ public class Apprenant extends Personne {
         return null;
     }
 
-    private static boolean ajoutApprenant(String userNameS, String matriculeS, String specialiteS, String anneeEtudeS){
+    private static boolean ajoutApprenant(String userNameS, int matriculeS, String specialiteS, String anneeEtudeS){
 
-        String requete = "insert into Etudiant(matriculeEtud ,userName, specialite, anneeCour) values('" + matriculeS +
-                "','" + userNameS + "','" + specialiteS + "','" + anneeEtudeS + "')" ;
+        String requete = "insert into Etudiant(matriculeEtud ,userName, specialite, anneeCour) values(" + matriculeS +
+                ",'" + userNameS + "','" + specialiteS + "','" + anneeEtudeS + "')" ;
         int cp = 0;
         try{
             cp = dataBase.insertRequest(requete);
@@ -74,5 +70,16 @@ public class Apprenant extends Personne {
             return false;
         }
         return true;
+    }
+
+    public static int nbPersonne(){
+        String request = "select max(matriculeEtud) from Etudiant";
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                return res.getInt("max(matriculeEtud)")+1;
+            }
+            return 0;
+        }catch (SQLException e){return -1;}
     }
 }

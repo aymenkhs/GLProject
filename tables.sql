@@ -1,5 +1,3 @@
-#alternative one
-
 create table Personne(
 	userName varchar2(30),
 	nom varchar2(30),
@@ -14,7 +12,7 @@ create table Personne(
 );
 
 create table Enseignant(
-	matriculeEns varchar2(15),
+	matriculeEns integer,
 	userName varchar2(30),
 	grade varchar2(20),
 	dommaine varchar2(20),
@@ -23,7 +21,7 @@ create table Enseignant(
 );
 
 create table Etudiant(
-	matriculeEtud varchar2(15),
+	matriculeEtud integer,
 	userName varchar2(30),
 	specialite varchar2(20),
 	anneeCour varchar2(5),
@@ -34,10 +32,26 @@ create table Etudiant(
 create table Formation(
 	numFormation integer,
 	nomFormation varchar2(30),
-	matriculeEns varchar2(15),
+	matriculeEns integer,
 	description varchar2(150),
 	constraint formEnsFK foreign key (matriculeEns) references Enseignant,
 	constraint formPK primary key (numFormation)	
+);
+
+create table MembreFormation(
+	numFormation integer,
+	matriculeEtud integer,
+	constraint memFormFK foreign key (numFormation) references Formation,
+	constraint memEtudFK foreign key (matriculeEtud) references Etudiant,
+	constraint memPK primary key (matriculeEtud, numFormation)	
+);
+
+create table Historique(
+	numAction integer,
+	numFormation integer,
+	matriculeEtud integer,	
+	constraint hstMemFK foreign key (matriculeEtud, numFormation) references MembreFormation,
+	constraint hstPK primary key (numFormation,matriculeEtud,numAction)	
 );
 
 create table Cour(
@@ -56,24 +70,85 @@ create table Devoir(
 	constraint devPK primary key (numFormation,numDevoir)	
 );
 
+create table PasseDevoir(
+	numDevoir integer,
+	numFormation integer,
+	matriculeEtud integer,
+	pathReponseD varchar2(200),
+	noteD integer,
+	constraint chknoteD check(noteD>=0 and noteD<=20),
+	constraint psdDevFK foreign key (numFormation,numDevoir) references Devoir,	
+	constraint psdMemFK foreign key (matriculeEtud, numFormation) references MembreFormation,
+	constraint psdPK primary key (numFormation,numDevoir,matriculeEtud)	
+);
+
 create table Test(
 	numTest integer,
 	numFormation integer,
-	pathQuestions varchar2(200),
+	nbQuestion integer,
 	constraint testFormFK foreign key (numFormation) references Formation,
 	constraint testPK primary key (numFormation,numTest)	
 );
 
-#########################################################################
+create table Question(
+	numFormation integer,
+	numTest integer,
+	numQusetion integer,
+	enoncerQuestion varchar2(200),
+	constraint qstTestFK foreign key (numFormation,numTest) references Test,
+	constraint qstPK primary key (numFormation,numTest,numQusetion)	
+);
+
+create table ChoixQuestion(
+	numFormation integer,
+	numTest integer,
+	numQusetion integer,
+	numChoixQ integer,
+	contenueReponse varchar2(100),
+	isTrue integer,
+	constraint chktrue check(isTrue>=0 and isTrue<=1),
+	constraint choixqQstPK foreign key (numFormation,numTest,numQusetion) references Question,
+	constraint choixqPK primary key (numFormation,numTest,numQusetion,numChoixQ)	
+);
+
+create Table PasseTest(
+	numTest integer,
+	numFormation integer,
+	matriculeEtud integer,
+	noteT integer,
+	constraint chknoteT check(noteT>=0 and noteT<=20),
+	constraint pstTestFK foreign key (numFormation,numTest) references Test,	
+	constraint pstMemFK foreign key (matriculeEtud, numFormation) references MembreFormation,
+	constraint pstPK primary key (numFormation,numTest,matriculeEtud)
+);
+
+create table ReponseQuestion(
+	numTest integer,
+	numFormation integer,
+	matriculeEtud integer,
+	numQusetion integer,
+	numChoixQ integer,
+	constraint repqQstPK foreign key (numFormation,numTest,numQusetion) references Question,
+	constraint repqChoixqPK foreign key (numFormation,numTest,numQusetion,numChoixQ) references ChoixQuestion,
+	constraint repqPstPK foreign key (numFormation,numTest,matriculeEtud) references PasseTest,
+	constraint repqPK primary key (numFormation,numTest,matriculeEtud)
+);
 
 create table Sondage(
 	numSondage integer,
 	userName varchar2(30),
 	description varchar2(500),
-	pathChoix varchar2(200),
 	typeParticipant varchar2(20),
 	constraint sondPersFK foreign key (userName) references Personne,
 	constraint sondPK primary key (numSondage)
+);
+
+create table Choix(
+	numChoix integer,
+	numSondage integer,
+	nomChoix varchar2(50),
+	constraint choixSondFK foreign key (numSondage) references Sondage,
+	constraint choixPK primary key (numSondage, numChoix)	
 );
 
 create table Participer(
@@ -84,9 +159,3 @@ create table Participer(
 	constraint partSondFK foreign key (numSondage) references Sondage,
 	constraint partPK primary key (numSondage,userName)
 );
-
-insert into Personne(userName, nom, prenom, DateN, email, password, langue, type) values();
-insert into Enseignant(matriculeEns ,userName, grade, dommaine) values();
-insert into Etudiant(matriculeEtud ,userName, specialite, anneeCour) values();
-
-select * from Formation where numFormation = '';

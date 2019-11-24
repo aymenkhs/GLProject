@@ -4,10 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import sources.Admin;
-import sources.Apprenant;
-import sources.Instructeur;
-import sources.User;
+import sources.*;
 
 import java.time.LocalDate;
 
@@ -27,6 +24,7 @@ public class LogSignScene {
     private TextField speText, yearText, moduleText, gradeText;
 
     private Label matriculeText;
+    private int matriculeInt;
 
     private DatePicker dateNaissance;
 
@@ -72,10 +70,10 @@ public class LogSignScene {
         if(verifeLogin()){
             if(User.login(userName.getText(), userPassword.getText())){
                 String type = User.userType(userName.getText());
-                if(type.equals("Etudiant")){
+                if(type.toLowerCase().equals("etudiant")){
                     Apprenant app = Apprenant.LoadApprenant(userName.getText());
                     launchHomeScreen(app);
-                }else if(type.equals("Enseignant")){
+                }else if(type.toLowerCase().equals("enseignant")){
                     Instructeur inst = Instructeur.LoadInstructeur(userName.getText());
                     launchHomeScreen(inst);
                 }else{ //admin
@@ -116,8 +114,8 @@ public class LogSignScene {
         typeChoice.setOnAction(e -> changerType());
         typeChoice.setValue("Etudiant");
 
-        matriculeText = new Label(Apprenant.genererMatricule());
-        userNameText.setText(matriculeText.getText());
+        matriculeText = new Label();
+        changerType();
 
         GridPane.setConstraints(typeChoiceLabel, 0, 0);
         GridPane.setConstraints(typeChoice, 1, 0);
@@ -156,13 +154,19 @@ public class LogSignScene {
     private void changerType(){
         String lastMatricule = matriculeText.getText();
 
-        if(typeChoice.getValue().equals("Etudiant")){
-            matriculeText.setText(Apprenant.genererMatricule());
-        }else{
-            matriculeText.setText(Instructeur.genererMatricule());
-        }
+        updateMat(typeChoice.getValue());
         if(userNameText.getText().isEmpty() || userNameText.getText().equals(lastMatricule)){
             userNameText.setText(matriculeText.getText());
+        }
+    }
+
+    private void updateMat(String type){
+        if(type.equals("Etudiant")){
+            matriculeInt = Apprenant.nbPersonne();
+            matriculeText.setText("Etud"+matriculeInt+"#");
+        }else{
+            matriculeInt = Instructeur.nbPersonne();
+            matriculeText.setText("ENS"+matriculeInt+"#");
         }
     }
 
@@ -170,7 +174,7 @@ public class LogSignScene {
         if(verife()){
             if(typeChoice.getValue().equals("Etudiant")){
                 Apprenant app = Apprenant.SignUp(userNameText.getText(), userPasswordText.getText(), emailText.getText(),
-                        firstNameText.getText(), lastNameText.getText(), matriculeText.getText(), dateNaissance.getValue(),
+                        firstNameText.getText(), lastNameText.getText(), matriculeInt, dateNaissance.getValue(),
                         "isil", "L3");
                 if (app != null) {
                     launchHomeScreen(app);
@@ -179,7 +183,7 @@ public class LogSignScene {
                 }
             }else{
                 Instructeur inst = Instructeur.SignUp(userNameText.getText(), userPasswordText.getText(), emailText.getText(),
-                        firstNameText.getText(), lastNameText.getText(), matriculeText.getText(), dateNaissance.getValue(),
+                        firstNameText.getText(), lastNameText.getText(), matriculeInt, dateNaissance.getValue(),
                         "grd", "dom");
                 if (inst != null) {
                     launchHomeScreen(inst);

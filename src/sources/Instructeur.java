@@ -5,12 +5,11 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class Instructeur extends Personne {
-    private static int cmpt = 0;
 
     private String grade, dommaine;
 
     public Instructeur(String userName, String password, String email,Langue lang, String nom, String prenom,
-                       String matricule, LocalDate dateNaissance, String grade, String dommaine) {
+                       int matricule, LocalDate dateNaissance, String grade, String dommaine) {
         super(userName, password, email,lang, nom, prenom, matricule, dateNaissance);
         //matricule = "ENS" + cmpt;
         this.grade = grade;
@@ -35,7 +34,7 @@ public class Instructeur extends Personne {
                         Instructeur inst = new Instructeur(userNameS, resUser.getString("password"),
                                 resUser.getString("email"),Langue.valueOf(resUser.getString("langue"))
                                 ,resUser.getString("nom"), resUser.getString("prenom"),
-                                resUser.getString("matricule"), resUser.getDate("DateN").toLocalDate(),
+                                resUser.getInt("matricule"), resUser.getDate("DateN").toLocalDate(),
                                 resEns.getString("grade"), resEns.getString("dommaine"));
 
                         return inst;
@@ -47,7 +46,7 @@ public class Instructeur extends Personne {
     }
 
     public static String getUserWithMat(String matricule) throws SQLException{
-        String request = "select userName From Enseignant where matriculeEns = '" + matricule +"'";
+        String request = "select userName From Enseignant where matriculeEns = " + matricule;
         ResultSet res = dataBase.selectRequest(request);
         if(res.next()){
             return res.getString("userName");
@@ -56,13 +55,12 @@ public class Instructeur extends Personne {
     }
 
     public static Instructeur SignUp(String userNameS, String passwordS, String emailS, String nomS, String prenomS,
-                             String matriculeS, LocalDate dateNaissanceS, String gradeS, String domaineS){
+                             int matriculeS, LocalDate dateNaissanceS, String gradeS, String domaineS){
         if(!UserNameExist(userNameS)){
             if(ajoutPersonne(userNameS,passwordS,emailS,nomS,prenomS,dateNaissanceS,"enseignant", Langue.French)){
                 if(ajoutInstructeur(userNameS, matriculeS, gradeS, domaineS)){
                     Instructeur inst = new Instructeur(userNameS, passwordS, emailS, Langue.French ,nomS, prenomS, matriculeS,
                             dateNaissanceS, gradeS, domaineS);
-                    cmpt++;
                     return inst;
                 }
             }
@@ -70,12 +68,10 @@ public class Instructeur extends Personne {
         return null;
     }
 
-    public static String genererMatricule(){ return "ENS" + cmpt + "#"; }
+    private static boolean ajoutInstructeur(String userNameS, int matriculeS, String gradeS, String dommaineS){
 
-    private static boolean ajoutInstructeur(String userNameS, String matriculeS, String gradeS, String dommaineS){
-
-        String requete = "insert into Enseignant(matriculeEns ,userName, grade, dommaine) values('" + matriculeS + "','"
-                + userNameS + "','" + gradeS + "'," + dommaineS + ")" ;
+        String requete = "insert into Enseignant(matriculeEns ,userName, grade, dommaine) values(" + matriculeS + ",'"
+                + userNameS + "','" + gradeS + "','" + dommaineS + "')" ;
         int cp = 0;
 
         try{
@@ -86,5 +82,17 @@ public class Instructeur extends Personne {
         }
         return true;
     }
+
+    public static int nbPersonne(){
+        String request = "select max(matriculeEns) from Enseignant";
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                return res.getInt("max(matriculeEns)")+1;
+            }
+            return 0;
+        }catch (SQLException e){return -1;}
+    }
+
 
 }
