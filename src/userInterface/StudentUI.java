@@ -2,8 +2,10 @@ package userInterface;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import sources.Apprenant;
@@ -34,10 +36,10 @@ public class StudentUI extends UserUI{
     public void createHomeStudent(){
         initialisation();
         loadInfo();
+        formationInnit();
 
         Label welcome= new Label("Espace Etudiant");
         welcome.setFont(new Font(50));
-        welcome.setPadding(new Insets(0,0,0,110));
         welcome.setStyle("-fx-text-fill: #ff8e47");
 
         firstLevelBox.getChildren().addAll(welcome,secondLevelBox);
@@ -59,5 +61,23 @@ public class StudentUI extends UserUI{
         DateNLabel.setText("Date de Naissance: " + app.getDateNaissance().format(DateTimeFormatter.ISO_DATE));
     }
 
+    private void formationInnit(){
+        Label formationLabel = new Label("FORMATIONS");
+        formationLabel.setFont(new Font(20));
+        GridPane.setConstraints(formationLabel, 0, 0, 2, 1);
 
+        Button everyFormsButton = new Button("Toutes les Formations");
+        GridPane.setConstraints(everyFormsButton, 0, 2);
+        //everyFormsButton.setOnAction(e->);
+
+        Button myFormsButton = new Button("Mes Formations");
+        GridPane.setConstraints(myFormsButton, 1, 2);
+        //myFormsButton.setOnAction(e->);
+
+        Button tesDevButton = new Button("Tests/Devoirs");
+        GridPane.setConstraints(tesDevButton, 0, 3);
+        //tesDevButton.setOnAction(e->);
+
+        formationGrid.getChildren().addAll(formationLabel, everyFormsButton, myFormsButton, tesDevButton);
+    }
 }

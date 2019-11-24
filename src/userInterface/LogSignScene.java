@@ -219,7 +219,7 @@ public class LogSignScene {
     }
 
     private void launchHomeScreen(Instructeur inst){
-
+        TeacherUI t = new TeacherUI(window, inst);
     }
 
     private void launchHomeScreen(Admin adm){
