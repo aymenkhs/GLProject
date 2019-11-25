@@ -4,6 +4,7 @@ import dataBase.Jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public abstract class User {
     protected static Jdbc dataBase;
@@ -37,6 +38,15 @@ public abstract class User {
         this.lang = l;
     }
 
+    // methodes
+
+    public ArrayList<Sondage> listSondagesCree(){
+        return Sondage.loadSondagesPerCreateur(userName);
+    }
+
+    public ArrayList<Sondage> listSondagesParticiper(){
+        return Sondage.loadSondagesParticiper(userName);
+    }
 
     // methodes static
     public static void setDataBase(Jdbc db){
@@ -72,7 +82,7 @@ public abstract class User {
             if(res.next()){
                 return true;
             }
-        }catch (SQLException e){ return false;}
+        }catch (Exception e){ return false; }
         return false;
     }
 

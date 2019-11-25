@@ -5,16 +5,23 @@ import java.sql.*;
 public class Jdbc {
     Connection conn;
 
-    public Jdbc() throws Exception {
+    //connecting to the database
+    public Jdbc() {
 
-        Class.forName("oracle.jdbc.driver.OracleDriver");
+        try {
+            // db parameters
+            String url = "jdbc:sqlite:src/dataBase/dbSocialLearning.db";
+            // create a connection to the database
+            conn = DriverManager.getConnection(url);
 
-        String password = "password";
-        String user = "c##socialLearning";
-        String url = "jdbc:oracle:thin:@//127.0.0.1:1521/orcl";
+            System.out.println("Connection to SQLite has been established.");
 
-        conn = DriverManager.getConnection(url,user, password);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
+
 
     public ResultSet selectRequest(String request){
         try{
@@ -22,7 +29,7 @@ public class Jdbc {
             ResultSet resultat = stmt.executeQuery(request);
             return resultat;
         }catch (Exception e){
-            //System.out.println(e);
+            System.out.println(e);
             return null;
         }
     }

@@ -2,6 +2,7 @@ package userInterface;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -14,17 +15,15 @@ import javafx.stage.Stage;
 
 public class UserUI {
 
+    // MAIN STAGE
+
     protected Stage window;
 
     // Layout
     protected BorderPane userIntBorder;
-    protected VBox firstLevelBox;
-    protected HBox secondLevelBox;
-    protected VBox thirdLevelBox;
-    protected HBox topBorder;
-    protected VBox profileVbox;
-    protected GridPane formationGrid;
-    protected GridPane sondageGrid;
+    protected VBox firstLevelBox, thirdLevelBox, profileVbox;
+    protected HBox secondLevelBox, topBorder;
+    protected GridPane formationGrid, sondageGrid;
     //protected GridPane wikiGrid; !!!???
 
     // Image that represents pdp
@@ -38,6 +37,18 @@ public class UserUI {
     protected Label DateNLabel;
     // buttons
     protected Button editProfilButton;
+
+
+    // FORMATION STAGE
+
+    protected Stage formStage;
+    protected Scene s;
+
+    //layout
+    protected BorderPane formBorder;
+    protected HBox bottomFormBorder;
+    protected VBox rightFormBorder;
+
 
     protected void initialisation(){
         userIntBorder = new BorderPane();
@@ -115,6 +126,21 @@ public class UserUI {
         thirdLevelBox.getChildren().addAll(formationGrid,sondageGrid);
 
         secondLevelBox.getChildren().add(thirdLevelBox);
+    }
+
+    protected void initStageForm(){
+        formStage = new Stage();
+        formStage.setTitle("FORMATION");
+
+        formBorder = new BorderPane();
+
+        bottomFormBorder = DefaultFct.defaultHbox(Pos.BOTTOM_LEFT);
+        Button quit = new Button("Quiter");
+        bottomFormBorder.getChildren().add(quit);
+        formBorder.setBottom(bottomFormBorder);
+
+        rightFormBorder = DefaultFct.defaultVbox();
+        
     }
 
 }

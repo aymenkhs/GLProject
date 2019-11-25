@@ -28,6 +28,7 @@ public class DefaultFct {
         return defaultHbox(Pos.CENTER);
     }
 
+
     public static VBox defaultVbox(Pos p , int s){
         VBox root = new VBox();
         root.setSpacing(s);

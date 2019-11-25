@@ -68,16 +68,24 @@ public class StudentUI extends UserUI{
 
         Button everyFormsButton = new Button("Toutes les Formations");
         GridPane.setConstraints(everyFormsButton, 0, 2);
-        //everyFormsButton.setOnAction(e->);
+        everyFormsButton.setOnAction(e-> allFormsAction());
 
         Button myFormsButton = new Button("Mes Formations");
         GridPane.setConstraints(myFormsButton, 1, 2);
-        //myFormsButton.setOnAction(e->);
+        myFormsButton.setOnAction(e-> myFormsAction());
 
         Button tesDevButton = new Button("Tests/Devoirs");
         GridPane.setConstraints(tesDevButton, 0, 3);
         //tesDevButton.setOnAction(e->);
 
         formationGrid.getChildren().addAll(formationLabel, everyFormsButton, myFormsButton, tesDevButton);
+    }
+
+    private void allFormsAction(){
+
+    }
+
+    private void myFormsAction(){
+
     }
 }

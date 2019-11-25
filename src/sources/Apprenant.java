@@ -42,6 +42,15 @@ public class Apprenant extends Personne {
         return null;
     }
 
+    public static String getUserWithMat(String matricule) throws SQLException{
+        String request = "select userName From Apprenant where matriculeEtud = " + matricule;
+        ResultSet res = dataBase.selectRequest(request);
+        if(res.next()){
+            return res.getString("userName");
+        }
+        return null;
+    }
+
     public static Apprenant SignUp(String userNameS, String passwordS, String emailS, String nomS, String prenomS,
                                    int matriculeS, LocalDate dateNaissanceS, String specialiteS,
                                    String anneeEtudeS){
