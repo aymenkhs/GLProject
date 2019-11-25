@@ -45,7 +45,6 @@ public abstract class User {
     }
 
 
-
     // methodes static
     public static void setDataBase(Jdbc db){
         dataBase = db;

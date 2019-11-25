@@ -42,13 +42,16 @@ public class UserUI {
     // FORMATION STAGE
 
     protected Stage formStage;
-    protected Scene s;
+    protected Scene formScene;
 
     //layout
     protected BorderPane formBorder;
     protected HBox bottomFormBorder;
     protected VBox rightFormBorder;
 
+    //Buttons
+
+    protected Button consulterFormButton, ajouterFormButton, supprimmerFormButton ,modifierFormButton;
 
     protected void initialisation(){
         userIntBorder = new BorderPane();
@@ -128,19 +131,28 @@ public class UserUI {
         secondLevelBox.getChildren().add(thirdLevelBox);
     }
 
-    protected void initStageForm(){
-        formStage = new Stage();
-        formStage.setTitle("FORMATION");
-
+    protected void initBorderForm(){
         formBorder = new BorderPane();
 
         bottomFormBorder = DefaultFct.defaultHbox(Pos.BOTTOM_LEFT);
         Button quit = new Button("Quiter");
+        //quit.setOnAction();
         bottomFormBorder.getChildren().add(quit);
         formBorder.setBottom(bottomFormBorder);
 
         rightFormBorder = DefaultFct.defaultVbox();
 
+        consulterFormButton = new Button("Consulter");
+        ajouterFormButton = new Button("Ajouter");
+        supprimmerFormButton = new Button("Supprimmer");
+        modifierFormButton = new Button("Modifier");
+
+        rightFormBorder.getChildren().addAll(consulterFormButton, modifierFormButton, ajouterFormButton, supprimmerFormButton);
+        //consulterButton.setOnAction(e->consulterFormAction());
+
+        formBorder.setRight(rightFormBorder);
+
+        formScene = new Scene(formBorder, 600, 600);
     }
 
 }

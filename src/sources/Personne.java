@@ -49,6 +49,8 @@ public abstract class Personne extends User {
         this.dateNaissance = dateNaissance;
     }
 
+    // methodes
+
     public ArrayList<Sondage> listSondagesParticiper(){
         return Sondage.loadSondagesParticiper(userName);
     }

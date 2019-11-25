@@ -2,9 +2,11 @@ package userInterface;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class DefaultFct {
 
@@ -42,5 +44,12 @@ public class DefaultFct {
 
     public static VBox defaultVbox(){
         return defaultVbox(Pos.CENTER, 10);
+    }
+
+    public static Stage defaultStage(String title, Scene sc){
+        Stage myStage = new Stage();
+        myStage.setTitle(title);
+        myStage.setScene(sc);
+        return myStage;
     }
 }

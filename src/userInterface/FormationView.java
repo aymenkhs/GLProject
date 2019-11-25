@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class FormationView {
 
-    TableView<Formation> formaTable;
-    Text formTitle = new Text("Formations");
+    private TableView<Formation> formaTable;
+    private Text formTitle = new Text("Formations");
 
     FormationView(int matricule, int type) { //type {0:ALL, 1:Instructeur, 2:Apprenant}
 
@@ -44,7 +44,9 @@ public class FormationView {
 
     }
 
-    ObservableList<Formation> getAllFormations() {
+    public TableView<Formation> getTable() { return formaTable; }
+
+    private ObservableList<Formation> getAllFormations() {
 
         ObservableList<Formation> formList = FXCollections.observableArrayList();
 
@@ -67,7 +69,7 @@ public class FormationView {
     }
 
 
-    ObservableList<Formation> getInstFormations(int matricule) {
+    private ObservableList<Formation> getInstFormations(int matricule) {
 
         ObservableList<Formation> formList = FXCollections.observableArrayList();
 
@@ -100,7 +102,7 @@ public class FormationView {
         return formList;
     }
 
-    ObservableList<Formation> getApprFormations(int matricule) {
+    private ObservableList<Formation> getApprFormations(int matricule) {
 
         ObservableList<Formation> formList = FXCollections.observableArrayList();
 

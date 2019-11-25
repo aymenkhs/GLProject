@@ -82,7 +82,11 @@ public class StudentUI extends UserUI{
     }
 
     private void allFormsAction(){
+        FormationView fv = new FormationView(app.getMatricule(), 0);
+        formBorder.setCenter(fv.getTable());
 
+        formStage = DefaultFct.defaultStage("FORMATION", formScene);
+        formStage.showAndWait();
     }
 
     private void myFormsAction(){

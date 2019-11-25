@@ -28,16 +28,24 @@ public class Apprenant extends Personne {
                     ResultSet resEtud = dataBase.selectRequest(requestEtud);
 
                     if(resEtud.next()){
+                        /*String s = resUser.getString("DateN");
+                        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+                        System.out.println(df);
+                        LocalDate date = LocalDate.parse(s, df);*/
+                        LocalDate date = LocalDate.now();
+
                         Apprenant app = new Apprenant(userNameS, resUser.getString("password"),
                                 resUser.getString("email"),Langue.valueOf(resUser.getString("langue"))
                                 ,resUser.getString("nom"), resUser.getString("prenom"),
-                                resEtud.getInt("matriculeEtud"), resUser.getDate("DateN").toLocalDate(),
+                                resEtud.getInt("matriculeEtud"),date,
                                 resEtud.getString("specialite"), resEtud.getString("anneeCour"));
 
                         return app;
                     }
                 }
-            }catch (SQLException e){return null;}
+            }catch (Exception e){
+                System.out.println(e);
+                return null;}
         }
         return null;
     }
