@@ -140,7 +140,7 @@ public class UserUI {
         formBorder.setBottom(bottomFormBorder);
 
         rightFormBorder = DefaultFct.defaultVbox();
-        
+
     }
 
 }

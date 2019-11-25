@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b75363c0-c308-4129-b0c9-8f87890ae73a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PlatformeSocialLearning.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PlatformeSocialLearning.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/Jdbc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/Jdbc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Apprenant.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Apprenant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dataBase/Jdbc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataBase/Jdbc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sources/Apprenant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sources/Apprenant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sources/Formation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sources/Formation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sources/Sondage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sources/Sondage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sources/Personne.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sources/Personne.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sources/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sources/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/userInterface/DefaultFct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/userInterface/DefaultFct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/userInterface/StudentUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/userInterface/StudentUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/userInterface/UserUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/userInterface/UserUI.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,13 +17,53 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/userInterface/UserUI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="471">
-              <caret line="142" column="8" selection-start-line="142" selection-start-column="8" selection-end-line="142" selection-end-column="8" />
+              <caret line="142" selection-start-line="142" selection-end-line="142" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sources/Sondage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sources/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="454">
+              <caret line="46" selection-start-line="46" selection-end-line="46" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1147#1148#0" expanded="true" />
+                <element signature="e#1211#1212#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/sources/Personne.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1291#1292#0" expanded="true" />
+                <element signature="e#1354#1355#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -108,7 +136,6 @@
         <option value="$PROJECT_DIR$/src/sources/Langue.java" />
         <option value="$PROJECT_DIR$/src/sources/Cour.java" />
         <option value="$PROJECT_DIR$/src/sources/Admin.java" />
-        <option value="$PROJECT_DIR$/src/sources/Personne.java" />
         <option value="$PROJECT_DIR$/src/sources/Instructeur.java" />
         <option value="$PROJECT_DIR$/src/userInterface/TeacherUI.java" />
         <option value="$PROJECT_DIR$/src/userInterface/LogSignScene.java" />
@@ -117,12 +144,13 @@
         <option value="$PROJECT_DIR$/src/dataBase/Jdbc.java" />
         <option value="$PROJECT_DIR$/src/sources/Formation.java" />
         <option value="$PROJECT_DIR$/src/sources/Sondage.java" />
-        <option value="$PROJECT_DIR$/src/sources/User.java" />
         <option value="$PROJECT_DIR$/src/userInterface/AlertBox.java" />
         <option value="$PROJECT_DIR$/src/userInterface/DefaultFct.java" />
         <option value="$PROJECT_DIR$/src/userInterface/StudentUI.java" />
         <option value="$PROJECT_DIR$/src/userInterface/FormationUI.java" />
         <option value="$PROJECT_DIR$/src/userInterface/UserUI.java" />
+        <option value="$PROJECT_DIR$/src/sources/User.java" />
+        <option value="$PROJECT_DIR$/src/sources/Personne.java" />
       </list>
     </option>
   </component>
@@ -179,7 +207,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574645672436" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574664670461" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/dataBase/sqlite-jdbc-3.27.2.1.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -366,16 +394,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sources/Personne.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="40" column="5" lean-forward="true" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sources/Instructeur.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
@@ -417,30 +435,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-105">
           <caret line="45" column="27" lean-forward="true" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sources/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1147#1148#0" expanded="true" />
-            <element signature="e#1176#1177#0" expanded="true" />
-            <element signature="e#1268#1269#0" expanded="true" />
-            <element signature="e#1297#1298#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sources/Sondage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -519,9 +513,43 @@
     <entry file="file://$PROJECT_DIR$/src/userInterface/UserUI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="471">
-          <caret line="142" column="8" selection-start-line="142" selection-start-column="8" selection-end-line="142" selection-end-column="8" />
+          <caret line="142" selection-start-line="142" selection-end-line="142" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sources/Sondage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sources/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1147#1148#0" expanded="true" />
+            <element signature="e#1211#1212#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sources/Personne.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="53" column="5" selection-start-line="53" selection-start-column="5" selection-end-line="53" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1291#1292#0" expanded="true" />
+            <element signature="e#1354#1355#0" expanded="true" />
           </folding>
         </state>
       </provider>

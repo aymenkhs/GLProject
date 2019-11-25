@@ -2,6 +2,7 @@ package sources;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public abstract class Personne extends User {
 
@@ -48,7 +49,9 @@ public abstract class Personne extends User {
         this.dateNaissance = dateNaissance;
     }
 
-
+    public ArrayList<Sondage> listSondagesParticiper(){
+        return Sondage.loadSondagesParticiper(userName);
+    }
 
     // Methodes Static (ajout de personne dans la table assossier dans la base de donnes)
 

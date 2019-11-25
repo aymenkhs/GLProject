@@ -44,9 +44,7 @@ public abstract class User {
         return Sondage.loadSondagesPerCreateur(userName);
     }
 
-    public ArrayList<Sondage> listSondagesParticiper(){
-        return Sondage.loadSondagesParticiper(userName);
-    }
+
 
     // methodes static
     public static void setDataBase(Jdbc db){
