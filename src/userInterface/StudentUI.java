@@ -81,15 +81,26 @@ public class StudentUI extends UserUI{
         formationGrid.getChildren().addAll(formationLabel, everyFormsButton, myFormsButton, tesDevButton);
     }
 
+    private void setTabForm(int type){
+        FormationView fv = new FormationView(app.getMatricule(), type);
+        tabForm = fv.getTable();
+    }
+
     private void allFormsAction(){
-        FormationView fv = new FormationView(app.getMatricule(), 0);
-        formBorder.setCenter(fv.getTable());
+        initBorderForm();
+        setTabForm(0);
+        formBorder.setCenter(tabForm);
 
         formStage = DefaultFct.defaultStage("FORMATION", formScene);
         formStage.showAndWait();
     }
 
     private void myFormsAction(){
+        initBorderForm();
+        setTabForm(2);
+        formBorder.setCenter(tabForm);
 
+        formStage = DefaultFct.defaultStage("FORMATION", formScene);
+        formStage.showAndWait();
     }
 }

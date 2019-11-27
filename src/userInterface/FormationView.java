@@ -51,11 +51,7 @@ public class FormationView {
         ObservableList<Formation> formList = FXCollections.observableArrayList();
 
         ArrayList<Formation> allForms = null;
-        try {
-            allForms = Formation.loadAllFormations();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        allForms = Formation.loadAllFormations();
 
         if(allForms == null) {
             return formList;

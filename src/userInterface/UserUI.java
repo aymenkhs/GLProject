@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -12,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sources.Formation;
 
 public class UserUI {
 
@@ -43,6 +45,7 @@ public class UserUI {
 
     protected Stage formStage;
     protected Scene formScene;
+    protected TableView<Formation> tabForm;
 
     //layout
     protected BorderPane formBorder;
@@ -50,7 +53,6 @@ public class UserUI {
     protected VBox rightFormBorder;
 
     //Buttons
-
     protected Button consulterFormButton, ajouterFormButton, supprimmerFormButton ,modifierFormButton;
 
     protected void initialisation(){

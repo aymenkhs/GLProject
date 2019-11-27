@@ -42,6 +42,8 @@ public class Formation {
         dataBase = db;
     }
 
+
+
     public static Formation loadFormation(int numFormation) throws SQLException {
         String request = "select * from Formation where numFormation = '"+ numFormation +"'";
         ResultSet res = dataBase.selectRequest(request);
@@ -68,8 +70,8 @@ public class Formation {
 
     public static ArrayList<Formation> loadFormationAppr(Apprenant appr)throws SQLException{
         ArrayList<Formation> list = new ArrayList<>();
-        String request = "select * from Formation where numFormation IN (Select * From MembreFormation" +
-                "Where matriculeEtud = '"+ appr.getMatricule() +"')";
+        String request = "select * from Formation where numFormation IN (Select numFormation From MembreFormation " +
+                "Where matriculeEtud = "+ appr.getMatricule() +")";
         ResultSet res = dataBase.selectRequest(request);
 
         while(res.next()){
@@ -82,20 +84,39 @@ public class Formation {
     }
 
 
-    public static ArrayList<Formation> loadAllFormations() throws SQLException {
+    public static ArrayList<Formation> loadAllFormations() {
         ArrayList<Formation> list = new ArrayList<>();
 
         String request = "SELECT * FROM Formation";
         ResultSet res = dataBase.selectRequest(request);
 
-        while (res.next()) {
+        try
+        {
+            while (res.next()) {
 
-            Instructeur inst =Instructeur.LoadInstructeur(Instructeur.getUserWithMat(res.getString("matriculeEns")));
-            Formation form = new Formation(res.getInt("numFormation"), res.getString("nomFormation"),
-                    res.getString("description"), inst);
-            list.add(form);
+                Instructeur inst =Instructeur.LoadInstructeur(Instructeur.getUserWithMat(res.getString("matriculeEns")));
+                Formation form = new Formation(res.getInt("numFormation"), res.getString("nomFormation"),
+                        res.getString("description"), inst);
+                list.add(form);
 
-        }
-        return list;
+            }
+            return list;
+        }catch (SQLException e){ return null;}
+
+    }
+
+    public static int nbFormation(){
+        String request = "select max(numFormation) from Formation";
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                return res.getInt("max(numFormation)")+1;
+            }
+            return 0;
+        }catch (SQLException e){return -1;}
+    }
+
+    public static void addFormation(){
+
     }
 }
