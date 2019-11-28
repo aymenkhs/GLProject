@@ -43,4 +43,36 @@ public class Jdbc {
             return 0;
         }
     }
+
+    public boolean keyExist(String table, String key){
+        String request = "select * from " + table + " where " + key;
+
+        ResultSet res = selectRequest(request);
+        try{
+            if(res.next()){
+                return true;
+            }
+        }catch (Exception e){ return false; }
+        return false;
+    }
+
+    public int updateRequest(String request){
+        try{
+            Statement stmt = conn.createStatement();
+            int nbMaj = stmt.executeUpdate(request);
+            return nbMaj;
+        }catch (SQLException e){
+            return 0;
+        }
+    }
+
+    public int deleteRequest(String request){
+        try{
+            Statement stmt = conn.createStatement();
+            int nbMaj = stmt.executeUpdate(request);
+            return nbMaj;
+        }catch (SQLException e){
+            return 0;
+        }
+    }
 }

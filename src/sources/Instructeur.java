@@ -50,12 +50,15 @@ public class Instructeur extends Personne {
         return null;
     }
 
-    public static String getUserWithMat(String matricule) throws SQLException{
+    public static String getUserWithMat(int matricule){
         String request = "select userName From Enseignant where matriculeEns = " + matricule;
         ResultSet res = dataBase.selectRequest(request);
-        if(res.next()){
-            return res.getString("userName");
-        }
+
+        try{
+            if(res.next()){
+                return res.getString("userName");
+            }
+        }catch (SQLException e){}
         return null;
     }
 
