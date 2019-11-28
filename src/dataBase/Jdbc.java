@@ -3,7 +3,7 @@ package dataBase;
 import java.sql.*;
 
 public class Jdbc {
-    Connection conn;
+    private Connection conn;
 
     //connecting to the database
     public Jdbc() {

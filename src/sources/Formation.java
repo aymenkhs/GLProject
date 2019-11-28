@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class Formation {
     private static Jdbc dataBase;
-    private static int cmpt = 0;
 
     private int numFormation;
     private String nomFormation, description;
@@ -16,7 +15,7 @@ public class Formation {
     private Instructeur inst;
     private ArrayList<Cour> listCours;
 
-    public Formation(int numFormation, String nomFormation, String description, Instructeur inst) {
+    Formation(int numFormation, String nomFormation, String description, Instructeur inst) {
         this.numFormation = numFormation;
         this.nomFormation = nomFormation;
         this.description = description;
@@ -51,7 +50,6 @@ public class Formation {
 
 
     // Cour
-
     public ArrayList<Cour> LoadCours(){
         ArrayList<Cour> list = new ArrayList<>();
         String request = "select * from Cour where numFormation = '"+ numFormation +"'";
@@ -69,8 +67,7 @@ public class Formation {
         if(!dataBase.keyExist("Cour","numFormation = " + numFormation + " and nomCour = " + nomCour)){
             String requete = "insert into Cour(numFormation , nomCour) values(" + numFormation + ",'" + nomCour + "')";
             if (dataBase.insertRequest(requete) != 0){
-                Cour cour = new Cour(this, nomCour);
-                return cour;
+                return new Cour(this, nomCour);
             }
         }
         return null;
@@ -78,7 +75,6 @@ public class Formation {
 
 
     // Tests
-
     public ArrayList<Test> LoadTests(){
         ArrayList<Test> list = new ArrayList<>();
         String request = "select * from Test where numFormation = '"+ numFormation +"'";
@@ -95,8 +91,7 @@ public class Formation {
     public Test addTest(int numTest){
         String requete = "insert into Test(numFormation ,numTest) values(" + numFormation + "," + numTest + ")";
         if (dataBase.insertRequest(requete) != 0){
-            Test test = new Test( this, numTest);
-            return test;
+            return new Test( this, numTest);
         }
         return null;
     }
@@ -114,7 +109,6 @@ public class Formation {
 
 
     //Devoirs
-
     public ArrayList<Devoir> LoadDevoirs(){
         ArrayList<Devoir> list = new ArrayList<>();
         String request = "select * from Devoir where numFormation = '"+ numFormation +"'";
@@ -133,8 +127,7 @@ public class Formation {
         String requete = "insert into Devoir(numFormation ,numDevoir, enoncer) values(" + numFormation + "," + numDevoir
                 + ",'" + enoncer +"')";
         if (dataBase.insertRequest(requete) != 0){
-            Devoir devoir = new Devoir( this, numDevoir, enoncer);
-            return devoir;
+            return new Devoir( this, numDevoir, enoncer);
         }
         return null;
     }
@@ -149,6 +142,10 @@ public class Formation {
             return 0;
         }catch (SQLException e){return -1;}
     }
+
+
+
+
 
     // Methodes Static
     public static void setDataBase(Jdbc db){
@@ -231,8 +228,7 @@ public class Formation {
         if(!dataBase.keyExist("Formation", "numFormation = " + numFormation)){
             if(addFormation(numFormation, nomFormation, matricule, description)){
                 Instructeur inst = Instructeur.LoadInstructeur(Instructeur.getUserWithMat(matricule));
-                Formation form = new Formation(numFormation, nomFormation, description, inst);
-                return form;
+                return new Formation(numFormation, nomFormation, description, inst);
             }
         }
         return null;

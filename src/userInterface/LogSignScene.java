@@ -215,11 +215,11 @@ public class LogSignScene {
     }
 
     private void launchHomeScreen(Apprenant app){
-        StudentUI s = new StudentUI(window, app);
+        StudentUI s = new StudentUI(window, this ,app);
     }
 
     private void launchHomeScreen(Instructeur inst){
-        TeacherUI t = new TeacherUI(window, inst);
+        TeacherUI t = new TeacherUI(window, this ,inst);
     }
 
     private void launchHomeScreen(Admin adm){

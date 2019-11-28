@@ -27,8 +27,8 @@ public class StudentUI extends UserUI{
 
     //add this comme entree de constructeur Apprenant student
 
-    public StudentUI(Stage parentStage, Apprenant student) {
-        window = parentStage;
+    public StudentUI(Stage parentStage, LogSignScene lgs, Apprenant student) {
+        super(parentStage, lgs);
         app = student;
         createHomeStudent();
     }

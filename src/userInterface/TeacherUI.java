@@ -31,9 +31,9 @@ public class TeacherUI extends UserUI{
     private Label numFormText;
     private TextArea descriptionFormText;
 
-    public TeacherUI(Stage parentStage, Instructeur teacher) {
+    public TeacherUI(Stage parentStage, LogSignScene lgs,Instructeur teacher) {
+        super(parentStage, lgs);
         inst = teacher;
-        window = parentStage;
         createHomeTeacher();
     }
 
@@ -92,6 +92,16 @@ public class TeacherUI extends UserUI{
 
         formationGrid.getChildren().addAll(formationLabel, myFormsButton, addFormButton ,addCourButton ,addTesDevButton
             ,addAppButton);
+    }
+
+    protected void initBorderForm(){
+        super.initBorderForm();
+        ajouterFormButton = new Button("Ajouter");
+        supprimmerFormButton = new Button("Supprimmer");
+        modifierFormButton = new Button("Modifier");
+
+        rightFormBorder.getChildren().addAll(modifierFormButton, ajouterFormButton, supprimmerFormButton);
+        //consulterButton.setOnAction(e->consulterFormAction());
     }
 
     private void setTabForm(int type){

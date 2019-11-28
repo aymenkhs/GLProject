@@ -35,6 +35,19 @@ public class Sondage {
         return typeParticiapant;
     }
 
+    public String getNomCreateur() {
+        String request = "SELECT * FROM Personne WHERE userName = '" + getUserNameCreateur() +"'";
+        ResultSet res = dataBase.selectRequest(request);
+        if(res != null) {
+            try {
+                return res.getString("nom") +" "+ res.getString("prenom");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -96,5 +109,34 @@ public class Sondage {
             }
         }catch (SQLException e){}
         return list;
+    }
+
+    public static int nbSondage(){
+        String request = "select max(numSondage) from Sondage";
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                return res.getInt("max(numSondage)")+1;
+            }
+            return 0;
+        }catch (SQLException e){return -1;}
+    }
+
+    public static Sondage createSondage(int numSondage,String userName, String description, String typeParticiapant){
+        if(!dataBase.keyExist("Sondage", "numSondage = " + numSondage)){
+            if(addSondage(numSondage, userName, description, typeParticiapant)){
+                return new Sondage(numSondage, userName, description, typeParticiapant);
+            }
+        }
+        return null;
+    }
+
+    private static boolean addSondage(int numSondage,String userName, String description, String typeParticiapant){
+        String requete = "insert into Sondage(numSondage ,userName, description, typeParticipant) values(" +
+                numSondage + ",'" + userName + "','" + description + "','" + typeParticiapant + "')" ;
+        if (dataBase.insertRequest(requete) == 0){
+            return false;
+        }
+        return true;
     }
 }

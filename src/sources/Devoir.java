@@ -9,7 +9,7 @@ public class Devoir {
     private int numDevoir;
     private String enoncer;
 
-    public Devoir(Formation form, int numDevoir, String enoncer) {
+    Devoir(Formation form, int numDevoir, String enoncer) {
         this.form = form;
         this.numDevoir = numDevoir;
         this.enoncer = enoncer;

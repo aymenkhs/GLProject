@@ -53,7 +53,6 @@ public class Instructeur extends Personne {
     public static String getUserWithMat(int matricule){
         String request = "select userName From Enseignant where matriculeEns = " + matricule;
         ResultSet res = dataBase.selectRequest(request);
-
         try{
             if(res.next()){
                 return res.getString("userName");

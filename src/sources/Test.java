@@ -8,7 +8,7 @@ public class Test {
     private Formation form;
     private int numTest;
 
-    public Test(Formation form, int numTest) {
+    Test(Formation form, int numTest) {
         this.form = form;
         this.numTest = numTest;
     }

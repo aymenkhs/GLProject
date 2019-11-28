@@ -18,7 +18,7 @@ import sources.Formation;
 public class UserUI {
 
     // MAIN STAGE
-
+    private LogSignScene lgs;
     protected Stage window;
 
     // Layout
@@ -55,6 +55,11 @@ public class UserUI {
     //Buttons
     protected Button consulterFormButton, ajouterFormButton, supprimmerFormButton ,modifierFormButton;
 
+    UserUI(Stage parentStage, LogSignScene lgs){
+        this.window = parentStage;
+        this.lgs = lgs;
+    }
+
     protected void initialisation(){
         userIntBorder = new BorderPane();
 
@@ -66,7 +71,10 @@ public class UserUI {
         //optionButton.setOnAction(e->);
 
         Button disconnectButton = new Button("Se Deconnecter");
-        //disconnectButton.setOnAction(e->);
+        disconnectButton.setOnAction(e->{
+            lgs.createLoginScene();
+            lgs.moveToLoginScene();
+        });
 
         topBorder.getChildren().addAll(optionButton,disconnectButton);
         BorderPane.setMargin(topBorder, new Insets(12,12,12,12));
@@ -140,18 +148,14 @@ public class UserUI {
         Button quit = new Button("Quiter");
         //quit.setOnAction();
         bottomFormBorder.getChildren().add(quit);
+        BorderPane.setMargin(bottomFormBorder, new Insets(12,12,12,12));
         formBorder.setBottom(bottomFormBorder);
 
         rightFormBorder = DefaultFct.defaultVbox();
-
         consulterFormButton = new Button("Consulter");
-        ajouterFormButton = new Button("Ajouter");
-        supprimmerFormButton = new Button("Supprimmer");
-        modifierFormButton = new Button("Modifier");
+        rightFormBorder.getChildren().add(consulterFormButton);
 
-        rightFormBorder.getChildren().addAll(consulterFormButton, modifierFormButton, ajouterFormButton, supprimmerFormButton);
-        //consulterButton.setOnAction(e->consulterFormAction());
-
+        BorderPane.setMargin(rightFormBorder, new Insets(12,12,12,12));
         formBorder.setRight(rightFormBorder);
 
         formScene = new Scene(formBorder, 600, 600);
