@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
 import sources.Apprenant;
 import sources.Formation;
 import sources.Instructeur;
@@ -16,20 +15,19 @@ import java.util.ArrayList;
 public class FormationView {
 
     private TableView<Formation> formaTable;
-    private Text formTitle = new Text("Formations");
 
     FormationView(int matricule, int type) { //type {0:ALL, 1:Instructeur, 2:Apprenant}
 
         TableColumn<Formation, Integer> numFCol = new TableColumn<>("Num Formation");
-        numFCol.setMinWidth(100);
+        numFCol.setMinWidth(150);
         numFCol.setCellValueFactory(new PropertyValueFactory<>("numFormation"));
 
         TableColumn<Formation, String> nomFCol = new TableColumn<>("Nom Formation");
-        nomFCol.setMinWidth(100);
+        nomFCol.setMinWidth(150);
         nomFCol.setCellValueFactory(new PropertyValueFactory<>("nomFormation"));
 
         TableColumn<Formation, String> instCol = new TableColumn<>("Nom Instructeur");
-        instCol.setMinWidth(100);
+        instCol.setMinWidth(150);
         instCol.setCellValueFactory(new PropertyValueFactory<>("instName"));
 
         if(type == 0) {
@@ -44,7 +42,9 @@ public class FormationView {
 
     }
 
-    public TableView<Formation> getTable() { return formaTable; }
+    public TableView<Formation> getTable() {
+        return formaTable;
+    }
 
     private ObservableList<Formation> getAllFormations() {
 

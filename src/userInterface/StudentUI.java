@@ -1,5 +1,6 @@
 package userInterface;
 
+import dataBase.Jdbc;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import sources.Apprenant;
+import sources.Formation;
 
 import java.time.format.DateTimeFormatter;
 
@@ -59,6 +61,7 @@ public class StudentUI extends UserUI{
         lastNameLabel.setText("Nom: " + app.getNom());
         firstNameLabel.setText("Prenom: " + app.getPrenom());
         DateNLabel.setText("Date de Naissance: " + app.getDateNaissance().format(DateTimeFormatter.ISO_DATE));
+        Formation.setDataBase(new Jdbc());
     }
 
     private void formationInnit(){
@@ -68,11 +71,11 @@ public class StudentUI extends UserUI{
 
         Button everyFormsButton = new Button("Toutes les Formations");
         GridPane.setConstraints(everyFormsButton, 0, 2);
-        everyFormsButton.setOnAction(e-> allFormsAction());
+        everyFormsButton.setOnAction(e-> FormationUI.allFormsAction());
 
         Button myFormsButton = new Button("Mes Formations");
         GridPane.setConstraints(myFormsButton, 1, 2);
-        myFormsButton.setOnAction(e-> myFormsAction());
+        myFormsButton.setOnAction(e-> FormationUI.myFormsAction(app));
 
         Button tesDevButton = new Button("Tests/Devoirs");
         GridPane.setConstraints(tesDevButton, 0, 3);
@@ -81,15 +84,5 @@ public class StudentUI extends UserUI{
         formationGrid.getChildren().addAll(formationLabel, everyFormsButton, myFormsButton, tesDevButton);
     }
 
-    private void allFormsAction(){
-        FormationView fv = new FormationView(app.getMatricule(), 0);
-        formBorder.setCenter(fv.getTable());
 
-        formStage = DefaultFct.defaultStage("FORMATION", formScene);
-        formStage.showAndWait();
-    }
-
-    private void myFormsAction(){
-
-    }
 }

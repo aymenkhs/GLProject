@@ -35,6 +35,19 @@ public class Sondage {
         return typeParticiapant;
     }
 
+    public String getNomCreateur() {
+        String request = "SELECT * FROM Personne WHERE userName = '" + getUserNameCreateur() +"'";
+        ResultSet res = dataBase.selectRequest(request);
+        if(res != null) {
+            try {
+                return res.getString("nom") +" "+ res.getString("prenom");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -42,6 +55,7 @@ public class Sondage {
     public void setTypeParticiapant(String typeParticiapant) {
         this.typeParticiapant = typeParticiapant;
     }
+
 
 
     // Methodes Static
@@ -95,6 +109,26 @@ public class Sondage {
                 list.add(sond);
             }
         }catch (SQLException e){}
+        return list;
+    }
+
+    public static ArrayList<Sondage> loadMySondages(String userName) {
+
+        ArrayList<Sondage> list = new ArrayList<>();
+
+        String request = "SELECT * FROM Sondage WHERE userName = '" + userName +"'";
+        ResultSet res = dataBase.selectRequest(request);
+
+        try {
+            while (res.next()) {
+                Sondage sond = new Sondage(res.getInt("numSondage"), res.getString("userName"),
+                        res.getString("description"), res.getString("typeParticipant"));
+                list.add(sond);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return list;
     }
 }

@@ -27,6 +27,7 @@ public class Jdbc {
         try{
             Statement stmt = conn.createStatement();
             ResultSet resultat = stmt.executeQuery(request);
+            System.out.println("Resultat is " + resultat.toString());
             return resultat;
         }catch (Exception e){
             System.out.println(e);

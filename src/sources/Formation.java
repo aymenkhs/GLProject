@@ -68,15 +68,17 @@ public class Formation {
 
     public static ArrayList<Formation> loadFormationAppr(Apprenant appr)throws SQLException{
         ArrayList<Formation> list = new ArrayList<>();
-        String request = "select * from Formation where numFormation IN (Select * From MembreFormation" +
-                "Where matriculeEtud = '"+ appr.getMatricule() +"')";
+        String request = "select * from Formation where numFormation IN (Select numFormation From MembreFormation" +
+                " Where matriculeEtud = '"+ appr.getMatricule() +"')";
         ResultSet res = dataBase.selectRequest(request);
 
-        while(res.next()){
-            Instructeur inst =  Instructeur.LoadInstructeur(Instructeur.getUserWithMat(String.valueOf(res.getInt("matriculeEns"))));
-            Formation form = new Formation(res.getInt("numFormation"), res.getString("nomFormation"),
-                    res.getString("description"), inst);
-            list.add(form);
+        if (res != null) {
+            while(res.next()){
+                Instructeur inst =  Instructeur.LoadInstructeur(Instructeur.getUserWithMat(String.valueOf(res.getInt("matriculeEns"))));
+                Formation form = new Formation(res.getInt("numFormation"), res.getString("nomFormation"),
+                        res.getString("description"), inst);
+                list.add(form);
+            }
         }
         return list;
     }
@@ -87,15 +89,19 @@ public class Formation {
 
         String request = "SELECT * FROM Formation";
         ResultSet res = dataBase.selectRequest(request);
+        System.out.println("res is" + res);
 
-        while (res.next()) {
+        if(res != null) {
+            while (res.next()) {
 
-            Instructeur inst =Instructeur.LoadInstructeur(Instructeur.getUserWithMat(res.getString("matriculeEns")));
-            Formation form = new Formation(res.getInt("numFormation"), res.getString("nomFormation"),
-                    res.getString("description"), inst);
-            list.add(form);
+                Instructeur inst =Instructeur.LoadInstructeur(Instructeur.getUserWithMat(res.getString("matriculeEns")));
+                Formation form = new Formation(res.getInt("numFormation"), res.getString("nomFormation"),
+                        res.getString("description"), inst);
+                list.add(form);
 
+            }
         }
+
         return list;
     }
 }
