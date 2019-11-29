@@ -82,6 +82,9 @@ public class Cour {
         }
     }
 
+    public String getNomCour() {
+        return nomCour;
+    }
 
     // Methodes Static
     public static void setDataBase(Jdbc db){

@@ -38,7 +38,7 @@ public class TeacherUI extends UserUI{
     }
 
     public void createHomeTeacher(){
-        initialisation();
+        initialisation(inst);
         loadInfo();
         formationInnit();
 

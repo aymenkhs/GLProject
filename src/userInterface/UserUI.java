@@ -12,8 +12,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sources.Formation;
+import sources.Personne;
+import sources.Sondage;
 
 public class UserUI {
 
@@ -60,7 +63,7 @@ public class UserUI {
         this.lgs = lgs;
     }
 
-    protected void initialisation(){
+    protected void initialisation(Personne per){
         userIntBorder = new BorderPane();
 
         // first the hbox in the top of the window
@@ -89,7 +92,7 @@ public class UserUI {
         thirdLevelBox = DefaultFct.defaultVbox(30);
         formationGrid = DefaultFct.defaultGrid();
         sondageGrid = DefaultFct.defaultGrid();
-        sondageInnit();
+        sondageInnit(per);
     }
 
     protected void profilInnit(){
@@ -113,22 +116,22 @@ public class UserUI {
         secondLevelBox.getChildren().add(profileVbox);
     }
 
-    protected void sondageInnit(){
+    protected void sondageInnit(Personne per){
         Label sondageLabel = new Label("SONDAGES");
         sondageLabel.setFont(new Font(20));
         GridPane.setConstraints(sondageLabel, 0, 0, 2, 1);
 
         Button everyPollsButton = new Button("Tous les Sondages");
         GridPane.setConstraints(everyPollsButton, 0, 2);
-        //everyPollsButton.setOnAction(e->);
+        everyPollsButton.setOnAction(e-> showPolls(0, per.getUserName()));
 
         Button myPollsButton = new Button("Mes Sondages");
         GridPane.setConstraints(myPollsButton, 0, 3);
-        //myPollsButton.setOnAction(e->);
+        myPollsButton.setOnAction(e-> showPolls(1, per.getUserName()));
 
         Button answeredPollsButton = new Button("Sondages Repondu");
         GridPane.setConstraints(answeredPollsButton, 1, 2);
-        //answredPollsButton.setOnAction(e->);
+        answeredPollsButton.setOnAction(e-> showPolls(2, per.getUserName()));
 
         Button addPollsButton = new Button("Ajouter un Sondages");
         GridPane.setConstraints(addPollsButton, 1, 3);
@@ -138,8 +141,7 @@ public class UserUI {
 
         thirdLevelBox.getChildren().addAll(formationGrid,sondageGrid);
 
-        secondLevelBox.getChildren().add(thirdLevelBox);
-    }
+        secondLevelBox.getChildren().add(thirdLevelBox);    }
 
     protected void initBorderForm(){
         formBorder = new BorderPane();
@@ -160,5 +162,45 @@ public class UserUI {
 
         formScene = new Scene(formBorder, 600, 600);
     }
+
+
+    public static void showPolls(int option, String userName){
+
+        SondageView view = new SondageView(option, userName);
+
+        TableView<Sondage> sondageTable = view.getSondageTable();
+        String text = "";
+        switch (option) {
+            case 0:
+                text = "Tous les sondages";
+                break;
+            case 1:
+                text = "Mes Sondages";
+                break;
+            case 2:
+                text = "Sondages repondus";
+                break;
+        }
+
+        Text title =  new Text(text);
+        title.setFont(new Font(20));
+        title.setStyle("-fx-text-fill: #ff8e47");
+
+        HBox buttonHbox = new HBox();
+
+        BorderPane sondages = new BorderPane();
+        sondages.setStyle("-fx-background-color: #b9d8ff");
+
+        sondages.setTop(title);
+        sondages.setCenter(sondageTable);
+        sondages.setBottom(buttonHbox);
+
+        Scene sondScene = new Scene(sondages, 400,400);
+        Stage sondStage = new Stage();
+        sondStage.setScene(sondScene);
+        sondStage.showAndWait();
+    }
+
+
 
 }

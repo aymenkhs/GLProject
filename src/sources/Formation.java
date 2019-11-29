@@ -144,9 +144,6 @@ public class Formation {
     }
 
 
-
-
-
     // Methodes Static
     public static void setDataBase(Jdbc db){
         dataBase = db;
@@ -245,4 +242,6 @@ public class Formation {
         }
         return true;
     }
+
+
 }

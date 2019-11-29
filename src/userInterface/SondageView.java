@@ -5,20 +5,17 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import sources.Personne;
 import sources.Sondage;
-import sources.User;
 
 import java.util.ArrayList;
 
 public class SondageView {
 
     private TableView<Sondage> sondageTable;
-    private User user;
+    private String userName;
+    SondageView(int option, String userName) { // option {0 : all, 1 : created, 2 : answered}
 
-    SondageView(User user , int whatSondage) { // whatSondage (0 : all, 1 : sondage cree, 2 : sondage participer
-
-        this.user = user;
+        this.userName = userName;
 
         TableColumn<Sondage, Integer> numSCol = new TableColumn<>("Num Sondage");
         numSCol.setMinWidth(150);
@@ -32,12 +29,16 @@ public class SondageView {
         creatCol.setMinWidth(150);
         creatCol.setCellValueFactory(new PropertyValueFactory<>("nomCreateur"));
 
-        if(whatSondage == 0){
-            sondageTable = new TableView<>(getAllSondages());
-        }else if (whatSondage == 1){
-            sondageTable = new TableView<>(getMySondages());
-        }else{
-            sondageTable = new TableView<>(getSondagesPart());
+        switch (option) {
+            case 0:
+                sondageTable = new TableView<>(getAllSondages());
+                break;
+            case 1:
+                sondageTable = new TableView<>(getMySondages());
+                break;
+            case 2:
+                sondageTable = new TableView<>(getSondagesPart());
+                break;
         }
 
         sondageTable.getColumns().addAll(numSCol, nomSCol, creatCol);
@@ -68,7 +69,7 @@ public class SondageView {
 
         ObservableList<Sondage> sondageList = FXCollections.observableArrayList();
 
-        ArrayList<Sondage> mySondages = user.listSondagesCree();
+        ArrayList<Sondage> mySondages = Sondage.loadSondagesPerCreateur(this.userName);
 
         if(mySondages.isEmpty()) {
             return sondageList;
@@ -85,8 +86,7 @@ public class SondageView {
 
         ObservableList<Sondage> sondageList = FXCollections.observableArrayList();
 
-        Personne per = (Personne) user;
-        ArrayList<Sondage> mySondages = per.listSondagesParticiper();
+        ArrayList<Sondage> mySondages = Sondage.loadSondagesParticiper(userName);
 
         if(mySondages.isEmpty()) {
             return sondageList;

@@ -34,7 +34,7 @@ public class StudentUI extends UserUI{
     }
 
     public void createHomeStudent(){
-        initialisation();
+        initialisation(app);
         loadInfo();
         formationInnit();
 
