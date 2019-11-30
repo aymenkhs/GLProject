@@ -89,7 +89,7 @@ public class TeacherUI extends UserUI{
 
         Button addFormButton = new Button("Ajouter Formations");
         GridPane.setConstraints(addFormButton, 1, 2);
-        addFormButton.setOnAction(e->AjoutFormAction());
+        addFormButton.setOnAction(e->ajoutFormAction());
 
         Button addAppButton = new Button("Ajouter des Apprenants");
         GridPane.setConstraints(addAppButton, 0, 4);
@@ -99,24 +99,38 @@ public class TeacherUI extends UserUI{
                 ,addAppButton);
     }
 
+
+    // Formation
+
     protected void initBorderForm(){
         super.initBorderForm();
         ajouterFormButton = new Button("Ajouter");
         supprimmerFormButton = new Button("Supprimmer");
         modifierFormButton = new Button("Modifier");
 
-        ajouterFormButton.setOnAction(e->AjoutFormAction());
+        ajouterFormButton.setOnAction(e->ajoutFormAction());
 
         rightFormBorder.getChildren().addAll(modifierFormButton, ajouterFormButton, supprimmerFormButton);
         //consulterButton.setOnAction(e->consulterFormAction());
     }
-    
+
+    private void myFormsAction(){
+        initBorderForm();
+        setTabForm(1);
+        formBorder.setCenter(tabForm);
+        //tabForm.getSelectionModel().selectedItemProperty().addListener(observable -> System.out.println("Valeur sélectionnée: " + tabForm.getSelectionModel().getSelectedItem().getNomFormation()));
+        //tabForm.getSelectionModel().getSelectedItems().addListener((InvalidationListener) observable -> consulterFormAction());
+
+        formStage = DefaultFct.defaultStage("FORMATION", formScene);
+        formStage.showAndWait();
+    }
+
     private void setTabForm(int type){
         FormationView fv = new FormationView(inst.getMatricule(), type);
         tabForm = fv.getTable();
     }
 
-    private void AjoutFormAction(){
+    private void ajoutFormAction(){
         Stage formAjoutStage;
 
         bln = false;
@@ -205,13 +219,13 @@ public class TeacherUI extends UserUI{
         return vb;
     }
 
-    private void myFormsAction(){
-        initBorderForm();
-        setTabForm(1);
-        formBorder.setCenter(tabForm);
-
-        formStage = DefaultFct.defaultStage("FORMATION", formScene);
-        formStage.showAndWait();
+    protected void consulterFormAction(){
+        listFormSel = tabForm.getSelectionModel().getSelectedItems();
+        if(verifOneLineForm()){
+            System.out.println("La on affiche la formation avec description et tous");
+        }
     }
+
+
 
 }

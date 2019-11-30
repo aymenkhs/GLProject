@@ -81,10 +81,17 @@ public class StudentUI extends UserUI{
         formationGrid.getChildren().addAll(formationLabel, everyFormsButton, myFormsButton, tesDevButton);
     }
 
-
+    // FORMATION
     private void setTabForm(int type){
         FormationView fv = new FormationView(app.getMatricule(), type);
         tabForm = fv.getTable();
+    }
+
+    protected void consulterFormAction(){
+        listFormSel = tabForm.getSelectionModel().getSelectedItems();
+        if(verifOneLineForm()){
+            System.out.println("La on affiche la formation avec description et tous");
+        }
     }
 
     private void allFormsAction(){

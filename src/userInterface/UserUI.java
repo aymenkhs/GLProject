@@ -1,5 +1,6 @@
 package userInterface;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,7 +19,7 @@ import sources.Formation;
 import sources.Personne;
 import sources.Sondage;
 
-public class UserUI {
+public abstract class UserUI {
 
     // MAIN STAGE
     private LogSignScene lgs;
@@ -48,7 +49,9 @@ public class UserUI {
 
     protected Stage formStage;
     protected Scene formScene;
+
     protected TableView<Formation> tabForm;
+    protected ObservableList<Formation> listFormSel;
 
     //layout
     protected BorderPane formBorder;
@@ -62,6 +65,8 @@ public class UserUI {
         this.window = parentStage;
         this.lgs = lgs;
     }
+
+    // HOME
 
     protected void initialisation(Personne per){
         userIntBorder = new BorderPane();
@@ -141,7 +146,12 @@ public class UserUI {
 
         thirdLevelBox.getChildren().addAll(formationGrid,sondageGrid);
 
-        secondLevelBox.getChildren().add(thirdLevelBox);    }
+        secondLevelBox.getChildren().add(thirdLevelBox);
+    }
+
+
+    // FORMATION
+
 
     protected void initBorderForm(){
         formBorder = new BorderPane();
@@ -160,8 +170,26 @@ public class UserUI {
         BorderPane.setMargin(rightFormBorder, new Insets(12,12,12,12));
         formBorder.setRight(rightFormBorder);
 
+        consulterFormButton.setOnAction(e->consulterFormAction());
+
         formScene = new Scene(formBorder, 600, 600);
     }
+
+
+    protected boolean verifOneLineForm(){
+        if (listFormSel.size()>1){
+            AlertBox.displayError("What make you think you can See or modify multiples Formation????!!!!");
+            return false;
+        }else if(listFormSel.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+    protected abstract void consulterFormAction();
+
+
+    // SONDAGE
 
 
     public static void showPolls(int option, String userName){
