@@ -144,6 +144,9 @@ public class Formation {
     }
 
 
+
+
+
     // Methodes Static
     public static void setDataBase(Jdbc db){
         dataBase = db;
@@ -221,10 +224,9 @@ public class Formation {
         }catch (SQLException e){return -1;}
     }
 
-    public static Formation createFormation(int numFormation,String nomFormation, int matricule, String description){
+    static Formation createFormation(int numFormation,String nomFormation, Instructeur inst, String description){
         if(!dataBase.keyExist("Formation", "numFormation = " + numFormation)){
-            if(addFormation(numFormation, nomFormation, matricule, description)){
-                Instructeur inst = Instructeur.LoadInstructeur(Instructeur.getUserWithMat(matricule));
+            if(addFormation(numFormation, nomFormation, inst.getMatricule(), description)){
                 return new Formation(numFormation, nomFormation, description, inst);
             }
         }
@@ -242,6 +244,4 @@ public class Formation {
         }
         return true;
     }
-
-
 }

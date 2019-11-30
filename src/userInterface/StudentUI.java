@@ -81,6 +81,7 @@ public class StudentUI extends UserUI{
         formationGrid.getChildren().addAll(formationLabel, everyFormsButton, myFormsButton, tesDevButton);
     }
 
+
     private void setTabForm(int type){
         FormationView fv = new FormationView(app.getMatricule(), type);
         tabForm = fv.getTable();

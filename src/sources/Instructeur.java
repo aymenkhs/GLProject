@@ -17,6 +17,13 @@ public class Instructeur extends Personne {
     }
 
 
+    // Formtions
+
+    public Formation creeFormation(int numFormation,String nomFormation, String description){
+        return Formation.createFormation(numFormation, nomFormation, this, description);
+    }
+
+
 
 
     // Methodes Static
@@ -62,7 +69,7 @@ public class Instructeur extends Personne {
     }
 
     public static Instructeur SignUp(String userNameS, String passwordS, String emailS, String nomS, String prenomS,
-                             int matriculeS, LocalDate dateNaissanceS, String gradeS, String domaineS){
+                                     int matriculeS, LocalDate dateNaissanceS, String gradeS, String domaineS){
         if(!UserNameExist(userNameS)){
             if(ajoutPersonne(userNameS,passwordS,emailS,nomS,prenomS,dateNaissanceS,"enseignant", Langue.French)){
                 if(ajoutInstructeur(userNameS, matriculeS, gradeS, domaineS)){
