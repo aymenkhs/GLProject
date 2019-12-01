@@ -56,18 +56,18 @@ public class Formation {
         ResultSet res = dataBase.selectRequest(request);
         try{
             while(res.next()){
-                Cour cour = new Cour(this, res.getString("nomCour"), res.getString(""));
+                Cour cour = new Cour(res.getString("pathContenue"), this, res.getString("nomCour"));
                 list.add(cour);
             }
         }catch (SQLException e){}
         return list;
     }
 
-    public Cour addCour(String nomCour){
+    public Cour addCour(String nomCour, String contenuCour){
         if(!dataBase.keyExist("Cour","numFormation = " + numFormation + " and nomCour = " + nomCour)){
             String requete = "insert into Cour(numFormation , nomCour) values(" + numFormation + ",'" + nomCour + "')";
             if (dataBase.insertRequest(requete) != 0){
-                return new Cour(this, nomCour);
+                return new Cour(this, nomCour, contenuCour);
             }
         }
         return null;

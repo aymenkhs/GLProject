@@ -11,13 +11,14 @@ public class Cour {
     private Formation form;
     private File fcour;
 
-    Cour(Formation form, String nomCour) {
+    Cour(Formation form, String nomCour, String contenuCour) {
         this.nomCour = nomCour;
         this.form = form;
         generatePath();
+        this.sauvgCour(contenuCour);
     }
 
-    Cour(Formation form, String nomCour, String path) {
+    Cour(String path, Formation form, String nomCour) {
         this.nomCour = nomCour;
         this.form = form;
         this.pathCour = path;
@@ -34,8 +35,8 @@ public class Cour {
         pathCour = "Files" + backslash + "Cours" + backslash + "Form" + form.getNumFormation() + backslash + "Cr" + nomCour;
         createFile();
 
-        String request = "update Cour set pathContenue = " + pathCour + " where numFormation = " + form.getNumFormation()
-                + " and nomCour = " + nomCour;
+        String request = "update Cour set pathContenue = '" + pathCour + "' where numFormation = " + form.getNumFormation()
+                + " and nomCour = '" + nomCour + "'";
         dataBase.updateRequest(request);
     }
 

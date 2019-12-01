@@ -85,7 +85,7 @@ public class TeacherUI extends UserUI{
 
         Button addCourButton = new Button("Ajouter Cour");
         GridPane.setConstraints(addCourButton, 0, 3);
-        //addCourButton.setOnAction(e->);
+//        addCourButton.setOnAction(e->);
 
         Button addFormButton = new Button("Ajouter Formations");
         GridPane.setConstraints(addFormButton, 1, 2);
@@ -118,8 +118,8 @@ public class TeacherUI extends UserUI{
         initBorderForm();
         setTabForm(1);
         formBorder.setCenter(tabForm);
-        //tabForm.getSelectionModel().selectedItemProperty().addListener(observable -> System.out.println("Valeur sélectionnée: " + tabForm.getSelectionModel().getSelectedItem().getNomFormation()));
-        //tabForm.getSelectionModel().getSelectedItems().addListener((InvalidationListener) observable -> consulterFormAction());
+        tabForm.getSelectionModel().selectedItemProperty().addListener(observable -> System.out.println("Valeur sélectionnée: " + tabForm.getSelectionModel().getSelectedItem().getNomFormation()));
+//        tabForm.getSelectionModel().getSelectedItems().addListener((InvalidationListener) observable -> consulterFormAction());
 
         formStage = DefaultFct.defaultStage("FORMATION", formScene);
         formStage.showAndWait();
@@ -213,8 +213,8 @@ public class TeacherUI extends UserUI{
         Button optAjoutCourButton = new Button("Ajouter un cour");
         Button optAjoutAppButton = new Button("Ajouter un apprenant");
 
-        optAjoutCourButton.setOnAction(e->System.out.println("hello there"));
-        optAjoutAppButton.setOnAction(e->System.out.println("hello there"));
+        optAjoutCourButton.setOnAction(e -> CourUI.addCours(form));
+        optAjoutAppButton.setOnAction(e -> System.out.println("hello there"));
         vb.getChildren().addAll(optAjoutCourLabel, optAjoutCourButton, optAjoutAppLabel,optAjoutAppButton);
         return vb;
     }
@@ -226,6 +226,17 @@ public class TeacherUI extends UserUI{
         }
     }
 
+    private void formAddCour(){
+        super.initBorderForm();
+        setTabForm(1);
+        formBorder.setCenter(tabForm);
 
+
+
+        bottomFormBorder.getChildren().addAll();
+
+        formStage = DefaultFct.defaultStage("FORMATION", formScene);
+        formStage.showAndWait();
+    }
 
 }
