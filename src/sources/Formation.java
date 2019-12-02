@@ -35,6 +35,10 @@ public class Formation {
         return instName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     // Apprenant
     public boolean addApprenant(Apprenant app){
         if(!dataBase.keyExist("MembreFormation","numFormation = " + numFormation + " and matriculeEtud = " +

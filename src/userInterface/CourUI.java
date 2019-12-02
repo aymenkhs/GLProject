@@ -17,10 +17,9 @@ public class CourUI {
     static HBox coursTitleHbox, buttonHBox;
     static TextArea coursContent;
     static Button addCours, closePopPup;
-    static GridPane addCoursGrid;
-    static Scene addCoursScene;
+    static GridPane coursGrid;
 
-    public static void addCours(Formation form) {
+    private static void setUpPopUp() {
         addCoursPopUp = new Stage();
 
         //title and title label
@@ -30,38 +29,73 @@ public class CourUI {
         coursTitleHbox = DefaultFct.defaultHbox();
         coursTitleHbox.getChildren().addAll(coursTitleLabel, coursTitle);
 
-        coursPathLabel = new Label("Chemin du cours: ");
-        coursPath = new TextField();
-        //adding the label and text field to the title Hbox
-        coursTitleHbox.getChildren().addAll(coursPathLabel, coursPath);
-
         coursContentLabel = new Label("Contenu de cours:");
         coursContent = new TextArea();
-        //add and close buttons
-        addCours = new Button("Ajouter Cours");
+
         closePopPup = new Button("Fermer");
+        closePopPup.setOnAction(e -> addCoursPopUp.close());
+
+        buttonHBox = DefaultFct.defaultHbox();
+
+        coursGrid = DefaultFct.defaultGrid();
+        coursGrid.setConstraints(coursTitleHbox,0,0);
+        coursGrid.setConstraints(coursContentLabel, 0,1);
+        coursGrid.setConstraints(coursContent, 0,2);
+
+        coursGrid.getChildren().addAll(coursTitleHbox, coursContentLabel, coursContent);
+    }
+
+    public static void addCours(Formation form) {
+        setUpPopUp();
+        Scene addCoursScene;
+        //add button
+        addCours = new Button("Ajouter Cours");
         addCours.setOnAction(e -> {
             if(addCoursAction(form)) {
                 addCoursPopUp.close();
             }
         });
-        closePopPup.setOnAction(e -> addCoursPopUp.close());
+
         //Hbox for the Fermer and Ajouter cours buttons
-        buttonHBox = DefaultFct.defaultHbox();
         buttonHBox.getChildren().addAll(addCours, closePopPup);
 
+        coursGrid.setConstraints(buttonHBox, 0, 4);
 
-        addCoursGrid = DefaultFct.defaultGrid();
-        addCoursGrid.setConstraints(coursTitleHbox,0,0);
-        addCoursGrid.setConstraints(coursContentLabel, 0,1);
-        addCoursGrid.setConstraints(coursContent, 0,2);
-        addCoursGrid.setConstraints(buttonHBox, 0, 4);
+        coursGrid.getChildren().addAll(coursTitleHbox, coursContentLabel, coursContent, buttonHBox);
 
-        addCoursGrid.getChildren().addAll(coursTitleHbox, coursContentLabel, coursContent, buttonHBox);
-
-        addCoursScene = new Scene(addCoursGrid, 640,390);
+        addCoursScene = new Scene(coursGrid, 640,390);
 
         addCoursPopUp.setScene(addCoursScene);
+        addCoursPopUp.showAndWait();
+
+    }
+
+    public static void openCours(Cour cours) {
+        setUpPopUp();
+        Scene openCoursScene;
+
+        coursTitle.setDisable(true);
+        coursContent.setDisable(true);
+        buttonHBox.getChildren().addAll(closePopPup);
+        coursGrid.setConstraints(buttonHBox, 0, 4);
+        coursGrid.getChildren().add(buttonHBox);
+
+        openCoursScene = new Scene(coursGrid, 640, 390);
+        addCoursPopUp.showAndWait();
+    }
+
+    public static void modifierCours(Cour cours) {
+        setUpPopUp();
+        Scene modifierCoursScene;
+        Button valider = new Button("Valider");
+        coursTitle.setDisable(true);
+        coursContent.setText(cours.chargerCour());
+
+        buttonHBox.getChildren().addAll(valider, closePopPup);
+        coursGrid.setConstraints(buttonHBox, 0, 4);
+        coursGrid.getChildren().add(buttonHBox);
+        valider.setOnAction(e -> cours.sauvgCour(coursContent.getText()));
+        modifierCoursScene = new Scene(coursGrid, 640,390);
         addCoursPopUp.showAndWait();
 
     }

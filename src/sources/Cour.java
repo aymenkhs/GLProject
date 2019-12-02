@@ -11,20 +11,20 @@ public class Cour {
     private Formation form;
     private File fcour;
 
-    Cour(Formation form, String nomCour, String contenuCour) {
+    public Cour(Formation form, String nomCour, String contenuCour) {
         this.nomCour = nomCour;
         this.form = form;
         generatePath();
         this.sauvgCour(contenuCour);
     }
 
-    Cour(String path, Formation form, String nomCour) {
+    public Cour(String path, Formation form, String nomCour) {
         this.nomCour = nomCour;
         this.form = form;
         this.pathCour = path;
         createFile();
     }
-
+    
     @Override
     public String toString() {
         return nomCour;
@@ -37,7 +37,7 @@ public class Cour {
 
         String request = "update Cour set pathContenue = '" + pathCour + "' where numFormation = " + form.getNumFormation()
                 + " and nomCour = '" + nomCour + "'";
-        dataBase.updateRequest(request);
+        Jdbc.updateRequest(request);
     }
 
     private void createFile(){
@@ -46,7 +46,6 @@ public class Cour {
             try{
                 fcour.createNewFile();
             }catch (IOException e){}
-
         }
     }
 

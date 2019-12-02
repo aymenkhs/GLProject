@@ -1,5 +1,6 @@
 package userInterface;
 
+import dataBase.Jdbc;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,7 +21,8 @@ import sources.Personne;
 import sources.Sondage;
 
 public abstract class UserUI {
-
+    // Jdbc
+    Jdbc db;
     // MAIN STAGE
     private LogSignScene lgs;
     protected Stage window;
@@ -70,9 +72,8 @@ public abstract class UserUI {
 
     protected void initialisation(Personne per){
         userIntBorder = new BorderPane();
-
         // first the hbox in the top of the window
-
+        db = new Jdbc();
         topBorder = DefaultFct.defaultHbox(Pos.TOP_RIGHT);
 
         Button optionButton = new Button("Options");
@@ -151,14 +152,12 @@ public abstract class UserUI {
 
 
     // FORMATION
-
-
     protected void initBorderForm(){
         formBorder = new BorderPane();
 
         bottomFormBorder = DefaultFct.defaultHbox(Pos.BOTTOM_LEFT);
         Button quit = new Button("Quiter");
-        //quit.setOnAction();
+//        quit.setOnAction(e -> Stage.close());
         bottomFormBorder.getChildren().add(quit);
         BorderPane.setMargin(bottomFormBorder, new Insets(12,12,12,12));
         formBorder.setBottom(bottomFormBorder);

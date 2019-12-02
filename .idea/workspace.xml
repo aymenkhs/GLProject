@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b75363c0-c308-4129-b0c9-8f87890ae73a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b75363c0-c308-4129-b0c9-8f87890ae73a" name="Default Changelist" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/Jdbc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/Jdbc.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/dbSocialLearning.db" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/dbSocialLearning.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Admin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Apprenant.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Apprenant.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Cour.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Cour.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Devoir.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Devoir.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Formation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Formation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Instructeur.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Instructeur.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Langue.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Langue.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Personne.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Personne.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Sondage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Sondage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Test.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/AlertBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/AlertBox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/CourUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/CourUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/DefaultFct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/DefaultFct.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/FormationUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/FormationUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/FormationView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/FormationView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/LogSignScene.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/LogSignScene.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/SondageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/SondageView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/StudentUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/StudentUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/TeacherUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/TeacherUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/UserUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/UserUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/genViews.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/genViews.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dataBase/Jdbc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataBase/Jdbc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dataBase/dbSocialLearning.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataBase/dbSocialLearning.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sources/Cour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sources/Cour.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sources/Formation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sources/Formation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/userInterface/CourUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/userInterface/CourUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/userInterface/DefaultFct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/userInterface/DefaultFct.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/userInterface/TeacherUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/userInterface/TeacherUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/userInterface/UserUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/userInterface/UserUI.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,6 +66,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1575158051100" />
     <property name="last_opened_file_path" value="C:/Program Files/JavaFX/javafx-sdk-11.0.2/lib" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -97,8 +125,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1572012952093</updated>
-      <workItem from="1575190785060" duration="3385000" />
+      <workItem from="1575190785060" duration="22127000" />
     </task>
+    <task id="LOCAL-00001" summary="update">
+      <created>1575209574126</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1575209574126</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,46 +151,9 @@
       </map>
     </option>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sources/Cour.java</url>
-          <line>37</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sources/Cour.java</url>
-          <line>35</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sources/Cour.java</url>
-          <line>33</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/dataBase/Jdbc.java</url>
-          <line>60</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/dataBase/Jdbc.java</url>
-          <line>61</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/dataBase/Jdbc.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/dataBase/Jdbc.java</url>
-          <line>64</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />

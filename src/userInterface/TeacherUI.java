@@ -1,21 +1,23 @@
 package userInterface;
 
+import dataBase.Jdbc;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sources.Cour;
 import sources.Formation;
 import sources.Instructeur;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 
 public class TeacherUI extends UserUI{
@@ -120,6 +122,12 @@ public class TeacherUI extends UserUI{
         formBorder.setCenter(tabForm);
         tabForm.getSelectionModel().selectedItemProperty().addListener(observable -> System.out.println("Valeur sélectionnée: " + tabForm.getSelectionModel().getSelectedItem().getNomFormation()));
 //        tabForm.getSelectionModel().getSelectedItems().addListener((InvalidationListener) observable -> consulterFormAction());
+        supprimmerFormButton.setOnAction(e -> {
+//            if(verifOneLineForm()) {
+                deleteSelected(tabForm.getSelectionModel().getSelectedItem());
+//            }
+
+        });
 
         formStage = DefaultFct.defaultStage("FORMATION", formScene);
         formStage.showAndWait();
@@ -200,7 +208,7 @@ public class TeacherUI extends UserUI{
         if(form != null){
             bln = true;
         }else{
-            AlertBox.displayError("Creation de Laformation a echouer");
+            AlertBox.displayError("Creation de La formation a echouer");
         }
     }
 
@@ -222,21 +230,84 @@ public class TeacherUI extends UserUI{
     protected void consulterFormAction(){
         listFormSel = tabForm.getSelectionModel().getSelectedItems();
         if(verifOneLineForm()){
-            System.out.println("La on affiche la formation avec description et tous");
+            Formation form = tabForm.getSelectionModel().getSelectedItem();
+
+            BorderPane formationInfo = DefaultFct.defaultBorder();
+            Text title = new Text("Titre de formation: " + form.getNomFormation());
+            Text description = new Text("Description de formation: " + form.getDescription());
+            VBox formStuff = DefaultFct.defaultVbox();
+            formStuff.getChildren().addAll(title, description);
+
+            ListView<String> coursList = genViews.getCours(form);
+
+            VBox buttons = DefaultFct.defaultVbox();
+            Button openCours = new Button("Ouvrir");
+            openCours.setOnAction(e -> openCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
+            Button deleteCours = new Button("Supprimer");
+            deleteCours.setOnAction(e -> modifierCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
+            Button modifierCours = new Button("Modifier");
+            modifierCours.setOnAction(e -> deleteCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
+
+            buttons.getChildren().addAll(openCours,modifierCours,deleteCours);
+
+            formationInfo.setTop(formStuff);
+            formationInfo.setCenter(coursList);
+            formationInfo.setRight(buttons);
         }
     }
 
-    private void formAddCour(){
-        super.initBorderForm();
-        setTabForm(1);
-        formBorder.setCenter(tabForm);
+    private void openCoursAction(Formation form, String nomCour) {
+        String request = "Select from Cours where nomCour = '" + nomCour + "'";
+        ResultSet res = Jdbc.selectRequest(request);
+        Cour cours = null;
+        try {
+            if(res.next()) {
+                    cours = new Cour(res.getString("pathContenue"), form, res.getString("nomCours"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        CourUI.openCours(cours);
+    }
 
+    private void modifierCoursAction(Formation form, String nomCour) {
+        String request = "Select from Cours where nomCour = '" + nomCour + "'";
+        ResultSet res = Jdbc.selectRequest(request);
+        Cour cours = null;
+        try {
+            if(res.next()) {
+                cours = new Cour(res.getString("pathContenue"), form, res.getString("nomCours"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        CourUI.modifierCours(cours);
+    }
 
+    private void deleteCoursAction(Formation form, String nomCour) {
 
-        bottomFormBorder.getChildren().addAll();
+    }
 
-        formStage = DefaultFct.defaultStage("FORMATION", formScene);
-        formStage.showAndWait();
+//    private void formAddCour(){
+//        super.initBorderForm();
+//        setTabForm(1);
+//        formBorder.setCenter(tabForm);
+//
+//
+//
+//        bottomFormBorder.getChildren().addAll();
+//
+//        formStage = DefaultFct.defaultStage("FORMATION", formScene);
+//        formStage.showAndWait();
+//    }
+
+    private void deleteSelected(Formation form) {
+        tabForm.getItems().remove(form);
+        String request = "Delete from Formation where numFormation = " + form.getNumFormation();
+
+        db.deleteRequest(request);
+        System.out.println("Deleted formation " + form.getNomFormation() + form.getNumFormation());
+
     }
 
 }
