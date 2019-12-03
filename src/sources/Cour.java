@@ -31,7 +31,7 @@ public class Cour {
     }
 
     private void generatePath(){
-        String backslash= System.getProperty("file.separator") ;
+        String backslash= System.getProperty("file.separator");
         pathCour = "Files" + backslash + "Cours" + backslash + "Form" + form.getNumFormation() + backslash + "Cr" + nomCour;
         createFile();
 

@@ -77,8 +77,8 @@ public class Test {
         return false;
     }
 
-    public void calculerBareme(){
-
+    public int calculerBareme(){
+        return 20/listQst.size();
     }
 
     // Question

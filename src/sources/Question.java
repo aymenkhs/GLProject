@@ -48,7 +48,6 @@ public class Question{
         randomChoice = new ArrayList<>();
 
         Random rand = new Random();
-        int value =
 
         if(wrongChoices.size() <= 3){
             randomChoice.addAll(wrongChoices);

@@ -3,6 +3,7 @@ package userInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -51,5 +52,15 @@ public class DefaultFct {
         myStage.setTitle(title);
         myStage.setScene(sc);
         return myStage;
+    }
+
+    public static BorderPane defaultBorder() {
+
+        BorderPane border = new BorderPane();
+
+        border.setStyle("-fx-background-color: #b9d8ff");
+        border.setPadding(new Insets(12,12,12,12));
+
+        return border;
     }
 }

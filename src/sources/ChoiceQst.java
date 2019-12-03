@@ -1,10 +1,7 @@
 package sources;
 
-import dataBase.Jdbc;
-
 public class ChoiceQst {
 
-    private static Jdbc dataBase;
 
     private int numQuestion, numTest, numForm, numChoice;
     private String textChoice;

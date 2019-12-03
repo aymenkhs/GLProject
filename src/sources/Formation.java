@@ -2,6 +2,7 @@ package sources;
 
 import dataBase.Jdbc;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,6 +36,10 @@ public class Formation {
         return instName;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     // Apprenant
     public boolean addApprenant(Apprenant app){
         if(!dataBase.keyExist("MembreFormation","numFormation = " + numFormation + " and matriculeEtud = " +
@@ -52,7 +57,7 @@ public class Formation {
     // Cour
     public ArrayList<Cour> LoadCours(){
         ArrayList<Cour> list = new ArrayList<>();
-        String request = "select * from Cour where numFormation = '"+ numFormation +"'";
+        String request = "select * from Cour where numFormation = "+ numFormation;
         ResultSet res = dataBase.selectRequest(request);
         try{
             while(res.next()){
@@ -64,7 +69,7 @@ public class Formation {
     }
 
     public Cour addCour(String nomCour, String contenuCour){
-        if(!dataBase.keyExist("Cour","numFormation = " + numFormation + " and nomCour = " + nomCour)){
+        if(!dataBase.keyExist("Cour","numFormation = " + numFormation + " and nomCour = '" + nomCour + "'")){
             String requete = "insert into Cour(numFormation , nomCour) values(" + numFormation + ",'" + nomCour + "')";
             if (dataBase.insertRequest(requete) != 0){
                 return new Cour(this, nomCour, contenuCour);
@@ -143,8 +148,15 @@ public class Formation {
         }catch (SQLException e){return -1;}
     }
 
-
-
+    private void genPath(){
+        String backslash= System.getProperty("file.separator");
+        // Cours
+        File file = new File("Files" + backslash + "Cours" + backslash + "Form" + numFormation);
+        file.mkdirs();
+        // Devoirs
+        file = new File("Files" + backslash + "Devoirs" + backslash + "Form" + numFormation);
+        file.mkdirs();
+    }
 
 
     // Methodes Static
@@ -227,7 +239,9 @@ public class Formation {
     static Formation createFormation(int numFormation,String nomFormation, Instructeur inst, String description){
         if(!dataBase.keyExist("Formation", "numFormation = " + numFormation)){
             if(addFormation(numFormation, nomFormation, inst.getMatricule(), description)){
-                return new Formation(numFormation, nomFormation, description, inst);
+                Formation form = new Formation(numFormation, nomFormation, description, inst);
+                form.genPath();
+                return form;
             }
         }
         return null;
@@ -239,9 +253,6 @@ public class Formation {
 
         int cp = dataBase.insertRequest(requete);
 
-        if (cp == 0){
-            return false;
-        }
-        return true;
+        return (cp != 0);
     }
 }
