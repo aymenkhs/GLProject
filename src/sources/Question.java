@@ -128,10 +128,21 @@ public class Question{
     public void addChoice(int numChoix, String contenue, boolean isTrue){
 
         int val = isTrue ? 1 : 0;
-        String requete = "insert into Question(numFormation , numTest, numQusetion, numChoixQ, contenueReponse, isTrue)" +
+        String requete = "insert into ChoixQuestion(numFormation , numTest, numQusetion, numChoixQ, contenueReponse, isTrue)" +
                 " values(" + numForm + "," + numTest + "," + numQuestion + "," + numChoix + ",'" + contenue + "'," + val + ")";
         if (dataBase.insertRequest(requete) != 0){
             initChoice(numChoix, contenue, isTrue);
         }
+    }
+
+    private boolean delete(){
+        String requete = "delete from Question where numFormation=" + numForm + " and numTest=" + numTest +
+                " and numQusetion=" + numQuestion;
+        return dataBase.deleteRequest(requete)!=0;
+    }
+
+    // Methodes Static
+    public static void setDataBase(Jdbc db){
+        dataBase = db;
     }
 }

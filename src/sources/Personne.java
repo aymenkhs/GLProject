@@ -19,7 +19,6 @@ public abstract class Personne extends User {
         this.dateNaissance = dateNaissance;
     }
 
-
     // geters && seters dont on pourraits avoir besoin (on supprimmera ce qui ne sont pas utilisera la fin du projet)
     public String getNom() {
         return nom;
@@ -51,6 +50,11 @@ public abstract class Personne extends User {
 
     // methodes
 
+    protected boolean delete(){
+        String requete = "delete from Personne where userName='" + userName + "'";
+        return dataBase.deleteRequest(requete)!=0;
+    }
+
     public ArrayList<Sondage> listSondagesParticiper(){
         return Sondage.loadSondagesParticiper(userName);
     }
@@ -68,6 +72,7 @@ public abstract class Personne extends User {
         try{
             cp = dataBase.insertRequest(requete);
         }catch(Exception e){return false;}
+
         if (cp == 0){
             return false;
         }

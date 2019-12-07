@@ -1,7 +1,9 @@
 package sources;
 
-public class ChoiceQst {
+import dataBase.Jdbc;
 
+public class ChoiceQst {
+    private static Jdbc dataBase;
 
     private int numQuestion, numTest, numForm, numChoice;
     private String textChoice;
@@ -27,5 +29,16 @@ public class ChoiceQst {
     @Override
     public String toString() {
         return textChoice;
+    }
+
+    protected boolean delete(){
+        String requete = "delete from ChoixQuestion where numFormation=" + numForm + " and numTest=" + numTest +
+                " and numQusetion=" + numQuestion + "and numChoixQ=" + numChoice;
+        return dataBase.deleteRequest(requete)!=0;
+    }
+
+    // Methodes Static
+    public static void setDataBase(Jdbc db){
+        dataBase = db;
     }
 }

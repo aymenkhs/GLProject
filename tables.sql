@@ -16,7 +16,7 @@ create table Enseignant(
 	userName varchar2(30),
 	grade varchar2(20),
 	dommaine varchar2(20),
-	constraint ensPersFK foreign key (userName) references Personne,	
+	constraint ensPersFK foreign key (userName) references Personne On DELETE CASCADE,
 	constraint ensPK primary key (matriculeEns)
 );
 
@@ -25,7 +25,7 @@ create table Etudiant(
 	userName varchar2(30),
 	specialite varchar2(20),
 	anneeCour varchar2(5),
-	constraint etudPersFK foreign key (userName) references Personne,
+	constraint etudPersFK foreign key (userName) references Personne On DELETE CASCADE,
 	constraint etudPK primary key (matriculeEtud)
 );
 
@@ -34,40 +34,40 @@ create table Formation(
 	nomFormation varchar2(30),
 	matriculeEns integer,
 	description varchar2(150),
-	constraint formEnsFK foreign key (matriculeEns) references Enseignant,
-	constraint formPK primary key (numFormation)	
+	constraint formEnsFK foreign key (matriculeEns) references Enseignant ON DELETE SET NULL,
+	constraint formPK primary key (numFormation)
 );
 
 create table MembreFormation(
 	numFormation integer,
 	matriculeEtud integer,
-	constraint memFormFK foreign key (numFormation) references Formation,
-	constraint memEtudFK foreign key (matriculeEtud) references Etudiant,
-	constraint memPK primary key (matriculeEtud, numFormation)	
+	constraint memFormFK foreign key (numFormation) references Formation ON DELETE CASCADE,
+	constraint memEtudFK foreign key (matriculeEtud) references Etudiant ON DELETE CASCADE,
+	constraint memPK primary key (matriculeEtud, numFormation)
 );
 
 create table Historique(
 	numAction integer,
 	numFormation integer,
-	matriculeEtud integer,	
-	constraint hstMemFK foreign key (matriculeEtud, numFormation) references MembreFormation,
-	constraint hstPK primary key (numFormation,matriculeEtud,numAction)	
+	matriculeEtud integer,
+	constraint hstMemFK foreign key (matriculeEtud, numFormation) references MembreFormation ON DELETE CASCADE,
+	constraint hstPK primary key (numFormation,matriculeEtud,numAction)
 );
 
 create table Cour(
 	numFormation integer,
 	nomCour varchar2(30),
 	pathContenue varchar2(200),
-	constraint courFormFK foreign key (numFormation) references Formation,
-	constraint courPK primary key (numFormation,nomCour)			
+	constraint courFormFK foreign key (numFormation) references Formation ON DELETE CASCADE,
+	constraint courPK primary key (numFormation,nomCour)
 );
 
 create table Devoir(
 	numDevoir integer,
 	numFormation integer,
 	enoncer varchar2(1000),
-	constraint devFormFK foreign key (numFormation) references Formation,
-	constraint devPK primary key (numFormation,numDevoir)	
+	constraint devFormFK foreign key (numFormation) references Formation ON DELETE CASCADE,
+	constraint devPK primary key (numFormation,numDevoir)
 );
 
 create table PasseDevoir(
@@ -77,17 +77,17 @@ create table PasseDevoir(
 	pathReponseD varchar2(200),
 	noteD integer,
 	constraint chknoteD check(noteD>=0 and noteD<=20),
-	constraint psdDevFK foreign key (numFormation,numDevoir) references Devoir,	
-	constraint psdMemFK foreign key (matriculeEtud, numFormation) references MembreFormation,
-	constraint psdPK primary key (numFormation,numDevoir,matriculeEtud)	
+	constraint psdDevFK foreign key (numFormation,numDevoir) references Devoir ON DELETE CASCADE,
+	constraint psdMemFK foreign key (matriculeEtud, numFormation) references MembreFormation ON DELETE CASCADE,
+	constraint psdPK primary key (numFormation,numDevoir,matriculeEtud)
 );
 
 create table Test(
 	numTest integer,
 	numFormation integer,
 	nbQuestion integer,
-	constraint testFormFK foreign key (numFormation) references Formation,
-	constraint testPK primary key (numFormation,numTest)	
+	constraint testFormFK foreign key (numFormation) references Formation ON DELETE CASCADE,
+	constraint testPK primary key (numFormation,numTest)
 );
 
 create table Question(
@@ -95,8 +95,8 @@ create table Question(
 	numTest integer,
 	numQusetion integer,
 	enoncerQuestion varchar2(200),
-	constraint qstTestFK foreign key (numFormation,numTest) references Test,
-	constraint qstPK primary key (numFormation,numTest,numQusetion)	
+	constraint qstTestFK foreign key (numFormation,numTest) references Test ON DELETE CASCADE,
+	constraint qstPK primary key (numFormation,numTest,numQusetion)
 );
 
 create table ChoixQuestion(
@@ -107,8 +107,8 @@ create table ChoixQuestion(
 	contenueReponse varchar2(100),
 	isTrue integer,
 	constraint chktrue check(isTrue>=0 and isTrue<=1),
-	constraint choixqQstPK foreign key (numFormation,numTest,numQusetion) references Question,
-	constraint choixqPK primary key (numFormation,numTest,numQusetion,numChoixQ)	
+	constraint choixqQstPK foreign key (numFormation,numTest,numQusetion) references Question ON DELETE CASCADE,
+	constraint choixqPK primary key (numFormation,numTest,numQusetion,numChoixQ)
 );
 
 create Table PasseTest(
@@ -117,8 +117,8 @@ create Table PasseTest(
 	matriculeEtud integer,
 	noteT integer,
 	constraint chknoteT check(noteT>=0 and noteT<=20),
-	constraint pstTestFK foreign key (numFormation,numTest) references Test,	
-	constraint pstMemFK foreign key (matriculeEtud, numFormation) references MembreFormation,
+	constraint pstTestFK foreign key (numFormation,numTest) references Test ON DELETE CASCADE,
+	constraint pstMemFK foreign key (matriculeEtud, numFormation) references MembreFormation ON DELETE CASCADE,
 	constraint pstPK primary key (numFormation,numTest,matriculeEtud)
 );
 
@@ -128,9 +128,9 @@ create table ReponseQuestion(
 	matriculeEtud integer,
 	numQusetion integer,
 	numChoixQ integer,
-	constraint repqQstPK foreign key (numFormation,numTest,numQusetion) references Question,
-	constraint repqChoixqPK foreign key (numFormation,numTest,numQusetion,numChoixQ) references ChoixQuestion,
-	constraint repqPstPK foreign key (numFormation,numTest,matriculeEtud) references PasseTest,
+	constraint repqQstPK foreign key (numFormation,numTest,numQusetion) references Question ON DELETE CASCADE,
+	constraint repqChoixqPK foreign key (numFormation,numTest,numQusetion,numChoixQ) references ChoixQuestion ON DELETE CASCADE,
+	constraint repqPstPK foreign key (numFormation,numTest,matriculeEtud) references PasseTest ON DELETE CASCADE,
 	constraint repqPK primary key (numFormation,numTest,matriculeEtud)
 );
 
@@ -139,7 +139,7 @@ create table Sondage(
 	userName varchar2(30),
 	description varchar2(500),
 	typeParticipant varchar2(20),
-	constraint sondPersFK foreign key (userName) references Personne,
+	constraint sondPersFK foreign key (userName) references Personne ON DELETE SET NULL,
 	constraint sondPK primary key (numSondage)
 );
 
@@ -147,15 +147,55 @@ create table Choix(
 	numChoix integer,
 	numSondage integer,
 	nomChoix varchar2(50),
-	constraint choixSondFK foreign key (numSondage) references Sondage,
-	constraint choixPK primary key (numSondage, numChoix)	
+	constraint choixSondFK foreign key (numSondage) references Sondage ON DELETE CASCADE,
+	constraint choixPK primary key (numSondage, numChoix)
 );
 
 create table Participer(
 	numSondage integer,
 	userName varchar2(30),
 	reponse integer,
-	constraint partPersFK foreign key (userName) references Personne,
+	constraint partPersFK foreign key (userName) references Personne ON DELETE SET NULL,
 	constraint partSondFK foreign key (numSondage) references Sondage,
 	constraint partPK primary key (numSondage,userName)
+);
+
+
+create table Wiki(
+	numWiki integer,
+	nomWiki varchar2(50),
+	userNameCreateur varchar2(30),
+	pathImageWiki varchar2(200),
+);
+
+create table SectionWiki(
+	numWiki integer,
+	numSection integer,
+	nomSection varchar2(50),
+	pathContenueSection varchar2(200),
+	pathImageSection varchar2(200),
+);
+
+create table ModifWiki(
+	numWiki integer,
+	numModif integer,
+	userNameModif varchar2(30),
+	/*date and time of the modif*/
+	/*the modif*/
+	constraint modWikiFK foreign Key (numWiki) references Wiki ON DELETE CASCADE,
+	constraint modPerFK foreign Key (userNameModif) references Personne ON DELETE SET NULL,
+);
+
+create table Chat(
+	expediteur varchar2(30),
+	recepteur varchar2(30),
+	message varchar2(100),
+	/*date and time when the message has been send*/
+	constraint chatPerFK foreign Key (expediteur) references Personne ON DELETE SET NULL,
+	constraint chatPerFK2 foreign Key (recepteur) references Personne ON DELETE SET NULL,
+);
+
+create table Forum(
+	numForum integer,
+	nomForum varchar2(40),
 );

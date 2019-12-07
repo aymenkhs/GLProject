@@ -83,6 +83,11 @@ public class Cour {
         }
     }
 
+    protected boolean delete(){
+        String requete = "delete from Cour where numFormation=" + form.getNumFormation() + " and nomCour='" + nomCour + "'";
+        return dataBase.deleteRequest(requete)!=0;
+    }
+
     public String getNomCour() {
         return nomCour;
     }

@@ -46,15 +46,6 @@ public class Test {
         return "Test numero : " + numTest;
     }
 
-    /*
-        Work on "Question"
-          Load them
-          and Load Their Choices
-          so a class "Question" it's a good idea...
-        Work on "Note"
-
-    */
-
     public boolean validerTest(){
         if(isTestValide()){
             disponible = true;
@@ -103,6 +94,11 @@ public class Test {
 
         }
         return null;
+    }
+
+    protected boolean delete(){
+        String requete = "delete from Test where numFormation=" + form.getNumFormation() + " and numTest=" + numTest;
+        return dataBase.deleteRequest(requete)!=0;
     }
 
     // Methodes Static

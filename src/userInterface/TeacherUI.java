@@ -227,30 +227,61 @@ public class TeacherUI extends UserUI{
     protected void consulterFormAction(){
         listFormSel = tabForm.getSelectionModel().getSelectedItems();
         if(verifOneLineForm()){
-            Formation form = tabForm.getSelectionModel().getSelectedItem();
+            form = tabForm.getSelectionModel().getSelectedItem();
 
-            BorderPane formationInfo = DefaultFct.defaultBorder();
+            HBox lvl1 = DefaultFct.defaultHbox();
             Text title = new Text("Titre de formation: " + form.getNomFormation());
             Text description = new Text("Description de formation: " + form.getDescription());
             VBox formStuff = DefaultFct.defaultVbox();
             formStuff.getChildren().addAll(title, description);
 
-            ListView<String> coursList = genViews.getCours(form);
+            Button ListCourButton = new Button("Liste des cours");
+            Button ListTestButton = new Button("Liste des Tests");
+            Button ListDevoirButton = new Button("Liste des Devoirs");
+            Button ListApprenantButton = new Button("Liste des Apprenant");
+            VBox formListButton = DefaultFct.defaultVbox();
+            formListButton.getChildren().addAll(ListCourButton, ListTestButton, ListDevoirButton, ListApprenantButton);
 
-            VBox buttons = DefaultFct.defaultVbox();
-            Button openCours = new Button("Ouvrir");
-            openCours.setOnAction(e -> openCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
-            Button deleteCours = new Button("Supprimer");
-            deleteCours.setOnAction(e -> modifierCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
-            Button modifierCours = new Button("Modifier");
-            modifierCours.setOnAction(e -> deleteCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
-
-            buttons.getChildren().addAll(openCours,modifierCours,deleteCours);
-
-            formationInfo.setTop(formStuff);
-            formationInfo.setCenter(coursList);
-            formationInfo.setRight(buttons);
+            Button ajouterCourButton = new Button("ajouter cours");
+            Button ajouterTestButton = new Button("ajouter un test");
+            Button ajouterDevoirButton = new Button("ajouter un devoir");
+            Button ajouterApprenantButton = new Button("ajouter un apprenant");
+            
         }
+
+
+
+    }
+
+    protected void listCourAction(){
+
+        Scene listCourScene;
+
+        BorderPane formationInfo = DefaultFct.defaultBorder();
+        Text title = new Text("Titre de formation: " + form.getNomFormation());
+        Text description = new Text("Description de formation: " + form.getDescription());
+        VBox formStuff = DefaultFct.defaultVbox();
+        formStuff.getChildren().addAll(title, description);
+
+        ListView<String> coursList = genViews.getCours(form);
+
+        VBox buttons = DefaultFct.defaultVbox();
+        Button openCours = new Button("Ouvrir");
+        openCours.setOnAction(e -> openCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
+        Button deleteCours = new Button("Supprimer");
+        deleteCours.setOnAction(e -> modifierCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
+        Button modifierCours = new Button("Modifier");
+        modifierCours.setOnAction(e -> deleteCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
+
+        buttons.getChildren().addAll(openCours,modifierCours,deleteCours);
+
+        formationInfo.setTop(formStuff);
+        formationInfo.setCenter(coursList);
+        formationInfo.setRight(buttons);
+
+        listCourScene = new Scene(formationInfo, 500, 500);
+        formStage.setScene(listCourScene);
+
     }
 
     private void openCoursAction(Formation form, String nomCour) {

@@ -23,9 +23,6 @@ public class Instructeur extends Personne {
         return Formation.createFormation(numFormation, nomFormation, this, description);
     }
 
-
-
-
     // Methodes Static
     public static Instructeur LoadInstructeur(String userNameS){
         if(UserNameExist(userNameS) || userType(userNameS).toLowerCase().equals("enseignant")) {
@@ -52,7 +49,8 @@ public class Instructeur extends Personne {
                 }
             }catch (SQLException e){
                 System.out.println(e);
-                return null;}
+                return null;
+            }
         }
         return null;
     }

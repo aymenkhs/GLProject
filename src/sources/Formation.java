@@ -53,6 +53,18 @@ public class Formation {
         return false;
     }
 
+    public ArrayList<Apprenant> loadApprenants(){
+        ArrayList<Apprenant> list = new ArrayList<>();
+        String request = "select matriculeEtud from MembreFormation where numFormation = "+ numFormation;
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            while(res.next()){
+                list.add(Apprenant.LoadApprenant(Apprenant.getUserWithMat(res.getInt("matriculeEtud"))));
+            }
+        }catch (SQLException e){}
+        return list;
+    }
+
 
     // Cour
     public ArrayList<Cour> LoadCours(){
@@ -156,6 +168,11 @@ public class Formation {
         // Devoirs
         file = new File("Files" + backslash + "Devoirs" + backslash + "Form" + numFormation);
         file.mkdirs();
+    }
+
+    protected boolean delete(){
+        String requete = "delete from Formation where numFormation='" + numFormation + "'";
+        return dataBase.deleteRequest(requete)!=0;
     }
 
 
