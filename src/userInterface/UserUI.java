@@ -61,6 +61,9 @@ public abstract class UserUI {
     //Buttons
     protected Button consulterFormButton, ajouterFormButton, supprimmerFormButton ,modifierFormButton;
 
+    //Others
+    protected Formation form;
+
     UserUI(Stage parentStage, LogSignScene lgs){
         this.window = parentStage;
         this.lgs = lgs;
@@ -158,7 +161,7 @@ public abstract class UserUI {
 
         bottomFormBorder = DefaultFct.defaultHbox(Pos.BOTTOM_LEFT);
         Button quit = new Button("Quiter");
-        //quit.setOnAction();
+        quit.setOnAction(e->formStage.close());
         bottomFormBorder.getChildren().add(quit);
         BorderPane.setMargin(bottomFormBorder, new Insets(12,12,12,12));
         formBorder.setBottom(bottomFormBorder);
@@ -188,11 +191,27 @@ public abstract class UserUI {
 
     protected abstract void consulterFormAction();
 
+    protected GridPane initConsulterForm(){
+        // we call this methode to initialise some layouts that all users have in  common
+
+        GridPane infoFormGrid = DefaultFct.defaultGrid();
+        Text titleText = new Text("Titre de formation: " + form.getNomFormation());
+        Label nomInstLabel = new Label("Createur de La Formation : " + form.getInstName());
+        Text descriptionText = new Text("Description de formation: " + form.getDescription());
+
+        GridPane.setConstraints(titleText, 0, 0, 2, 1);
+        GridPane.setConstraints(nomInstLabel, 0, 1, 2, 1);
+        GridPane.setConstraints(descriptionText, 0, 2, 2, 1);
+
+        infoFormGrid.getChildren().addAll(titleText, descriptionText);
+        return infoFormGrid;
+    }
+
 
     // SONDAGE
 
 
-    public static void showPolls(int option, String userName){
+    private static void showPolls(int option, String userName){
 
         SondageView view = new SondageView(option, userName);
 

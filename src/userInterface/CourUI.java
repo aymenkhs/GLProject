@@ -100,7 +100,7 @@ public class CourUI {
 
     }
 
-    public static boolean addCoursAction(Formation form) {
+    private static boolean addCoursAction(Formation form) {
         /*
          ok ok, so we must add an Formation attribut to add a course you know...
          so well i'll do it later

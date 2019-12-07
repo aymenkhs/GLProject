@@ -25,14 +25,17 @@ public class TeacherUI extends UserUI{
 
 
     //Formations
+
     //creation Formation
     private Scene addFormScene;
     private TextField nomFormText;
     private Label numFormText;
     private int nform;
-    private Formation form;
     private TextArea descriptionFormText;
     private boolean bln;
+
+    //menu Formation
+    private ComboBox<String> inFormCombo, actionFormCombo; //Cours, Apprenants, Tests, Devoirs
 
 
     public TeacherUI(Stage parentStage, LogSignScene lgs,Instructeur teacher) {
@@ -229,28 +232,82 @@ public class TeacherUI extends UserUI{
         if(verifOneLineForm()){
             form = tabForm.getSelectionModel().getSelectedItem();
 
-            HBox lvl1 = DefaultFct.defaultHbox();
-            Text title = new Text("Titre de formation: " + form.getNomFormation());
-            Text description = new Text("Description de formation: " + form.getDescription());
-            VBox formStuff = DefaultFct.defaultVbox();
-            formStuff.getChildren().addAll(title, description);
+            rightFormBorder.setVisible(false);
 
-            Button ListCourButton = new Button("Liste des cours");
-            Button ListTestButton = new Button("Liste des Tests");
-            Button ListDevoirButton = new Button("Liste des Devoirs");
-            Button ListApprenantButton = new Button("Liste des Apprenant");
-            VBox formListButton = DefaultFct.defaultVbox();
-            formListButton.getChildren().addAll(ListCourButton, ListTestButton, ListDevoirButton, ListApprenantButton);
+            VBox topLevel = DefaultFct.defaultVbox();
+            GridPane infoFormGrid = initConsulterForm();
 
-            Button ajouterCourButton = new Button("ajouter cours");
-            Button ajouterTestButton = new Button("ajouter un test");
-            Button ajouterDevoirButton = new Button("ajouter un devoir");
-            Button ajouterApprenantButton = new Button("ajouter un apprenant");
-            
+            Button supprimerButton = new Button("Supprimer Formation");
+            Button modifierButton = new Button("Modifier Formation");
+            GridPane.setConstraints(supprimerButton, 0, 3);
+            GridPane.setConstraints(modifierButton, 1, 3);
+            infoFormGrid.getChildren().addAll(supprimerButton, modifierButton);
+
+            GridPane formAction = DefaultFct.defaultGrid();
+            Label lab1 = new Label("Action :");
+            actionFormCombo = new ComboBox<>();
+            actionFormCombo.getItems().addAll("Ajouter", "Afficher Liste", "Supprimer");
+            actionFormCombo.setValue("Afficher Liste");
+            Label lab2 = new Label("Sur : ");
+            inFormCombo = new ComboBox<>();
+            inFormCombo.getItems().addAll("Apprenants", "Cours", "Devoirs", "Tests");
+            inFormCombo.setValue("Cours");
+            Button actionBtn = new Button("Go");
+            actionBtn.setOnAction(e->actionRapConsulter());
+
+            GridPane.setConstraints(lab1,0,0);
+            GridPane.setConstraints(actionFormCombo,1,0);
+            GridPane.setConstraints(lab2,0,1);
+            GridPane.setConstraints(inFormCombo,1,1);
+            GridPane.setConstraints(actionBtn,0,2);
+            formAction.getChildren().addAll(lab1, actionFormCombo ,lab2 ,inFormCombo, actionBtn);
+
+            topLevel.getChildren().addAll(infoFormGrid, formAction);
+            formBorder.setCenter(topLevel);
         }
+    }
 
-
-
+    private void actionRapConsulter(){
+        switch (inFormCombo.getValue()){
+            case "Apprenants":
+                switch (actionFormCombo.getValue()){
+                    case "Ajouter":
+                        break;
+                    case "Afficher Liste":
+                        break;
+                    case "Supprimer":
+                        System.out.println("nothing for now");
+                        break;
+                }
+                break;
+            case "Cours":
+                switch (actionFormCombo.getValue()){
+                    case "Ajouter":
+                        CourUI.addCours(form);
+                        break;
+                    case "Afficher Liste":
+                        listCourAction();
+                        break;
+                    case "Supprimer":
+                        System.out.println("nothing for now");
+                        break;
+                }
+                break;
+            case "Tests":
+                switch (actionFormCombo.getValue()){
+                    case "Ajouter":
+                        break;
+                    case "Afficher Liste":
+                        break;
+                    case "Supprimer":
+                        System.out.println("nothing for now");
+                        break;
+                }
+                break;
+            case "Devoirs":
+                System.out.println("nothing for now");
+                break;
+        }
     }
 
     protected void listCourAction(){

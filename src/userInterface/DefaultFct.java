@@ -3,11 +3,13 @@ package userInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 
 public class DefaultFct {
 
@@ -61,6 +63,15 @@ public class DefaultFct {
         border.setStyle("-fx-background-color: #b9d8ff");
         border.setPadding(new Insets(12,12,12,12));
 
+        return border;
+    }
+
+    public static BorderPane borderFrm(){
+        BorderPane border = defaultBorder();
+        HBox hb = defaultHbox();
+        Button fermer = new Button("Quiter");
+        hb.getChildren().add(fermer);
+        border.setBottom(hb);
         return border;
     }
 }

@@ -1,7 +1,6 @@
 package userInterface;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,8 +19,7 @@ public class AlertBox {
         Button btn = new Button("ok");
         btn.setOnAction(e -> window.close());
 
-        VBox layout = new VBox();
-        layout.setAlignment(Pos.CENTER);
+        VBox layout = DefaultFct.defaultVbox();
         VBox.setMargin(layout,new Insets(12,12,12,12));
 
         layout.getChildren().addAll(mes, btn);
