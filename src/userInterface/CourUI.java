@@ -74,6 +74,8 @@ public class CourUI {
         setUpPopUp();
         Scene openCoursScene;
 
+        coursTitle.setText(cours.getNomCour());
+        coursContent.setText(cours.chargerCour());
         coursTitle.setDisable(true);
         coursContent.setDisable(true);
         buttonHBox.getChildren().addAll(closePopPup);
@@ -81,6 +83,8 @@ public class CourUI {
         coursGrid.getChildren().add(buttonHBox);
 
         openCoursScene = new Scene(coursGrid, 640, 390);
+
+        addCoursPopUp.setScene(openCoursScene);
         addCoursPopUp.showAndWait();
     }
 
@@ -96,6 +100,7 @@ public class CourUI {
         coursGrid.getChildren().add(buttonHBox);
         valider.setOnAction(e -> cours.sauvgCour(coursContent.getText()));
         modifierCoursScene = new Scene(coursGrid, 640,390);
+        addCoursPopUp.setScene(modifierCoursScene);
         addCoursPopUp.showAndWait();
 
     }

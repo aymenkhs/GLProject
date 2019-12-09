@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sources.Cour;
 import sources.Formation;
 import sources.Personne;
 import sources.Sondage;
@@ -68,6 +70,10 @@ public abstract class UserUI {
         this.window = parentStage;
         this.lgs = lgs;
     }
+
+    //Cours
+    protected ListView<Cour> coursList;
+    protected ObservableList<Cour> listCourSel;
 
     // HOME
 
@@ -205,6 +211,19 @@ public abstract class UserUI {
 
         infoFormGrid.getChildren().addAll(titleText, descriptionText);
         return infoFormGrid;
+    }
+
+    // Cours
+
+    protected boolean verifOneLineCour(){
+        if (listCourSel.size()>1){
+            AlertBox.displayError("What make you think you can See or modify multiples Courses????!!!!");
+            return false;
+        }else if(listCourSel.isEmpty()){
+            return false;
+        }
+        return true;
+
     }
 
 

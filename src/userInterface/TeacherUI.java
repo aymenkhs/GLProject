@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sources.Formation;
 import sources.Instructeur;
@@ -313,58 +312,39 @@ public class TeacherUI extends UserUI{
     protected void listCourAction(){
 
         Scene listCourScene;
+        BorderPane listCourBorder = DefaultFct.defaultBorder();
 
-        BorderPane formationInfo = DefaultFct.defaultBorder();
-        Text title = new Text("Titre de formation: " + form.getNomFormation());
-        Text description = new Text("Description de formation: " + form.getDescription());
-        VBox formStuff = DefaultFct.defaultVbox();
-        formStuff.getChildren().addAll(title, description);
-
-        ListView<String> coursList = genViews.getCours(form);
+        coursList = genViews.getCours(form);
 
         VBox buttons = DefaultFct.defaultVbox();
         Button openCours = new Button("Ouvrir");
-        openCours.setOnAction(e -> openCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
         Button deleteCours = new Button("Supprimer");
-        deleteCours.setOnAction(e -> modifierCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
         Button modifierCours = new Button("Modifier");
-        modifierCours.setOnAction(e -> deleteCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
-
         buttons.getChildren().addAll(openCours,modifierCours,deleteCours);
 
-        formationInfo.setTop(formStuff);
-        formationInfo.setCenter(coursList);
-        formationInfo.setRight(buttons);
+        listCourBorder.setCenter(coursList);
+        listCourBorder.setRight(buttons);
 
-        listCourScene = new Scene(formationInfo, 500, 500);
+        openCours.setOnAction(e -> {
+            listCourSel = coursList.getSelectionModel().getSelectedItems();
+            if (verifOneLineCour()){
+                CourUI.openCours(listCourSel.get(0));
+            }
+        });
+        modifierCours.setOnAction(e -> {
+            listCourSel = coursList.getSelectionModel().getSelectedItems();
+            if (verifOneLineCour()){
+                CourUI.modifierCours(listCourSel.get(0));
+            }
+        });
+        deleteCours.setOnAction(e -> {
+
+        });
+
+        listCourScene = new Scene(listCourBorder, 500, 500);
         formStage.setScene(listCourScene);
-
     }
 
-    private void openCoursAction(Formation form, String nomCour) {
-
-    }
-
-    private void modifierCoursAction(Formation form, String nomCour) {
-
-    }
-
-    private void deleteCoursAction(Formation form, String nomCour) {
-
-    }
-
-//    private void formAddCour(){
-//        super.initBorderForm();
-//        setTabForm(1);
-//        formBorder.setCenter(tabForm);
-//
-//
-//
-//        bottomFormBorder.getChildren().addAll();
-//
-//        formStage = DefaultFct.defaultStage("FORMATION", formScene);
-//        formStage.showAndWait();
-//    }
 
     private void deleteSelected(Formation form) {
 

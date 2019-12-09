@@ -13,20 +13,20 @@ import java.util.ArrayList;
 
 public class genViews {
 
-    public static ListView<String> getCours(Formation form) {
+    public static ListView<Cour> getCours(Formation form) {
 
-        ListView<String> cours;
-        ObservableList<String> obsCours = FXCollections.observableArrayList();
+        ListView<Cour> cours;
+        ObservableList<Cour> obsCours = FXCollections.observableArrayList();
 
         ArrayList<Cour> coursArray = form.LoadCours();
 
         if(!coursArray.isEmpty()) {
             for(Cour c : coursArray) {
-                obsCours.add(c.toString());
+                obsCours.add(c);
             }
         }
 
-        cours = new ListView<>(obsCours);
+        cours = new ListView<Cour>(obsCours);
 
         return cours;
     }
