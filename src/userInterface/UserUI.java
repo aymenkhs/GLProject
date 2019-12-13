@@ -4,9 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -15,9 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sources.Formation;
-import sources.Personne;
-import sources.Sondage;
+import sources.*;
+
+import java.util.ArrayList;
 
 public abstract class UserUI {
 
@@ -211,12 +209,49 @@ public abstract class UserUI {
     // SONDAGE
 
 
-    private static void showPolls(int option, String userName){
+    private static void showPolls(int option, String userName){ // 0: everything, 1: mes sondages 2: sondages repondus
 
+        Stage pollStage = new Stage();
         SondageView view = new SondageView(option, userName);
 
         TableView<Sondage> sondageTable = view.getSondageTable();
         String text = "";
+
+
+        Text title =  new Text();
+        title.setFont(new Font(20));
+        title.setStyle("-fx-text-fill: #ff8e47");
+
+        Button quit = new Button("Quitter");
+        quit.setOnAction(e -> pollStage.close());
+
+        Button ajouter = new Button("Ajouter");
+        ajouter.setOnAction(e -> {
+            addSondage(userName);
+        });
+
+        Button repondre = new Button("Repondre");
+        repondre.setOnAction(e -> {
+            if(sondageTable.getSelectionModel().getSelectedItems().size() == 1) {
+                repondreAuSondage(sondageTable.getSelectionModel().getSelectedItem(), userName);
+            }
+        });
+
+        Button supprimer = new Button("Supprimer");
+        supprimer.setOnAction(e -> {
+            for(Sondage s : sondageTable.getSelectionModel().getSelectedItems()) {
+                if(deleteSondage(s, userName)) {
+                    sondageTable.getItems().remove(s);
+                }else {
+                    AlertBox.displayError("Vous n'avez pas le droit de supprimer ce sondage.");
+                    break;
+                }
+            }
+        });
+
+        VBox buttonVbox = DefaultFct.defaultVbox();
+        buttonVbox.getChildren().addAll(ajouter, repondre, supprimer);
+
         switch (option) {
             case 0:
                 text = "Tous les sondages";
@@ -225,29 +260,208 @@ public abstract class UserUI {
                 text = "Mes Sondages";
                 break;
             case 2:
-                text = "Sondages repondus";
+                text = "Sondages Repondus";
+                ajouter.setManaged(false);
                 break;
         }
+        title.setText(text);
 
-        Text title =  new Text(text);
-        title.setFont(new Font(20));
-        title.setStyle("-fx-text-fill: #ff8e47");
-
-        HBox buttonHbox = new HBox();
-
-        BorderPane sondages = new BorderPane();
+        BorderPane sondages = DefaultFct.defaultBorder();
         sondages.setStyle("-fx-background-color: #b9d8ff");
 
         sondages.setTop(title);
         sondages.setCenter(sondageTable);
-        sondages.setBottom(buttonHbox);
+        sondages.setRight(buttonVbox);
 
-        Scene sondScene = new Scene(sondages, 400,400);
-        Stage sondStage = new Stage();
-        sondStage.setScene(sondScene);
-        sondStage.showAndWait();
+        Scene pollsScene = new Scene(sondages, 550,400);
+        pollStage.setScene(pollsScene);
+        pollStage.showAndWait();
+
     }
 
+    private static void addSondage(String userName) {
+        Stage addSondageStage = new Stage();
 
+        BorderPane addSondagePane = DefaultFct.defaultBorder();
+
+        Label descriptionLabel = new Label("Description: ");
+        TextField description = new TextField();
+        description.setMinHeight(40);
+        description.setPromptText("Description de sondage");
+
+        VBox descriptionVbox = DefaultFct.defaultVbox();
+        descriptionVbox.getChildren().addAll(descriptionLabel, description);
+
+        Label option1Label = new Label("Option 1:");
+        TextField option1 = new TextField();
+        option1.setMinWidth(200);
+        HBox hbox1 = DefaultFct.defaultHbox();
+        hbox1.getChildren().addAll(option1Label, option1);
+
+        Label option2Label = new Label("Option 2:");
+        TextField option2 = new TextField();
+        option2.setMinWidth(200);
+        HBox hbox2 = DefaultFct.defaultHbox();
+        hbox2.getChildren().addAll(option2Label, option2);
+
+        Label option3Label = new Label("Option 3:");
+        TextField option3 = new TextField();
+        option3.setMinWidth(200);
+        HBox hbox3 = DefaultFct.defaultHbox();
+        hbox3.getChildren().addAll(option3Label, option3);
+
+        Label option4Label = new Label("Option 4:");
+        TextField option4 = new TextField();
+        option4.setMinWidth(200);
+        HBox hbox4 = DefaultFct.defaultHbox();
+        hbox4.getChildren().addAll(option4Label, option4);
+
+        ArrayList<TextField> options= new ArrayList<>();
+        options.add(option1);
+        options.add(option2);
+        options.add(option3);
+        options.add(option4);
+
+        VBox sondageVbox = DefaultFct.defaultVbox();
+        sondageVbox.getChildren().addAll(descriptionVbox, hbox1, hbox2, hbox3, hbox4);
+
+        Button ajouter = new Button("Ajouter");
+        ajouter.setOnAction(e -> {
+            if(description.getText().isBlank()) {
+                description.setPromptText("Ajouter une description!");
+                description.setStyle("-fx-text-fill: red");
+            }else {
+                int emptyFieldCount = 0;
+                ArrayList<String> validOptions = new ArrayList<>();
+                for (TextField txt : options) {
+                    if (txt.getText().isBlank()) {
+                        emptyFieldCount++;
+                    }else {
+                        validOptions.add(txt.getText());
+                    }
+                }
+
+                if (emptyFieldCount >= 3) {
+                    for (TextField txt : options) {
+                        if (txt.getText().isBlank()) {
+                            txt.setPromptText("Ajouter au moins 2 options!");
+                            txt.setStyle("-fx-text-fill: red");
+                        }
+                    }
+                } else {
+                    Sondage sondage = new Sondage(Sondage.nbSondage() + 1,
+                            userName, description.getText(), "All");
+                    int i = 0;
+                    for(String choice : validOptions) {
+                        sondage.addChoix(i, choice);
+                        i++;
+                    }
+
+                    Sondage.createSondage(Sondage.nbSondage(),
+                                    userName, description.getText(), "All");
+
+                    AlertBox.display("Sondages ajouté", "Le sondage a été ajouté avec succés");
+                    addSondageStage.close();
+                }
+            }
+        });
+
+        Button annuler = new Button("Quitter");
+        annuler.setOnAction(e -> addSondageStage.close());
+
+        HBox buttonHbox = DefaultFct.defaultHbox();
+        buttonHbox.getChildren().addAll(ajouter, annuler);
+
+        Text text = new Text("Ajout de sondage");
+        text.setFont(new Font(20));
+
+        addSondagePane.setTop(text);
+        addSondagePane.setBottom(buttonHbox);
+        addSondagePane.setCenter(sondageVbox);
+
+        Scene addSondageScene = new Scene(addSondagePane,430,300);
+        addSondageStage.setScene(addSondageScene);
+        addSondageStage.showAndWait();
+    }
+
+    private static void repondreAuSondage(Sondage s, String userName) {
+        Stage repondSondageStage = new Stage();
+        BorderPane repondSondagePane = DefaultFct.defaultBorder();
+
+        Label descriptionLabel = new Label("Description: ");
+        Label description = new Label();
+        description.setText(s.getDescription());
+        VBox descriptionVbox = DefaultFct.defaultVbox();
+        descriptionVbox.getChildren().addAll(descriptionLabel, description);
+
+        Label choix = new Label("Liste des choix: ");
+        ChoiceBox<String> choices = new ChoiceBox<>();
+        choices.getItems().add("");
+        choices.setMinWidth(150);
+
+        ArrayList<String> listChoix = s.loadChoix();
+        for(String str : listChoix) {
+            choices.getItems().add(str);
+        }
+
+        HBox choiceHbox = DefaultFct.defaultHbox();
+        choiceHbox.getChildren().addAll(choix, choices);
+
+        Button answer = new Button("Repondre");
+        answer.setOnAction(e -> {
+            if(!choices.getValue().isBlank()) {
+                if (s.checkIfAnswered(userName)) {
+                    s.deleteAnswer(userName);
+                }
+
+                s.answer(userName, choices.getValue());
+                AlertBox.display("Sondage Repondu", "     Reponse enregistré     ");
+                repondSondageStage.close();
+            }
+        });
+        Button quit = new Button("Quitter");
+        quit.setOnAction(e -> repondSondageStage.close());
+
+        HBox buttonHbox = DefaultFct.defaultHbox();
+        buttonHbox.getChildren().addAll(answer, quit);
+
+        repondSondagePane.setTop(descriptionVbox);
+        repondSondagePane.setCenter(choiceHbox);
+        repondSondagePane.setBottom(buttonHbox);
+
+        Scene repondSondageScene = new Scene(repondSondagePane, 400, 190);
+        repondSondageStage.setScene(repondSondageScene);
+        repondSondageStage.showAndWait();
+    }
+
+    private static boolean deleteSondage(Sondage s, String userName) {
+        String type = User.userType(userName);
+        String nom = "";
+        switch (type.toLowerCase()) {
+            case "etudiant":
+                Apprenant app = Apprenant.LoadApprenant(userName);
+                nom = app.getNom() + " " +app.getPrenom();
+                break;
+            case "enseignant":
+                Instructeur inst = Instructeur.LoadInstructeur(userName);
+                nom = inst.getNom() + " " +inst.getPrenom();
+                break;
+        }
+        if(!s.getNomCreateur().equalsIgnoreCase(nom)) {
+            System.out.println(s.getNomCreateur());
+            System.out.println(nom);
+            return false;
+        }
+        return s.delete();
+    }
+
+    private boolean emptyField(TextField textField) {
+        if(textField.getText().isBlank()) {
+            textField.setPromptText("Ajouter au moins 2 options!");
+            textField.setStyle("-fx-text-fill: red");
+            return true;
+        }
+        return false;
+    }
 
 }

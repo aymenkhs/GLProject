@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sources.Cour;
 import sources.Formation;
 import sources.Instructeur;
 
@@ -300,7 +301,7 @@ public class TeacherUI extends UserUI{
                     case "Afficher Liste":
                         break;
                     case "Supprimer":
-                        System.out.println("nothing for now");
+                        System.out.println("nothing fornow");
                         break;
                 }
                 break;
@@ -326,9 +327,12 @@ public class TeacherUI extends UserUI{
         Button openCours = new Button("Ouvrir");
         openCours.setOnAction(e -> openCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
         Button deleteCours = new Button("Supprimer");
-        deleteCours.setOnAction(e -> modifierCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
+        deleteCours.setOnAction(e -> {
+            deleteCoursAction(form, coursList.getSelectionModel().getSelectedItem());
+            coursList.getItems().remove(coursList.getSelectionModel().getSelectedItem());
+        });
         Button modifierCours = new Button("Modifier");
-        modifierCours.setOnAction(e -> deleteCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
+        modifierCours.setOnAction(e -> modifierCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
 
         buttons.getChildren().addAll(openCours,modifierCours,deleteCours);
 
@@ -338,21 +342,27 @@ public class TeacherUI extends UserUI{
 
         listCourScene = new Scene(formationInfo, 500, 500);
         formStage.setScene(listCourScene);
-
+        formStage.showAndWait();
     }
 
     private void openCoursAction(Formation form, String nomCour) {
+        Cour c = Cour.getCours(form, nomCour);
+        CourUI.openCours(c);
+    }
 
+    private void addCoursAction(Formation form, String nomCour) {
+        Cour c = Cour.getCours(form, nomCour);
+        CourUI.addCours(form);
     }
 
     private void modifierCoursAction(Formation form, String nomCour) {
-
+        Cour c = Cour.getCours(form, nomCour);
+        CourUI.modifierCours(c);
     }
 
     private void deleteCoursAction(Formation form, String nomCour) {
-
+        Cour.delete(form.getNumFormation(), nomCour);
     }
-
 //    private void formAddCour(){
 //        super.initBorderForm();
 //        setTabForm(1);

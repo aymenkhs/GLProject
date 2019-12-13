@@ -139,4 +139,83 @@ public class Sondage {
         }
         return true;
     }
+
+    public boolean addChoix(int numChoix, String nomChoix) {
+        String request = "Insert into Choix(numChoix, numSondage, nomChoix) values(" +
+                numChoix +",'" + this.numSondage + "','" + nomChoix + "')" ;
+        if(dataBase.insertRequest(request) == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public ArrayList<String> loadChoix() {
+        String request = "Select * from Choix where numSondage = " + this.numSondage +"";
+        ResultSet res = dataBase.selectRequest(request);
+        ArrayList<String> choices = new ArrayList<>();
+
+        while(true) {
+            try {
+                if (!res.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                choices.add(res.getString("nomChoix"));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return choices;
+    }
+
+    public boolean checkIfAnswered(String userName) {
+        String request = "Select userName from Participer where numSondage = " + this.numSondage + "";
+        ResultSet res = dataBase.selectRequest(request);
+        try {
+            if(res.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteAnswer(String userName) {
+        String request = "Delete from Participer where numSondage = " + this.numSondage + " AND " +
+                "userName = '" + userName + "'";
+        if(dataBase.deleteRequest(request) == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public void answer(String userName, String choix) {
+        String selectRequest = "Select numChoix from Choix where numSondage = " + this.numSondage + " AND " +
+                " nomChoix + '" + choix + "'";
+        ResultSet res = dataBase.selectRequest(selectRequest);
+        int numChoix = 1;
+        try {
+            if(res.next()) {
+                numChoix = res.getInt("numChoix");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String insertRequest = "Insert into Participer Values (" +
+                this.numSondage + ",'" + userName + "'," + numChoix + ")";
+        System.out.println("The sondage has been answered:" + dataBase.insertRequest(insertRequest));
+    }
+
+    public boolean delete() {
+        String request = "Delete from Sondage where numSondage = " + this.numSondage + "";
+        if(dataBase.deleteRequest(request) == 0) {
+            return false;
+        }
+        return true;
+    }
+
 }
