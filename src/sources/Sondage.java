@@ -1,6 +1,7 @@
 package sources;
 
 import dataBase.Jdbc;
+import javafx.scene.control.Label;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -167,11 +168,18 @@ public class Sondage {
             }
         }
 
+        try {
+            res.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return choices;
     }
 
     public boolean checkIfAnswered(String userName) {
-        String request = "Select userName from Participer where numSondage = " + this.numSondage + "";
+        String request = "Select userName from Participer where numSondage = " + this.numSondage + " AND " +
+                " userName = '" + userName + "'";
         ResultSet res = dataBase.selectRequest(request);
         try {
             if(res.next()) {
@@ -193,29 +201,76 @@ public class Sondage {
     }
 
     public void answer(String userName, String choix) {
-        String selectRequest = "Select numChoix from Choix where numSondage = " + this.numSondage + " AND " +
-                " nomChoix + '" + choix + "'";
-        ResultSet res = dataBase.selectRequest(selectRequest);
-        int numChoix = 1;
+
+        int numChoix = getNumChoix(choix);
+
+        String insertRequest = "Insert into Participer Values (" +
+                this.numSondage + ",'" + userName + "'," + numChoix + ")";
+        System.out.println("The sondage has been answered:" + dataBase.insertRequest(insertRequest));
+
+    }
+
+    public boolean delete() {
+        String sondageRequest = "Delete from Sondage where numSondage = " + this.numSondage + "";
+        String choixRequest = "Delete from Choix where numSondage = " + this.numSondage + "";
+        String participerRequest = "Delete from Participer where numSondage = " + this.numSondage + "";
+
+        dataBase.deleteRequest(sondageRequest);
+        dataBase.deleteRequest(choixRequest);
+        dataBase.deleteRequest(participerRequest);
+
+        return true;
+    }
+
+    public Label choicesInLabel() {
+        Label choices = new Label();
+        String labelText = "Resultat de sondage: \n \t";
+        ArrayList<String> choix = this.loadChoix();
+
+        for(String str : choix) {
+            labelText = labelText + this.numberOfVotes(str) + " votes pour: " + str + "\n \t";
+        }
+
+        choices.setText(labelText);
+        return choices;
+    }
+
+    private int numberOfVotes(String choix) {
+
+        int numChoix = getNumChoix(choix);
+
+        String nbVotesRequest = "Select count(*) from Participer where numSondage = " + this.numSondage + " AND " +
+                "reponse = " + numChoix + " Group by reponse";
+
+        ResultSet res = dataBase.selectRequest(nbVotesRequest);
+
         try {
             if(res.next()) {
-                numChoix = res.getInt("numChoix");
+                return res.getInt(1);
+            }else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    private int getNumChoix(String choix) {
+
+        String numChoixRequest = "Select numChoix from Choix where numSondage = " + this.numSondage + " AND " +
+                " nomChoix = '" + choix + "'";
+        ResultSet res = dataBase.selectRequest(numChoixRequest);
+
+        int numChoix = 0;
+        try {
+            if(res.next()) {
+                numChoix = res.getInt("numChoix"); // 0 = numChoix
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        String insertRequest = "Insert into Participer Values (" +
-                this.numSondage + ",'" + userName + "'," + numChoix + ")";
-        System.out.println("The sondage has been answered:" + dataBase.insertRequest(insertRequest));
+        return numChoix;
     }
-
-    public boolean delete() {
-        String request = "Delete from Sondage where numSondage = " + this.numSondage + "";
-        if(dataBase.deleteRequest(request) == 0) {
-            return false;
-        }
-        return true;
-    }
-
 }

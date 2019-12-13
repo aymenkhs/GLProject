@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import sources.*;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public abstract class UserUI {
 
@@ -212,6 +213,10 @@ public abstract class UserUI {
     private static void showPolls(int option, String userName){ // 0: everything, 1: mes sondages 2: sondages repondus
 
         Stage pollStage = new Stage();
+
+        BorderPane sondages = DefaultFct.defaultBorder();
+        sondages.setStyle("-fx-background-color: #b9d8ff");
+
         SondageView view = new SondageView(option, userName);
 
         TableView<Sondage> sondageTable = view.getSondageTable();
@@ -223,34 +228,65 @@ public abstract class UserUI {
         title.setStyle("-fx-text-fill: #ff8e47");
 
         Button quit = new Button("Quitter");
+        quit.setMinWidth(140);
         quit.setOnAction(e -> pollStage.close());
 
-        Button ajouter = new Button("Ajouter");
+        Button afficherResultat = new Button("Resultat de Sondage");
+        afficherResultat.setMinWidth(140);
+        afficherResultat.setOnAction(e -> showResults(sondageTable.getSelectionModel().getSelectedItem()));
+
+        Button ajouter = new Button("Ajouter un Sondage");
+        ajouter.setMinWidth(140);
         ajouter.setOnAction(e -> {
             addSondage(userName);
+//            pollStage.close();
+//            showPolls(option, userName);
+            System.out.println("Why isnt this working");
         });
 
-        Button repondre = new Button("Repondre");
+        Button repondre = new Button("Repondre Au Sondage");
+        repondre.setMinWidth(140);
         repondre.setOnAction(e -> {
             if(sondageTable.getSelectionModel().getSelectedItems().size() == 1) {
                 repondreAuSondage(sondageTable.getSelectionModel().getSelectedItem(), userName);
             }
         });
 
-        Button supprimer = new Button("Supprimer");
+        Button supprimer = new Button("Supprimer le Sondage");
+        supprimer.setMinWidth(140);
         supprimer.setOnAction(e -> {
-            for(Sondage s : sondageTable.getSelectionModel().getSelectedItems()) {
-                if(deleteSondage(s, userName)) {
-                    sondageTable.getItems().remove(s);
+           Sondage s =  sondageTable.getSelectionModel().getSelectedItem();
+            if(deleteSondage(s, userName)) {
+                    try {
+                        sondageTable.getItems().remove(s);
+                    }catch (NoSuchElementException nse) {
+                        nse.printStackTrace();
+                    }
                 }else {
                     AlertBox.displayError("Vous n'avez pas le droit de supprimer ce sondage.");
-                    break;
                 }
+
+        });
+
+        Button unAnswer = new Button("Supprimer reponse");
+        unAnswer.setMinWidth(140);
+        unAnswer.setOnAction(e -> {
+            Sondage s = sondageTable.getSelectionModel().getSelectedItem();
+            if(s.checkIfAnswered(userName)) {
+                if (s.deleteAnswer(userName)) {
+                    AlertBox.display("Supprimé!", "Votre reponse au sondage a été supprimée");
+//                    pollStage.close();
+//                    showPolls(option, userName);
+                }else {
+                    AlertBox.displayError("Unkown SQL error");
+                }
+            }else {
+                AlertBox.displayError("Il faut repondre au sondage afin de supprimer la reponse");
             }
         });
 
         VBox buttonVbox = DefaultFct.defaultVbox();
-        buttonVbox.getChildren().addAll(ajouter, repondre, supprimer);
+        buttonVbox.getChildren().addAll(afficherResultat, ajouter, repondre, supprimer, unAnswer, quit);
 
         switch (option) {
             case 0:
@@ -266,16 +302,40 @@ public abstract class UserUI {
         }
         title.setText(text);
 
-        BorderPane sondages = DefaultFct.defaultBorder();
-        sondages.setStyle("-fx-background-color: #b9d8ff");
 
         sondages.setTop(title);
         sondages.setCenter(sondageTable);
         sondages.setRight(buttonVbox);
 
-        Scene pollsScene = new Scene(sondages, 550,400);
+        Scene pollsScene = new Scene(sondages, 640,400);
         pollStage.setScene(pollsScene);
         pollStage.showAndWait();
+
+    }
+
+    private static void showResults(Sondage s) {
+        Stage resultStage = new Stage();
+        BorderPane resultPane = DefaultFct.defaultBorder();
+
+        Label descriptionLabel = new Label("Description: ");
+        Label description = new Label();
+        description.setText(s.getDescription());
+
+        VBox descriptionVbox = DefaultFct.defaultVbox();
+        descriptionVbox.getChildren().addAll(descriptionLabel, description);
+
+        Label results = s.choicesInLabel();
+
+        Button quit = new Button("Fermer");
+        quit.setOnAction(e -> resultStage.close());
+
+        resultPane.setTop(descriptionVbox);
+        resultPane.setCenter(results);
+        resultPane.setBottom(quit);
+
+        Scene resultsScene = new Scene(resultPane, 300,300);
+        resultStage.setScene(resultsScene);
+        resultStage.showAndWait();
 
     }
 
@@ -349,7 +409,7 @@ public abstract class UserUI {
                         }
                     }
                 } else {
-                    Sondage sondage = new Sondage(Sondage.nbSondage() + 1,
+                    Sondage sondage = new Sondage(Sondage.nbSondage(),
                             userName, description.getText(), "All");
                     int i = 0;
                     for(String choice : validOptions) {
@@ -407,6 +467,11 @@ public abstract class UserUI {
         HBox choiceHbox = DefaultFct.defaultHbox();
         choiceHbox.getChildren().addAll(choix, choices);
 
+        Label results = s.choicesInLabel();
+
+        VBox infoVbox = DefaultFct.defaultVbox();
+        infoVbox.getChildren().addAll(results, choiceHbox);
+
         Button answer = new Button("Repondre");
         answer.setOnAction(e -> {
             if(!choices.getValue().isBlank()) {
@@ -426,10 +491,10 @@ public abstract class UserUI {
         buttonHbox.getChildren().addAll(answer, quit);
 
         repondSondagePane.setTop(descriptionVbox);
-        repondSondagePane.setCenter(choiceHbox);
+        repondSondagePane.setCenter(infoVbox);
         repondSondagePane.setBottom(buttonHbox);
 
-        Scene repondSondageScene = new Scene(repondSondagePane, 400, 190);
+        Scene repondSondageScene = new Scene(repondSondagePane, 400, 270);
         repondSondageStage.setScene(repondSondageScene);
         repondSondageStage.showAndWait();
     }
@@ -454,14 +519,4 @@ public abstract class UserUI {
         }
         return s.delete();
     }
-
-    private boolean emptyField(TextField textField) {
-        if(textField.getText().isBlank()) {
-            textField.setPromptText("Ajouter au moins 2 options!");
-            textField.setStyle("-fx-text-fill: red");
-            return true;
-        }
-        return false;
-    }
-
 }
