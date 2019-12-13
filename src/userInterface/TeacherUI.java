@@ -20,6 +20,8 @@ public class TeacherUI extends UserUI{
 
     private Instructeur inst;
 
+    private TestDevEnsUI testUI;
+
     private Scene teacherUIScene;
 
 
@@ -231,6 +233,8 @@ public class TeacherUI extends UserUI{
         if(verifOneLineForm()){
             form = tabForm.getSelectionModel().getSelectedItem();
 
+            testUI = new TestDevEnsUI(window, form);
+
             rightFormBorder.setVisible(false);
 
             VBox topLevel = DefaultFct.defaultVbox();
@@ -295,8 +299,10 @@ public class TeacherUI extends UserUI{
             case "Tests":
                 switch (actionFormCombo.getValue()){
                     case "Ajouter":
+                        testUI.addTest(formStage.getScene());
                         break;
                     case "Afficher Liste":
+                        testUI.listTest(formStage.getScene());
                         break;
                     case "Supprimer":
                         System.out.println("nothing for now");

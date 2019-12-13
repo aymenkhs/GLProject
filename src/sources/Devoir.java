@@ -15,6 +15,10 @@ public class Devoir {
         this.enoncer = enoncer;
     }
 
+    public int getNumDevoir() {
+        return numDevoir;
+    }
+
     @Override
     public String toString() {
         return "Devoir numero : " + numDevoir;

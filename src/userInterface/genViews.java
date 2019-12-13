@@ -26,21 +26,39 @@ public class genViews {
             }
         }
 
-        cours = new ListView<Cour>(obsCours);
+        cours = new ListView<>(obsCours);
 
         return cours;
     }
 
-    public static ListView<String> getTests(Formation form) {
+    public static ListView<Test> getTests(Formation form) {
 
-        ListView<String> tests;
-        ObservableList<String> obsTests = FXCollections.observableArrayList();
+        ListView<Test> tests;
+        ObservableList<Test> obsTests = FXCollections.observableArrayList();
 
         ArrayList<Test> quizArray = form.LoadTests();
 
         if(!quizArray.isEmpty()) {
             for(Test t : quizArray) {
-                obsTests.add(t.toString());
+                obsTests.add(t);
+            }
+        }
+
+        tests = new ListView<>(obsTests);
+
+        return tests;
+    }
+
+    public static ListView<Test> getValidateTests(Formation form) {
+
+        ListView<Test> tests;
+        ObservableList<Test> obsTests = FXCollections.observableArrayList();
+
+        ArrayList<Test> quizArray = form.LoadDisponibleTests();
+
+        if(!quizArray.isEmpty()) {
+            for(Test t : quizArray) {
+                obsTests.add(t);
             }
         }
 

@@ -3,6 +3,7 @@ package sources;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Apprenant extends Personne {
 
@@ -48,6 +49,38 @@ public class Apprenant extends Personne {
                 return null;}
         }
         return null;
+    }
+
+    public static ArrayList<Apprenant> loadAllApprenant(){
+        ArrayList<Apprenant> list = new ArrayList<>();
+
+        String requestUser = "select * From Personne where type = 'etudiant'";
+        ResultSet resUser = dataBase.selectRequest(requestUser);
+        try
+        {
+            while (resUser.next()) {
+                String userNameS = resUser.getString("userName");
+                String requestEtud = "select * From Etudiant where userName = '" + userNameS + "'";
+                ResultSet resEtud = dataBase.selectRequest(requestEtud);
+
+                if(resEtud.next()){
+                        /*String s = resUser.getString("DateN");
+                        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/YYYY");
+                        System.out.println(df);
+                        LocalDate date = LocalDate.parse(s, df);*/
+                    LocalDate date = LocalDate.now();
+
+                    Apprenant app = new Apprenant(userNameS, resUser.getString("password"),
+                            resUser.getString("email"),Langue.valueOf(resUser.getString("langue"))
+                            ,resUser.getString("nom"), resUser.getString("prenom"),
+                            resEtud.getInt("matriculeEtud"),date,
+                            resEtud.getString("specialite"), resEtud.getString("anneeCour"));
+
+                    list.add(app);
+                }
+            }
+            return list;
+        }catch (SQLException e){ return null;}
     }
 
     public static String getUserWithMat(int matricule) throws SQLException{

@@ -50,6 +50,7 @@ create table Historique(
 	numAction integer,
 	numFormation integer,
 	matriculeEtud integer,
+	action varchar2(100),
 	constraint hstMemFK foreign key (matriculeEtud, numFormation) references MembreFormation ON DELETE CASCADE,
 	constraint hstPK primary key (numFormation,matriculeEtud,numAction)
 );
@@ -85,7 +86,8 @@ create table PasseDevoir(
 create table Test(
 	numTest integer,
 	numFormation integer,
-	nbQuestion integer,
+	isDisponible integer,
+	constraint chkDispTest check(isDisponible>=0 and isDisponible<=1),
 	constraint testFormFK foreign key (numFormation) references Formation ON DELETE CASCADE,
 	constraint testPK primary key (numFormation,numTest)
 );

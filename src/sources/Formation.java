@@ -94,11 +94,24 @@ public class Formation {
     // Tests
     public ArrayList<Test> LoadTests(){
         ArrayList<Test> list = new ArrayList<>();
-        String request = "select * from Test where numFormation = '"+ numFormation +"'";
+        String request = "select * from Test where numFormation = "+ numFormation;
         ResultSet res = dataBase.selectRequest(request);
         try{
             while(res.next()){
-                Test test = new Test(this, res.getInt("numTest"));
+                Test test = new Test(this, res.getInt("numTest"), res.getInt("isDisponible") == 1);
+                list.add(test);
+            }
+        }catch (SQLException e){}
+        return list;
+    }
+
+    public ArrayList<Test> LoadDisponibleTests(){
+        ArrayList<Test> list = new ArrayList<>();
+        String request = "select * from Test where numFormation = "+ numFormation +" and isDisponible = 1";
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            while(res.next()){
+                Test test = new Test(this, res.getInt("numTest"), true);
                 list.add(test);
             }
         }catch (SQLException e){}
@@ -106,7 +119,7 @@ public class Formation {
     }
 
     public Test addTest(int numTest){
-        String requete = "insert into Test(numFormation ,numTest) values(" + numFormation + "," + numTest + ")";
+        String requete = "insert into Test(numFormation ,numTest, isDisponible) values(" + numFormation + "," + numTest + ",0)";
         if (dataBase.insertRequest(requete) != 0){
             return new Test( this, numTest);
         }
@@ -128,7 +141,7 @@ public class Formation {
     //Devoirs
     public ArrayList<Devoir> LoadDevoirs(){
         ArrayList<Devoir> list = new ArrayList<>();
-        String request = "select * from Devoir where numFormation = '"+ numFormation +"'";
+        String request = "select * from Devoir where numFormation = "+ numFormation;
         ResultSet res = dataBase.selectRequest(request);
         try{
             while(res.next()){

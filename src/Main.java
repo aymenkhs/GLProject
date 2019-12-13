@@ -30,6 +30,7 @@ public class Main extends Application {
         Formation.setDataBase(db);
         Cour.setDataBase(db);
         Test.setDataBase(db);
+        Question.setDataBase(db);
         Devoir.setDataBase(db);
         Sondage.setDataBase(db);
     }

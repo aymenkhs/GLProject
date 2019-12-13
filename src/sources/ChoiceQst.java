@@ -26,6 +26,18 @@ public class ChoiceQst {
         return textChoice;
     }
 
+    public int getNumChoice() {
+        return numChoice;
+    }
+
+    public int getNumQuestion() {
+        return numQuestion;
+    }
+
+    public int getNumTest() {
+        return numTest;
+    }
+
     @Override
     public String toString() {
         return textChoice;

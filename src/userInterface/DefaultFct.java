@@ -61,7 +61,7 @@ public class DefaultFct {
         BorderPane border = new BorderPane();
 
         border.setStyle("-fx-background-color: #b9d8ff");
-        border.setPadding(new Insets(12,12,12,12));
+        border.setPadding(new Insets(30,30,30,30));
 
         return border;
     }

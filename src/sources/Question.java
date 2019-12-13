@@ -93,7 +93,7 @@ public class Question{
         return (correctChoices.size() >= 1 && wrongChoices.size() >= 1);
     }
 
-    private boolean isRepTrue(int choix){
+    public boolean isRepTrue(int choix){
         return randomChoice.get(choix).isChoixJuste();
     }
 
@@ -101,7 +101,7 @@ public class Question{
 
     // Choices
     public void LoadChoices(){
-        String request = "select * from Choice where numFormation = "+ numForm +" and numTest = " + numTest + " and " +
+        String request = "select * from ChoixQuestion where numFormation = "+ numForm +" and numTest = " + numTest + " and " +
                 "numQusetion = " + numQuestion;
         ResultSet res = dataBase.selectRequest(request);
         try{
@@ -139,6 +139,10 @@ public class Question{
         String requete = "delete from Question where numFormation=" + numForm + " and numTest=" + numTest +
                 " and numQusetion=" + numQuestion;
         return dataBase.deleteRequest(requete)!=0;
+    }
+
+    public int nbChoices(){
+        return correctChoices.size() + wrongChoices.size();
     }
 
     // Methodes Static

@@ -5,12 +5,14 @@ import dataBase.Jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Test {
     private static Jdbc dataBase;
 
     private Formation form;
     private int numTest;
+    private double bareme;
     private boolean disponible;
 
     private ArrayList<Question> listQst;
@@ -41,6 +43,10 @@ public class Test {
         return listQst;
     }
 
+    public int nbQuestions(){
+        return listQst.size();
+    }
+
     @Override
     public String toString() {
         return "Test numero : " + numTest;
@@ -49,6 +55,7 @@ public class Test {
     public boolean validerTest(){
         if(isTestValide()){
             disponible = true;
+            calculerBareme();
             return true;
         }
         return false;
@@ -68,8 +75,22 @@ public class Test {
         return false;
     }
 
-    public int calculerBareme(){
-        return 20/listQst.size();
+    public void calculerBareme(){
+        bareme = 20.0/listQst.size();
+    }
+
+    public double calculerNote(HashMap<Integer, Integer> reponses){
+        double note = 0;
+
+
+        for(Question qst:listQst){
+            if(reponses.containsKey(qst.getNumQuestion())){
+                if(qst.isRepTrue(reponses.get(qst.getNumQuestion()))){
+                    note+=bareme;
+                }
+            }
+        }
+        return note;
     }
 
     // Question
@@ -91,7 +112,7 @@ public class Test {
         if (dataBase.insertRequest(requete) != 0){
             Question qst = new Question(form.getNumFormation(), numTest, numQst, enoncerQst);
             listQst.add(qst);
-
+            return qst;
         }
         return null;
     }
