@@ -1,37 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b75363c0-c308-4129-b0c9-8f87890ae73a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/Jdbc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/Jdbc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/dbSocialLearning.db" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/dataBase/dbSocialLearning.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Admin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Apprenant.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Apprenant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/ChoiceQst.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/ChoiceQst.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Cour.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Cour.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Devoir.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Devoir.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Formation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Formation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Instructeur.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Instructeur.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Langue.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Langue.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Personne.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Personne.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Question.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Question.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Sondage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Sondage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/Test.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/sources/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/AlertBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/AlertBox.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/CourUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/CourUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/DefaultFct.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/DefaultFct.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/FormationView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/FormationView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/LogSignScene.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/LogSignScene.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/SondageView.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/SondageView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/StudentUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/StudentUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/TeacherUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/TeacherUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/UserUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/UserUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/genViews.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PlatformeSocialLearning/userInterface/genViews.class" afterDir="false" />
-    </list>
+    <list default="true" id="b75363c0-c308-4129-b0c9-8f87890ae73a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,7 +102,7 @@
       <workItem from="1576069103369" duration="593000" />
       <workItem from="1576080564714" duration="1342000" />
       <workItem from="1576144490134" duration="25246000" />
-      <workItem from="1576197784150" duration="3066000" />
+      <workItem from="1576197784150" duration="3457000" />
     </task>
     <task id="LOCAL-00001" summary="Did some sondage stuff, got some weird issues; will try to fix tmrw">
       <created>1576200717690</created>
@@ -141,7 +111,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576200717690</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Did some sondage stuff, got some weird issues; will try to fix tmrw">
+      <created>1576200884514</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1576200884514</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -202,10 +179,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="808" y="408" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1575825912743" />
-    <state x="574" y="109" key="CommitChangelistDialog2" timestamp="1576200883370">
+    <state x="574" y="109" key="CommitChangelistDialog2" timestamp="1576201258641">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="574" y="109" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1576200883370" />
+    <state x="574" y="109" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1576201258641" />
     <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1576200446538">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
