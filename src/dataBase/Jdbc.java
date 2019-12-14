@@ -29,7 +29,6 @@ public class Jdbc {
             ResultSet resultat = stmt.executeQuery(request);
             return resultat;
         }catch (Exception e){
-            System.out.println(e);
             return null;
         }
     }

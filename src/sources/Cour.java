@@ -3,6 +3,8 @@ package sources;
 import dataBase.Jdbc;
 
 import java.io.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Cour {
     private static Jdbc dataBase;
@@ -88,6 +90,11 @@ public class Cour {
         return dataBase.deleteRequest(requete)!=0;
     }
 
+    public static boolean delete(int numFormation, String nomCour) {
+        String requete = "delete from Cour where numFormation=" + numFormation + " and nomCour='" + nomCour + "'";
+        return dataBase.deleteRequest(requete)!=0;
+    }
+
     public String getNomCour() {
         return nomCour;
     }
@@ -96,4 +103,18 @@ public class Cour {
     public static void setDataBase(Jdbc db){
         dataBase = db;
     }
+
+    public static Cour getCours(Formation form, String nomCour) {
+        String request = "Select * From Cour Where numFormation = " +form.getNumFormation()+ " AND nomCour = '" +nomCour+ "'";
+        ResultSet res = dataBase.selectRequest(request);
+        try {
+            if(res.next()) {
+                return new Cour(res.getString("pathContenue"), form, res.getString("nomCour"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

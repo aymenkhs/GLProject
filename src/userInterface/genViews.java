@@ -13,16 +13,16 @@ import java.util.ArrayList;
 
 public class genViews {
 
-    public static ListView<Cour> getCours(Formation form) {
+    public static ListView<String> getCours(Formation form) {
 
-        ListView<Cour> cours;
-        ObservableList<Cour> obsCours = FXCollections.observableArrayList();
+        ListView<String> cours;
+        ObservableList<String> obsCours = FXCollections.observableArrayList();
 
         ArrayList<Cour> coursArray = form.LoadCours();
 
         if(!coursArray.isEmpty()) {
             for(Cour c : coursArray) {
-                obsCours.add(c);
+                obsCours.add(c.toString());
             }
         }
 

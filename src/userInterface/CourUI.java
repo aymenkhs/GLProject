@@ -74,16 +74,15 @@ public class CourUI {
         setUpPopUp();
         Scene openCoursScene;
 
-        coursTitle.setText(cours.getNomCour());
-        coursContent.setText(cours.chargerCour());
         coursTitle.setDisable(true);
+        coursTitle.setText(cours.getNomCour());
         coursContent.setDisable(true);
+        coursContent.setText(cours.chargerCour());
         buttonHBox.getChildren().addAll(closePopPup);
         coursGrid.setConstraints(buttonHBox, 0, 4);
         coursGrid.getChildren().add(buttonHBox);
 
         openCoursScene = new Scene(coursGrid, 640, 390);
-
         addCoursPopUp.setScene(openCoursScene);
         addCoursPopUp.showAndWait();
     }

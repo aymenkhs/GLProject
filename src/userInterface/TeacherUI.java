@@ -10,7 +10,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sources.Cour;
 import sources.Formation;
 import sources.Instructeur;
 
@@ -292,7 +294,7 @@ public class TeacherUI extends UserUI{
                         listCourAction();
                         break;
                     case "Supprimer":
-                        System.out.println("nothing for now");
+                        System.out.println("nothing fornow");
                         break;
                 }
                 break;
@@ -318,37 +320,54 @@ public class TeacherUI extends UserUI{
     protected void listCourAction(){
 
         Scene listCourScene;
-        BorderPane listCourBorder = DefaultFct.defaultBorder();
 
-        coursList = genViews.getCours(form);
+        BorderPane formationInfo = DefaultFct.defaultBorder();
+        Text title = new Text("Titre de formation: " + form.getNomFormation());
+        Text description = new Text("Description de formation: " + form.getDescription());
+        VBox formStuff = DefaultFct.defaultVbox();
+        formStuff.getChildren().addAll(title, description);
+
+        ListView<String> coursList = genViews.getCours(form);
 
         VBox buttons = DefaultFct.defaultVbox();
         Button openCours = new Button("Ouvrir");
+        openCours.setOnAction(e -> openCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
         Button deleteCours = new Button("Supprimer");
+        deleteCours.setOnAction(e -> {
+            deleteCoursAction(form, coursList.getSelectionModel().getSelectedItem());
+            coursList.getItems().remove(coursList.getSelectionModel().getSelectedItem());
+        });
         Button modifierCours = new Button("Modifier");
+        modifierCours.setOnAction(e -> modifierCoursAction(form, coursList.getSelectionModel().getSelectedItem()));
+
         buttons.getChildren().addAll(openCours,modifierCours,deleteCours);
 
-        listCourBorder.setCenter(coursList);
-        listCourBorder.setRight(buttons);
+        formationInfo.setTop(formStuff);
+        formationInfo.setCenter(coursList);
+        formationInfo.setRight(buttons);
 
-        openCours.setOnAction(e -> {
-            listCourSel = coursList.getSelectionModel().getSelectedItems();
-            if (verifOneLineCour()){
-                CourUI.openCours(listCourSel.get(0));
-            }
-        });
-        modifierCours.setOnAction(e -> {
-            listCourSel = coursList.getSelectionModel().getSelectedItems();
-            if (verifOneLineCour()){
-                CourUI.modifierCours(listCourSel.get(0));
-            }
-        });
-        deleteCours.setOnAction(e -> {
-
-        });
-
-        listCourScene = new Scene(listCourBorder, 500, 500);
+        listCourScene = new Scene(formationInfo, 500, 500);
         formStage.setScene(listCourScene);
+        formStage.showAndWait();
+    }
+
+    private void openCoursAction(Formation form, String nomCour) {
+        Cour c = Cour.getCours(form, nomCour);
+        CourUI.openCours(c);
+    }
+
+    private void addCoursAction(Formation form, String nomCour) {
+        Cour c = Cour.getCours(form, nomCour);
+        CourUI.addCours(form);
+    }
+
+    private void modifierCoursAction(Formation form, String nomCour) {
+        Cour c = Cour.getCours(form, nomCour);
+        CourUI.modifierCours(c);
+    }
+
+    private void deleteCoursAction(Formation form, String nomCour) {
+        Cour.delete(form.getNumFormation(), nomCour);
     }
 
 
