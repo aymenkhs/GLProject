@@ -4,6 +4,7 @@ import dataBase.Jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Historique {
@@ -45,6 +46,22 @@ public class Historique {
         if(dataBase.insertRequest(request) != 0){
             addAction("L'etudiant a commencer le test n°" + test.getNumTest());
         }
+    }
+
+    public ArrayList<Integer> etatPassationTest(Test test){
+        String request = "Select numQusetion, numChoixQ From ReponseQuestion where numFormation = " + form.getNumFormation() +
+                " and matriculeEtud = " + app.getMatricule() + " and numTest = " + test.getNumTest();
+        ResultSet res = dataBase.selectRequest(request);
+
+
+        ArrayList<Integer> qstRepondu = new ArrayList<>();
+
+        try{
+            while(res.next()){
+                qstRepondu.add(res.getInt("numQusetion"));
+            }
+        }catch (SQLException e){System.out.println(e);}
+        return qstRepondu;
     }
 
     public double finaliserTest(Test test){

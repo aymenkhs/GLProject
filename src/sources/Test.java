@@ -63,6 +63,8 @@ public class Test {
 
     private boolean isTestValide(){
         switch (listQst.size()){
+            case 4:
+                return true;
             case 5:
                 return true;
             case 10:
@@ -104,6 +106,15 @@ public class Test {
                         res.getString("enoncerQuestion")));
             }
         }catch (SQLException e){}
+    }
+
+    public Question getQuestion(int numQ){
+        for(Question qst:listQst){
+            if(numQ == qst.getNumQuestion()){
+                return qst;
+            }
+        }
+        return null;
     }
 
     public Question addQuestion(int numQst, String enoncerQst){

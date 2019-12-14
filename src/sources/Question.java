@@ -135,6 +135,22 @@ public class Question{
         }
     }
 
+    public ChoiceQst getChoice(int nchoix){
+        for(ChoiceQst ch:correctChoices){
+            if(ch.getNumChoice() == nchoix){
+                return ch;
+            }
+        }
+
+        for(ChoiceQst ch:wrongChoices){
+            if(ch.getNumChoice() == nchoix){
+                return ch;
+            }
+        }
+
+        return null;
+    }
+
     private boolean delete(){
         String requete = "delete from Question where numFormation=" + numForm + " and numTest=" + numTest +
                 " and numQusetion=" + numQuestion;

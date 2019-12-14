@@ -97,6 +97,7 @@ create table Question(
 	numTest integer,
 	numQusetion integer,
 	enoncerQuestion varchar2(200),
+	validerQuestion integer check (validerQuestion<=1 and validerQuestion>=0) Default 0,
 	constraint qstTestFK foreign key (numFormation,numTest) references Test ON DELETE CASCADE,
 	constraint qstPK primary key (numFormation,numTest,numQusetion)
 );
@@ -130,10 +131,16 @@ create table ReponseQuestion(
 	matriculeEtud integer,
 	numQusetion integer,
 	numChoixQ integer,
+	autreChoix1 integer,
+	autreChoix2 integer,
+	autreChoix3 integer,
 	constraint repqQstPK foreign key (numFormation,numTest,numQusetion) references Question ON DELETE CASCADE,
 	constraint repqChoixqPK foreign key (numFormation,numTest,numQusetion,numChoixQ) references ChoixQuestion ON DELETE CASCADE,
+	constraint repqChoixqPK foreign key (numFormation,numTest,numQusetion,autreChoix1) references ChoixQuestion ON DELETE SET NULL,
+	constraint repqChoixqPK foreign key (numFormation,numTest,numQusetion,autreChoix2) references ChoixQuestion ON DELETE SET NULL,
+	constraint repqChoixqPK foreign key (numFormation,numTest,numQusetion,autreChoix3) references ChoixQuestion ON DELETE SET NULL,
 	constraint repqPstPK foreign key (numFormation,numTest,matriculeEtud) references PasseTest ON DELETE CASCADE,
-	constraint repqPK primary key (numFormation,numTest,matriculeEtud)
+	constraint repqPK primary key (numFormation,numTest,matriculeEtud, numQusetion)
 );
 
 create table Sondage(
