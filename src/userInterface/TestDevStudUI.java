@@ -2,16 +2,16 @@ package userInterface;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import sources.Formation;
-import sources.Historique;
-import sources.Test;
+import sources.*;
+
+import java.util.ArrayList;
 
 public class TestDevStudUI extends TestDevUI {
 
@@ -77,13 +77,50 @@ public class TestDevStudUI extends TestDevUI {
                 stg.close();
                 membre.passerTest(test);
                 // start doing the test
+                initQuestion(test.getListQst().get(0),0);
             });
 
             stg.show();
         }
     }
 
-    private void initQuestion(){
+    private void initQuestion(Question qst, int cmpt){
 
+        BorderPane borderQuestion = DefaultFct.defaultBorder();
+
+        VBox firstLevel = DefaultFct.defaultVbox(Pos.CENTER, 20);
+
+        Label testLabel = new Label("Test n°"+test.getNumTest());
+        testLabel.setFont(new Font(50));
+        testLabel.setStyle("-fx-text-fill: #ff8e47"); // change the color
+
+        Label qstLabel = new Label("Question n°"+qst.getNumQuestion());
+        qstLabel.setFont(new Font(30));
+        qstLabel.setStyle("-fx-text-fill: #ff8e47"); // change the color
+
+        Label enoncerQst = new Label(qst.getEnoncerQuestion());
+
+        VBox choixVBox = DefaultFct.defaultVbox();
+        ArrayList<ChoiceQst> listChoix = qst.genRandomChoices();
+        ToggleGroup toggle = new ToggleGroup();
+        RadioButton choix[] = new RadioButton[4];
+
+        int i = 0;
+        for(ChoiceQst choice:listChoix){
+            choix[i] = new RadioButton(choice.toString());
+            choix[i].setToggleGroup(toggle);
+            choixVBox.getChildren().add(choix[i]);
+        }
+
+        firstLevel.getChildren().addAll(testLabel, qstLabel, enoncerQst);
+        borderQuestion.setCenter(firstLevel);
+
+        HBox bottom = DefaultFct.defaultHbox(Pos.BOTTOM_LEFT);
+
+        Button next = new Button("Suivant");
+        Button precedent = new Button("Precedant");
+        Button finish = new Button("Terminer le Test");
+
+        bottom.getChildren().addAll(precedent, next, finish);
     }
 }

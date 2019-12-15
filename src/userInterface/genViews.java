@@ -4,10 +4,8 @@ package userInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
-import sources.Cour;
-import sources.Devoir;
-import sources.Formation;
-import sources.Test;
+import javafx.scene.control.SelectionMode;
+import sources.*;
 
 import java.util.ArrayList;
 
@@ -83,6 +81,42 @@ public class genViews {
         devoirs = new ListView<>(obsDevoirs);
 
         return devoirs;
+    }
+
+    public static ListView<Apprenant> getApprenant() {
+
+        ListView<Apprenant> apps;
+        ObservableList<Apprenant> obsApps = FXCollections.observableArrayList();
+
+        ArrayList<Apprenant> appArray = Apprenant.loadAllApprenant();
+
+        if(!appArray.isEmpty()) {
+            for(Apprenant app : appArray) {
+                obsApps.add(app);
+            }
+        }
+
+        apps = new ListView<>(obsApps);
+        apps.getSelectionModel().setSelectionMode( SelectionMode.MULTIPLE);
+        return apps;
+    }
+
+    public static ListView<Historique> getMembre(Formation form) {
+
+        ListView<Historique> membres;
+        ObservableList<Historique> obsMembres = FXCollections.observableArrayList();
+
+        ArrayList<Historique> appArray = form.loadApprenants();
+
+        if(!appArray.isEmpty()) {
+            for(Historique m : appArray) {
+                obsMembres.add(m);
+            }
+        }
+
+        membres = new ListView<>(obsMembres);
+
+        return membres;
     }
 
 }

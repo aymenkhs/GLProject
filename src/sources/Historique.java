@@ -16,6 +16,17 @@ public class Historique {
     private int nbAction;
 
 
+    public Historique(Apprenant app, Formation form) {
+        this.app = app;
+        this.form = form;
+        nbActions();
+    }
+
+
+    public void InscriptionAppreant(){
+        addAction("L'etudiant ces inscrit a cette formation");
+    }
+
     public int isHePassedIt(Test test){
         /*
             return 1 if the student alredy completed this test and 0 if he started it and did'nt complete it and -1 if
@@ -137,6 +148,20 @@ public class Historique {
         String request = "insert into Historique values(" + (nbAction+1) + "," + form.getNumFormation() + "," +
                 app.getMatricule() + ",'" + action + "')";
         return dataBase.insertRequest(request) != 0;
+    }
+
+    private int nbActions(){
+        String request = "select max(numAction) from Historique where numFormation = " + form.getNumFormation() +
+                " and matriculeEtud = " + app.getMatricule();
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                nbAction =  res.getInt("max(numAction)")+1;
+                return nbAction;
+            }
+            nbAction = 0;
+        }catch (SQLException e){nbAction = -1;}
+        return nbAction;
     }
 
 

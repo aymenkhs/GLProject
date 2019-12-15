@@ -1,6 +1,7 @@
 package userInterface;
 
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,9 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sources.Cour;
-import sources.Formation;
-import sources.Instructeur;
+import sources.*;
 
 import java.time.format.DateTimeFormatter;
 
@@ -277,8 +276,10 @@ public class TeacherUI extends UserUI{
             case "Apprenants":
                 switch (actionFormCombo.getValue()){
                     case "Ajouter":
+                        AddApprenants(formStage.getScene());
                         break;
                     case "Afficher Liste":
+                        listMembre(formStage.getScene());
                         break;
                     case "Supprimer":
                         System.out.println("nothing for now");
@@ -370,6 +371,73 @@ public class TeacherUI extends UserUI{
         Cour.delete(form.getNumFormation(), nomCour);
     }
 
+
+    private void listMembre(Scene scene){
+
+        Scene listMembresScene;
+        BorderPane listMembresBorder = DefaultFct.defaultBorder();
+
+        ListView<Historique> membresList = genViews.getMembre(form);
+
+        VBox buttons = DefaultFct.defaultVbox();
+        Button openMembre = new Button("Voir Historique");
+        Button deleteMembre = new Button("Supprimer");
+        buttons.getChildren().addAll(openMembre,deleteMembre);
+
+        HBox bottomBorder = DefaultFct.defaultHbox(Pos.BOTTOM_LEFT);
+        Button returnButton = new Button("Retour");
+        returnButton.setOnAction(e-> window.setScene(scene));
+        bottomBorder.getChildren().add(returnButton);
+
+        listMembresBorder.setCenter(membresList);
+        listMembresBorder.setRight(buttons);
+        listMembresBorder.setBottom(bottomBorder);
+
+        openMembre.setOnAction(e -> {
+
+        });
+
+        deleteMembre.setOnAction(e -> {
+
+        });
+
+        listMembresScene = new Scene(listMembresBorder);
+        window.setScene(listMembresScene);
+    }
+
+    private void AddApprenants(Scene scene){
+
+        Scene listAppScene;
+        BorderPane listAppBorder = DefaultFct.defaultBorder();
+
+        ListView<Apprenant> appList = genViews.getApprenant();
+
+        HBox bottomBorder = DefaultFct.defaultHbox(Pos.BOTTOM_LEFT);
+        Button returnButton = new Button("Retour");
+        Button addApp = new Button("Ajouter Apprenants");
+        returnButton.setOnAction(e-> window.setScene(scene));
+        bottomBorder.getChildren().addAll(returnButton, addApp);
+
+        listAppBorder.setCenter(appList);
+        listAppBorder.setBottom(bottomBorder);
+
+        addApp.setOnAction(e -> {
+           ObservableList<Apprenant> listSelected =  appList.getSelectionModel().getSelectedItems();
+
+           for(Apprenant app:listSelected){
+               form.addApprenant(app);
+           }
+           window.setScene(scene);
+        });
+
+        listAppScene = new Scene(listAppBorder);
+        window.setScene(listAppScene);
+    }
+
+
+    private void historique(){
+
+    }
 
     private void deleteSelected(Formation form) {
 

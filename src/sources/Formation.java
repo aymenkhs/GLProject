@@ -41,25 +41,25 @@ public class Formation {
     }
 
     // Apprenant
-    public boolean addApprenant(Apprenant app){
+    public Historique addApprenant(Apprenant app){
         if(!dataBase.keyExist("MembreFormation","numFormation = " + numFormation + " and matriculeEtud = " +
                 app.getMatricule())){
             String requete = "insert into MembreFormation(numFormation , matriculeEtud) values(" + numFormation + "," +
                     app.getMatricule() + ")";
             if (dataBase.insertRequest(requete) != 0){
-                return true;
+                return new Historique(app, this);
             }
         }
-        return false;
+        return null;
     }
 
-    public ArrayList<Apprenant> loadApprenants(){
-        ArrayList<Apprenant> list = new ArrayList<>();
+    public ArrayList<Historique> loadApprenants(){
+        ArrayList<Historique> list = new ArrayList<>();
         String request = "select matriculeEtud from MembreFormation where numFormation = "+ numFormation;
         ResultSet res = dataBase.selectRequest(request);
         try{
             while(res.next()){
-                list.add(Apprenant.LoadApprenant(Apprenant.getUserWithMat(res.getInt("matriculeEtud"))));
+                list.add(new Historique(Apprenant.LoadApprenant(Apprenant.getUserWithMat(res.getInt("matriculeEtud"))),this));
             }
         }catch (SQLException e){}
         return list;
