@@ -20,6 +20,8 @@ public class Question{
         this.numTest = numTest;
         this.numQuestion = numQuestion;
         this.enoncerQuestion = enoncerQuestion;
+        correctChoices = new ArrayList<>();
+        wrongChoices = new ArrayList<>();
         LoadChoices();
     }
 
@@ -94,7 +96,7 @@ public class Question{
     }
 
     public boolean isRepTrue(int choix){
-        return randomChoice.get(choix).isChoixJuste();
+        return getChoice(choix).isChoixJuste();
     }
 
 
@@ -113,8 +115,6 @@ public class Question{
     }
 
     private void initChoice(int numChoix, String contenue, boolean isTrue){
-        correctChoices = new ArrayList<>();
-        wrongChoices = new ArrayList<>();
 
         ChoiceQst choice = new ChoiceQst(numForm, numTest, numQuestion, numChoix, contenue, isTrue);
 

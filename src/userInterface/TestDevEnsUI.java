@@ -1,8 +1,11 @@
 package userInterface;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,6 +23,13 @@ public class TestDevEnsUI extends TestDevUI{
     private Stage qstStage;
     private VBox choiceVbox;
     private ArrayList<HBox> choiceListHBox;
+
+    private TableView<temp_Choice> choicesTable;
+    private int cmptChoix;
+
+    TextField answer;
+    CheckBox isTrue;
+
 
     private TextArea enocerText;
 
@@ -84,6 +94,7 @@ public class TestDevEnsUI extends TestDevUI{
 
     private void addQuestion(Test test){
         int numQuestion = test.nbQuestions() + 1;
+        cmptChoix = 0;
         Label nQstLabel = new Label("Question n° : " + numQuestion);
 
         VBox firstLevel = DefaultFct.defaultVbox(Pos.CENTER, 30);
@@ -92,18 +103,42 @@ public class TestDevEnsUI extends TestDevUI{
         enocerText = new TextArea();
         secondLevel.getChildren().addAll(enoncerLabel, enocerText);
 
-        choiceListHBox = new ArrayList<>();
+        TableColumn<temp_Choice, Integer> numCol = new TableColumn<>("Num Choix");
+        numCol.setMinWidth(100);
+        numCol.setCellValueFactory(new PropertyValueFactory<>("numUI"));
 
-        choiceVbox = DefaultFct.defaultVbox();
+        TableColumn<temp_Choice, String> contCol = new TableColumn<>("reponse choix");
+        contCol.setMinWidth(250);
+        contCol.setCellValueFactory(new PropertyValueFactory<>("contenue"));
+
+        TableColumn<temp_Choice, Boolean> blnCol = new TableColumn<>("est Vrai");
+        blnCol.setMinWidth(100);
+        blnCol.setCellValueFactory(new PropertyValueFactory<>("right"));
+
+        choicesTable = new TableView<>();
+        choicesTable.getColumns().addAll(numCol, contCol, blnCol);
+
+        answer = new TextField();
+        isTrue = new CheckBox("is true");
+        HBox hb = DefaultFct.defaultHbox();
+        hb.getChildren().addAll(answer, isTrue);
 
         HBox btnHBox = DefaultFct.defaultHbox();
         Button add = new Button("add");
         add.setOnAction(e->addChoice());
         Button delete = new Button("delete");
-        //delete.setOnAction(e->);
+        delete.setOnAction(e-> {
+
+        });
+        Button modify = new Button("modify");
+        modify.setOnAction(e->{
+            if(!DefaultFct.emptyField(DefaultFct.redPromptText, answer)){
+
+            }
+        });
         btnHBox.getChildren().addAll(add, delete);
 
-        firstLevel.getChildren().addAll(secondLevel, btnHBox, choiceVbox);
+        firstLevel.getChildren().addAll(secondLevel, hb, btnHBox, choicesTable);
 
         Button confirm = new Button("Confirmer");
         confirm.setOnAction(e->confirmAddQst(test, numQuestion));
@@ -141,14 +176,20 @@ public class TestDevEnsUI extends TestDevUI{
         questionStuff(test ,nQstLabel, confirm, firstLevel);
     }
 
+    // Load the choice with modifQuestion
+    public ObservableList<temp_Choice> getChoices(){
+        ObservableList<temp_Choice> choices = FXCollections.observableArrayList();
+
+        return choices;
+    }
+
     private void addChoice(){
-        Label nchoix = new Label("choix n°:" + (choiceListHBox.size() + 1));
-        TextField answer = new TextField();
-        CheckBox isTrue = new CheckBox("is true");
-        HBox hb = DefaultFct.defaultHbox();
-        hb.getChildren().addAll(nchoix, answer, isTrue);
-        choiceVbox.getChildren().add(hb);
-        choiceListHBox.add(hb);
+        if(!DefaultFct.emptyField(DefaultFct.redPromptText, answer)){
+            cmptChoix++;
+            choicesTable.getItems().add(new temp_Choice(answer.getText(),cmptChoix, isTrue.isSelected()));
+            isTrue.setSelected(false);
+            answer.clear();
+        }
     }
 
     private void questionStuff(Test test, Label nQstLabel, Button confirm, VBox centerBorder){
@@ -178,10 +219,10 @@ public class TestDevEnsUI extends TestDevUI{
 
     private void confirmAddQst(Test test, int numQ){
         Question qst = test.addQuestion(numQ, enocerText.getText());
-        for(HBox hb:choiceListHBox){
-            TextField tx = (TextField) hb.getChildren().get(1);
-            CheckBox chk = (CheckBox) hb.getChildren().get(2);
-            qst.addChoice(choiceListHBox.indexOf(hb) + 1, tx.getText(), chk.isSelected());
+        ArrayList<temp_Choice> listchoice = new ArrayList<>(choicesTable.getItems());
+
+        for(temp_Choice temp :listchoice){
+            qst.addChoice(temp.getNumUI(), temp.getContenue(), temp.isRight());
         }
         listViewQst.getItems().add(qst);
         qstStage.close();
@@ -236,7 +277,7 @@ public class TestDevEnsUI extends TestDevUI{
 
         });
         deletetests.setOnAction(e -> {
-
+            //deleteTest();
         });
 
         listTestScene = new Scene(listTestBorder);

@@ -65,6 +65,18 @@ public class Formation {
         return list;
     }
 
+    public Historique loadApprenant(int matricumeApp){
+        String request = "select matriculeEtud from MembreFormation where numFormation = "+ numFormation +
+                " and matriculeEtud = " + matricumeApp;
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                return new Historique(Apprenant.LoadApprenant(Apprenant.getUserWithMat(res.getInt("matriculeEtud"))),this);
+            }
+        }catch (SQLException e){}
+        return null;
+    }
+
 
     // Cour
     public ArrayList<Cour> LoadCours(){
@@ -103,6 +115,17 @@ public class Formation {
             }
         }catch (SQLException e){}
         return list;
+    }
+
+    public Test LoadTests(int numTest){
+        String request = "select * from Test where numFormation = "+ numFormation + " and numTest = " + numTest;
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                return new Test(this, res.getInt("numTest"), res.getInt("isDisponible") == 1);
+            }
+        }catch (SQLException e){}
+        return null;
     }
 
     public ArrayList<Test> LoadDisponibleTests(){
@@ -151,6 +174,18 @@ public class Formation {
             }
         }catch (SQLException e){}
         return list;
+    }
+
+    public Devoir LoadDevoirs(int numdev){
+        String request = "select * from Devoir where numFormation = "+ numFormation + " and numTest = " + numdev;
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            if(res.next()){
+                return new Devoir(this, res.getInt("numDevoir"),
+                        res.getString("enoncer"));
+            }
+        }catch (SQLException e){}
+        return null;
     }
 
     public Devoir addDevoir(int numDevoir, String enoncer){

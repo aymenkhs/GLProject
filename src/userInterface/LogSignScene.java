@@ -85,8 +85,8 @@ public class LogSignScene {
 
     private boolean verifeLogin() {
         String redPromptText = "-fx-prompt-text-fill: red";
-        if (emptyField(redPromptText, userName)) return false;
-        if (emptyField(redPromptText, userPassword)) return false;
+        if (DefaultFct.emptyField(redPromptText, userName)) return false;
+        if (DefaultFct.emptyField(redPromptText, userPassword)) return false;
         return true;
     }
 
@@ -197,22 +197,15 @@ public class LogSignScene {
     private boolean verife() {
         String redPromptText = "-fx-prompt-text-fill: red";
 
-        if (emptyField(redPromptText, lastNameText)) return false;
-        if (emptyField(redPromptText, firstNameText)) return false;
-        if (emptyField(redPromptText, emailText)) return false;
-        if (emptyField(redPromptText, userNameText)) return false;
-        if (emptyField(redPromptText, userPasswordText)) return false;
+        if (DefaultFct.emptyField(redPromptText, lastNameText)) return false;
+        if (DefaultFct.emptyField(redPromptText, firstNameText)) return false;
+        if (DefaultFct.emptyField(redPromptText, emailText)) return false;
+        if (DefaultFct.emptyField(redPromptText, userNameText)) return false;
+        if (DefaultFct.emptyField(redPromptText, userPasswordText)) return false;
         return true;
     }
 
-    private boolean emptyField(String redPromptText, TextField textField) {
-        if(textField.getText().isBlank()) {
-            textField.setPromptText("Ce champ doit etre remplis");
-            textField.setStyle(redPromptText);
-            return true;
-        }
-        return false;
-    }
+
 
     private void launchHomeScreen(Apprenant app){
         StudentUI s = new StudentUI(window, this ,app);

@@ -234,7 +234,7 @@ public class TeacherUI extends UserUI{
         if(verifOneLineForm()){
             form = tabForm.getSelectionModel().getSelectedItem();
 
-            testUI = new TestDevEnsUI(window, form);
+            testUI = new TestDevEnsUI(formStage, form);
 
             rightFormBorder.setVisible(false);
 
@@ -349,7 +349,6 @@ public class TeacherUI extends UserUI{
 
         listCourScene = new Scene(formationInfo, 500, 500);
         formStage.setScene(listCourScene);
-        formStage.showAndWait();
     }
 
     private void openCoursAction(Formation form, String nomCour) {
@@ -386,7 +385,7 @@ public class TeacherUI extends UserUI{
 
         HBox bottomBorder = DefaultFct.defaultHbox(Pos.BOTTOM_LEFT);
         Button returnButton = new Button("Retour");
-        returnButton.setOnAction(e-> window.setScene(scene));
+        returnButton.setOnAction(e-> formStage.setScene(scene));
         bottomBorder.getChildren().add(returnButton);
 
         listMembresBorder.setCenter(membresList);
@@ -394,7 +393,7 @@ public class TeacherUI extends UserUI{
         listMembresBorder.setBottom(bottomBorder);
 
         openMembre.setOnAction(e -> {
-
+            historique();
         });
 
         deleteMembre.setOnAction(e -> {
@@ -402,7 +401,7 @@ public class TeacherUI extends UserUI{
         });
 
         listMembresScene = new Scene(listMembresBorder);
-        window.setScene(listMembresScene);
+        formStage.setScene(listMembresScene);
     }
 
     private void AddApprenants(Scene scene){
@@ -415,7 +414,7 @@ public class TeacherUI extends UserUI{
         HBox bottomBorder = DefaultFct.defaultHbox(Pos.BOTTOM_LEFT);
         Button returnButton = new Button("Retour");
         Button addApp = new Button("Ajouter Apprenants");
-        returnButton.setOnAction(e-> window.setScene(scene));
+        returnButton.setOnAction(e-> formStage.setScene(scene));
         bottomBorder.getChildren().addAll(returnButton, addApp);
 
         listAppBorder.setCenter(appList);
@@ -427,17 +426,17 @@ public class TeacherUI extends UserUI{
            for(Apprenant app:listSelected){
                form.addApprenant(app);
            }
-           window.setScene(scene);
+           formStage.setScene(scene);
         });
 
         listAppScene = new Scene(listAppBorder);
-        window.setScene(listAppScene);
+        formStage.setScene(listAppScene);
     }
-
 
     private void historique(){
 
     }
+
 
     private void deleteSelected(Formation form) {
 

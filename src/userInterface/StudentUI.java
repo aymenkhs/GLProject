@@ -4,11 +4,15 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sources.Apprenant;
+import sources.Cour;
 
 import java.time.format.DateTimeFormatter;
 
@@ -24,6 +28,8 @@ public class StudentUI extends UserUI{
     private Apprenant app;
 
     private Scene studentUIScene;
+
+    private TestDevStudUI testUI;
 
     //add this comme entree de constructeur Apprenant student
 
@@ -87,12 +93,7 @@ public class StudentUI extends UserUI{
         tabForm = fv.getTable();
     }
 
-    protected void consulterFormAction(){
-        listFormSel = tabForm.getSelectionModel().getSelectedItems();
-        if(verifOneLineForm()){
-            System.out.println("La on affiche la formation avec description et tous");
-        }
-    }
+
 
     private void allFormsAction(){
         initBorderForm();
@@ -110,5 +111,58 @@ public class StudentUI extends UserUI{
 
         formStage = DefaultFct.defaultStage("FORMATION", formScene);
         formStage.showAndWait();
+    }
+
+    protected void consulterFormAction(){
+        listFormSel = tabForm.getSelectionModel().getSelectedItems();
+        if(verifOneLineForm()){
+            form = tabForm.getSelectionModel().getSelectedItem();
+
+            testUI = new TestDevStudUI(formStage, form, form.loadApprenant(app.getMatricule()));
+
+            rightFormBorder.setVisible(false);
+
+            GridPane infoFormGrid = initConsulterForm();
+
+            Button testsButton = new Button("Tests");
+            testsButton.setOnAction(e->testUI.listTest(formStage.getScene()));
+            Button coursButton = new Button("Cours");
+            coursButton.setOnAction(e->listCourAction());
+            GridPane.setConstraints(coursButton, 0, 3);
+            GridPane.setConstraints(testsButton, 1, 3);
+            infoFormGrid.getChildren().addAll(coursButton, testsButton);
+
+            formBorder.setCenter(infoFormGrid);
+        }
+    }
+
+    protected void listCourAction(){
+
+        Scene listCourScene;
+
+        BorderPane formationInfo = DefaultFct.defaultBorder();
+        Text title = new Text("Titre de formation: " + form.getNomFormation());
+        Text description = new Text("Description de formation: " + form.getDescription());
+        VBox formStuff = DefaultFct.defaultVbox();
+        formStuff.getChildren().addAll(title, description);
+
+        ListView<String> coursList = genViews.getCours(form);
+
+        VBox buttons = DefaultFct.defaultVbox();
+        Button openCours = new Button("Ouvrir");
+        openCours.setOnAction(e -> {
+            Cour c = Cour.getCours(form, coursList.getSelectionModel().getSelectedItem());
+            CourUI.openCours(c);
+        });
+
+
+        buttons.getChildren().addAll(openCours);
+
+        formationInfo.setTop(formStuff);
+        formationInfo.setCenter(coursList);
+        formationInfo.setRight(buttons);
+
+        listCourScene = new Scene(formationInfo, 500, 500);
+        formStage.setScene(listCourScene);
     }
 }

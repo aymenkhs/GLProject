@@ -3,7 +3,7 @@ package userInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 
 public class DefaultFct {
+
+    public static String redPromptText  = "-fx-prompt-text-fill: red";
 
     public static GridPane defaultGrid(){
         GridPane newGrid = new GridPane();
@@ -66,12 +68,12 @@ public class DefaultFct {
         return border;
     }
 
-    public static BorderPane borderFrm(){
-        BorderPane border = defaultBorder();
-        HBox hb = defaultHbox();
-        Button fermer = new Button("Quiter");
-        hb.getChildren().add(fermer);
-        border.setBottom(hb);
-        return border;
+    public static boolean emptyField(String redPromptText, TextField textField) {
+        if(textField.getText().isBlank()) {
+            textField.setPromptText("Ce champ doit etre remplis");
+            textField.setStyle(redPromptText);
+            return true;
+        }
+        return false;
     }
 }

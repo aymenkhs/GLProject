@@ -169,11 +169,22 @@ create table Participer(
 	constraint partPK primary key (numSondage,userName)
 );
 
+create table Blog(
+ numPost integer,
+ userName varchar2(30),
+ title varchar2(50),
+ content varchar2(1500),
+ datePost varchar(50),
+ lastEdited varchar2(50) DEFAULT null,
+ constraint bloggerFK foreign key (userName) references Personne on delete cascade,
+ constraint numP primary key (numPost)
+);
 
 create table Wiki(
 	numWiki integer,
 	nomWiki varchar2(50),
 	userNameCreateur varchar2(30),
+	pathContenue varchar2(200),
 	pathImageWiki varchar2(200),
 );
 
@@ -181,7 +192,7 @@ create table SectionWiki(
 	numWiki integer,
 	numSection integer,
 	nomSection varchar2(50),
-	pathContenueSection varchar2(200),
+
 	pathImageSection varchar2(200),
 );
 

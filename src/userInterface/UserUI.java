@@ -1,10 +1,12 @@
 package userInterface;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -15,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sources.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -110,7 +113,9 @@ public abstract class UserUI {
         emailLabel = new Label();
         DateNLabel = new Label();
 
-        pfpView = new ImageView();
+
+        Image image = new Image(new File("Files/Images/Profil/__Default.png").toURI().toString());
+        pfpView = new ImageView(image);
         pfpView.setFitHeight(50);
         pfpView.setPreserveRatio(true);
         pfpView.setStyle("-fx-background-color: red");
@@ -518,5 +523,208 @@ public abstract class UserUI {
             return false;
         }
         return s.delete();
+    }
+
+    private static void showBlogPosts(int option, String userName) { // option 0 for all posts, option 1 for my posts
+
+        BorderPane blogPosts = DefaultFct.defaultBorder();
+        Scene blogScene;
+        Stage blogStage = new Stage();
+
+        String type = User.userType(userName);
+        Personne per = null;
+        String text = "Blog";
+        if(option == 1) {
+            text = "My Blog";
+            switch (type.toLowerCase()) {
+                case "etudiant":
+                    per = Apprenant.LoadApprenant(userName);
+                    break;
+                case "enseignant":
+                    per = Instructeur.LoadInstructeur(userName);
+                    break;
+            }
+        }
+
+        TableView<BlogPost> blogTable = BlogPost.blogTable(per);
+
+        Text title = new Text(text);
+        title.setFont(new Font(20));
+
+        Button ajouter = new Button("Ajouter Post");
+        ajouter.setMinWidth(185);
+        Personne finalPer = per;
+        ajouter.setOnAction(e -> {
+            ajouterBlogPost(userName);
+            ObservableList<BlogPost> obsList = FXCollections.observableArrayList();
+            ArrayList<BlogPost> arrList = BlogPost.loadBlogPosts(finalPer);
+            for(BlogPost b : arrList) {
+                obsList.add(b);
+            }
+            blogTable.setItems(obsList);
+        });
+
+        Button consulter = new Button("Lire Post");
+        consulter.setMinWidth(185);
+        consulter.setOnAction(e -> consulterBlogPost(blogTable.getSelectionModel().getSelectedItem(), false));
+
+        Button modifer = new Button("Modifer Post");
+        modifer.setMinWidth(185);
+        modifer.setOnAction(e -> {
+            BlogPost bp = blogTable.getSelectionModel().getSelectedItem();
+            if(bp.getBlogger().getUserName().equalsIgnoreCase(userName)) {
+                consulterBlogPost(blogTable.getSelectionModel().getSelectedItem(), true);
+            }else {
+                AlertBox.displayError("Vous ne pouvez pas modifer un poste qui n'est pas le votre");
+            }
+        });
+
+        Button supprimer  = new Button("Supprimer Post");
+        supprimer.setMinWidth(185);
+        supprimer.setOnAction(e -> {
+            BlogPost bp = blogTable.getSelectionModel().getSelectedItem();
+            if(bp.getBlogger().getUserName().equalsIgnoreCase(userName) && !(User.userType(userName).equalsIgnoreCase("admin"))) {
+                bp.delete();
+                blogTable.getItems().remove(bp);
+                AlertBox.display("Post supprimé", "Votre post a été supprimé");
+            }else {
+                AlertBox.displayError("Vous n'avez pas le droit de supprimer se Post");
+            }
+        });
+
+        Button quit = new Button("Fermer");
+        quit.setMinWidth(185);
+        quit.setOnAction(e -> blogStage.close());
+
+        VBox buttonVBox = DefaultFct.defaultVbox();
+        buttonVBox.getChildren().addAll(ajouter, consulter, modifer, supprimer, quit);
+
+        blogPosts.setTop(title);
+        blogPosts.setCenter(blogTable);
+        blogPosts.setRight(buttonVBox);
+
+        blogScene = new Scene(blogPosts, 860, 600);
+        blogScene.getStylesheets().add(UserUI.class.getResource("../style.css").toExternalForm());
+        blogStage.setScene(blogScene);
+        blogStage.showAndWait();
+    }
+
+    private static void consulterBlogPost(BlogPost bp, boolean modifier) {
+        Stage blogPost = new Stage();
+        BorderPane blogPostPane = DefaultFct.defaultBorder();
+
+        Text title = new Text("Titre");
+        title.setFont(new Font(20));
+        TextField titre = new TextField();
+        titre.setText(bp.getTitle());
+
+        HBox titleHbox = DefaultFct.defaultHbox();
+        titleHbox.getChildren().addAll(title, titre);
+
+        TextArea post = new TextArea();
+        String content = bp.getContent();
+
+        post.setText(content);
+
+        String postInfo = bp.getBlogger().getNom() +"\t"+ bp.getBlogger().getPrenom() +"\n" +
+                "Posted on: " + bp.getDatePost() + "\n" + "Last Edited: " + bp.getLastEdited();
+        Text metaData  = new Text(postInfo);
+
+        VBox postVbox = DefaultFct.defaultVbox();
+        postVbox.getChildren().addAll(post, metaData);
+
+        Button quit = new Button("Fermer");
+        quit.setOnAction(e-> blogPost.close());
+
+        Button valider = new Button("Valider");
+        valider.setOnAction(e -> {
+            if(titre.getText().isBlank()) {
+                titre.setPromptText("Ce champ doit etre rempli");
+                titre.setStyle("-fx-prompt-text-fill: red");
+            }else if(post.getText().isBlank()) {
+                post.setPromptText("Ce champ de etre rempli");
+                post.setStyle("-fx-prompt-text-fill: red");
+            }else {
+                bp.edit(titre.getText(), post.getText());
+                AlertBox.display("Succes", "Votre Poste a été modifé");
+                blogPost.close();
+            }
+        });
+
+        HBox buttonHbox = DefaultFct.defaultHbox();
+        buttonHbox.getChildren().addAll(valider, quit);
+
+        //modifier = false => we are opening in read only mode
+        if(!modifier) {
+            titre.setEditable(false);
+            post.setEditable(false);
+            valider.setManaged(false);
+        }
+
+
+        blogPostPane.setTop(titleHbox);
+        blogPostPane.setCenter(postVbox);
+        blogPostPane.setBottom(buttonHbox);
+
+        Scene blogPostScene = new Scene(blogPostPane, 600, 370);
+        blogPostScene.getStylesheets().add(UserUI.class.getResource("../style.css").toExternalForm());
+        blogPost.setScene(blogPostScene);
+        blogPost.showAndWait();
+    }
+
+    private static void ajouterBlogPost(String userName) {
+        Stage blogPost = new Stage();
+        BorderPane blogPostPane = DefaultFct.defaultBorder();
+
+        Personne per = null;
+        String type = User.userType(userName);
+        switch (type) {
+            case "etudiant":
+                per = Apprenant.LoadApprenant(userName);
+                break;
+            case "enseignant":
+                per = Instructeur.LoadInstructeur(userName);
+                break;
+        }
+
+        Text title = new Text("Titre");
+        title.setFont(new Font(20));
+        TextField titre = new TextField();
+
+        HBox titleHbox = DefaultFct.defaultHbox();
+        titleHbox.getChildren().addAll(title, titre);
+
+        TextArea post = new TextArea();
+
+        Button quit = new Button("Fermer");
+        quit.setOnAction(e-> blogPost.close());
+
+        Button valider = new Button("Valider");
+        Personne finalPer = per;
+        valider.setOnAction(e -> {
+            if(titre.getText().isBlank()) {
+                titre.setPromptText("Ce champ doit etre rempli");
+                titre.setStyle("-fx-prompt-text-fill: red");
+            }else if(post.getText().isBlank()) {
+                post.setPromptText("Ce champ de etre rempli");
+                post.setStyle("-fx-prompt-text-fill: red");
+            }else {
+                BlogPost bp = BlogPost.add(finalPer, titre.getText(), post.getText());
+                AlertBox.display("Succes", "Votre post a été ajouté");
+                blogPost.close();
+            }
+        });
+
+        HBox buttonHbox = DefaultFct.defaultHbox();
+        buttonHbox.getChildren().addAll(valider, quit);
+
+        blogPostPane.setTop(titleHbox);
+        blogPostPane.setCenter(post);
+        blogPostPane.setBottom(buttonHbox);
+
+        Scene blogScene = new Scene(blogPostPane, 600, 370);
+        blogScene.getStylesheets().add(UserUI.class.getResource("../style.css").toExternalForm());
+        blogPost.setScene(blogScene);
+        blogPost.showAndWait();
     }
 }

@@ -4,6 +4,7 @@ import dataBase.Jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,6 +23,13 @@ public class Historique {
         nbActions();
     }
 
+    public Apprenant getApp() {
+        return app;
+    }
+
+    public Formation getForm() {
+        return form;
+    }
 
     public void InscriptionAppreant(){
         addAction("L'etudiant ces inscrit a cette formation");
@@ -55,7 +63,7 @@ public class Historique {
                 "," + form.getNumFormation() + "," + app.getMatricule() + ")";
 
         if(dataBase.insertRequest(request) != 0){
-            addAction("L'etudiant a commencer le test n°" + test.getNumTest());
+            addAction("L etudiant a commencer le test n°" + test.getNumTest());
         }
     }
 
@@ -88,20 +96,23 @@ public class Historique {
             }
         }catch (SQLException e){System.out.println(e);}
 
+        addAction("L etudiant a finit le test n°" + test.getNumTest());
+
         double note = test.calculerNote(reponses);
 
         String upRequest = "update PasseTest set noteT = " + note + " where numFormation = " +
                 form.getNumFormation() + " and matriculeEtud = " + app.getMatricule() + " and numTest = " + test.getNumTest();
+        dataBase.updateRequest(upRequest);
 
         return note;
     }
 
     public void addRepQuestion(Question qst, ChoiceQst reponse){
         String request = "insert into ReponseQuestion (numTest, numFormation, matriculeEtud, numQusetion, numChoixQ) values("
-                + reponse.getNumTest() + "," + form.getNumFormation() + "," + app.getMatricule() + "," + reponse.getNumChoice() + ")";
+                + reponse.getNumTest() + "," + form.getNumFormation() + "," + app.getMatricule() + "," + qst.getNumQuestion() + "," + reponse.getNumChoice() + ")";
 
         if(dataBase.insertRequest(request) != 0){
-            addAction("L'etudiant a repondu "+ reponse.getTextChoice() +" a La question " + qst.getNumQuestion() +
+            addAction("L etudiant a repondu "+ reponse.getTextChoice() +" a La question " + qst.getNumQuestion() +
                     " dans le test n°" + reponse.getNumTest());
         }
     }
@@ -123,7 +134,7 @@ public class Historique {
                         reponse.getNumTest() + " and numQusetion = " + reponse.getNumQuestion();
 
                 if(dataBase.updateRequest(request2) != 0){
-                    addAction("L'etudiant a changer sa reponse de "+ ancienneRep + " à " + reponse.getTextChoice() +
+                    addAction("L etudiant a changer sa reponse de "+ ancienneRep + " à " + reponse.getTextChoice() +
                             " a La question " + qst.getNumQuestion() + " dans le test n°" + reponse.getNumTest());
                 }
             }
@@ -146,8 +157,56 @@ public class Historique {
 
     private boolean addAction(String action){
         String request = "insert into Historique values(" + (nbAction+1) + "," + form.getNumFormation() + "," +
-                app.getMatricule() + ",'" + action + "')";
-        return dataBase.insertRequest(request) != 0;
+                app.getMatricule() + ",'" + (action + " le " + LocalDateTime.now().toString()) + "')";
+        nbAction++;
+        if(dataBase.insertRequest(request) != 0){
+            System.out.println("eeee");
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<String> loadActions(){
+        ArrayList<String> list = new ArrayList<>();
+        String request = "select action from Historique where numFormation = "+ form.getNumFormation()+
+                " and matriculeEtud = " + app.getMatricule();
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            while(res.next()){
+                list.add(res.getString("action"));
+            }
+        }catch (SQLException e){}
+        return list;
+    }
+
+    public HashMap<Test, Double> loadTestsPasser(){
+        HashMap<Test, Double> list = new HashMap<>();
+        String request = "select * from PasseTest where numFormation = "+ form.getNumFormation()+
+                " and matriculeEtud = " + app.getMatricule();
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            while(res.next()){
+                Test test = form.LoadTests(res.getInt("numTest"));
+                if(isHePassedIt(test) == 1){
+                    list.put(test, res.getDouble("noteT"));
+                }
+            }
+        }catch (SQLException e){}
+        return list;
+    }
+
+    public HashMap<Devoir, Double> loadDevoirsPasser(){
+        HashMap<Devoir, Double> list = new HashMap<>();
+        String request = "select * from PasseDevoir where numFormation = "+ form.getNumFormation()+
+                " and matriculeEtud = " + app.getMatricule();
+        ResultSet res = dataBase.selectRequest(request);
+        try{
+            while(res.next()){
+                Devoir dev = form.LoadDevoirs(res.getInt("numDevoir"));
+                list.put(dev, res.getDouble("noteD"));
+            }
+        }catch (SQLException e){}
+        return list;
     }
 
     private int nbActions(){
@@ -164,10 +223,8 @@ public class Historique {
         return nbAction;
     }
 
-
-
     // Static Methodes
-    public void setDataBase(Jdbc db){
+    public static void setDataBase(Jdbc db){
         dataBase = db;
     }
 }

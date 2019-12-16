@@ -55,6 +55,7 @@ public class Test {
     public boolean validerTest(){
         if(isTestValide()){
             disponible = true;
+            updateDisponible();
             calculerBareme();
             return true;
         }
@@ -84,6 +85,7 @@ public class Test {
     public double calculerNote(HashMap<Integer, Integer> reponses){
         double note = 0;
 
+        calculerBareme();
 
         for(Question qst:listQst){
             if(reponses.containsKey(qst.getNumQuestion())){
@@ -93,6 +95,14 @@ public class Test {
             }
         }
         return note;
+    }
+
+    // Update
+
+    private void updateDisponible(){
+        String request = "update Test set isDisponible = " + (disponible?1:0) + " where numFormation = " +
+                form.getNumFormation() +" and numTest = " + numTest;
+        dataBase.updateRequest(request);
     }
 
     // Question

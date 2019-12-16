@@ -33,5 +33,6 @@ public class Main extends Application {
         Question.setDataBase(db);
         Devoir.setDataBase(db);
         Sondage.setDataBase(db);
+        Historique.setDataBase(db);
     }
 }
