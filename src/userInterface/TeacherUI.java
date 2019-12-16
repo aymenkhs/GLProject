@@ -60,8 +60,8 @@ public class TeacherUI extends UserUI{
         BorderPane.setMargin(firstLevelBox, new Insets(12,12,12,12));
         userIntBorder.setCenter(firstLevelBox);
 
-        teacherUIScene = new Scene(userIntBorder,600,500);
-
+        teacherUIScene = new Scene(userIntBorder,800,750);
+        teacherUIScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         window.setScene(teacherUIScene);
     }
 
@@ -115,7 +115,7 @@ public class TeacherUI extends UserUI{
         ajouterFormButton.setOnAction(e->ajoutFormAction());
 
         rightFormBorder.getChildren().addAll(modifierFormButton, ajouterFormButton, supprimmerFormButton);
-        //consulterButton.setOnAction(e->consulterFormAction());
+//        consulterButton.setOnAction(e->consulterFormAction());
     }
 
     private void myFormsAction(){
@@ -126,7 +126,8 @@ public class TeacherUI extends UserUI{
 //        tabForm.getSelectionModel().getSelectedItems().addListener((InvalidationListener) observable -> consulterFormAction());
         supprimmerFormButton.setOnAction(e -> {
 //            if(verifOneLineForm()) {
-            deleteSelected(tabForm.getSelectionModel().getSelectedItem());
+            tabForm.getSelectionModel().getSelectedItem().delete();
+            tabForm.getItems().remove(tabForm.getSelectionModel().getSelectedItem());
 //            }
 
         });
@@ -179,7 +180,7 @@ public class TeacherUI extends UserUI{
         addFormBorder.setBottom(bottomAddFormBorder);
 
         addFormScene = new Scene(addFormBorder);
-
+        addFormScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         formAjoutStage = DefaultFct.defaultStage("FORMATION", addFormScene);
 
         quitButton.setOnAction(e->formAjoutStage.close());
@@ -347,7 +348,8 @@ public class TeacherUI extends UserUI{
         formationInfo.setCenter(coursList);
         formationInfo.setRight(buttons);
 
-        listCourScene = new Scene(formationInfo, 500, 500);
+        listCourScene = new Scene(formationInfo, 600, 600);
+        listCourScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         formStage.setScene(listCourScene);
     }
 
@@ -401,6 +403,7 @@ public class TeacherUI extends UserUI{
         });
 
         listMembresScene = new Scene(listMembresBorder);
+        listMembresScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         formStage.setScene(listMembresScene);
     }
 
@@ -430,6 +433,7 @@ public class TeacherUI extends UserUI{
         });
 
         listAppScene = new Scene(listAppBorder);
+        listAppScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         formStage.setScene(listAppScene);
     }
 
@@ -437,9 +441,5 @@ public class TeacherUI extends UserUI{
 
     }
 
-
-    private void deleteSelected(Formation form) {
-
-    }
 
 }

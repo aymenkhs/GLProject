@@ -53,8 +53,8 @@ public class StudentUI extends UserUI{
         BorderPane.setMargin(firstLevelBox, new Insets(12,12,12,12));
         userIntBorder.setCenter(firstLevelBox);
 
-        studentUIScene = new Scene(userIntBorder,600,500);
-
+        studentUIScene = new Scene(userIntBorder,800,750);
+        studentUIScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         window.setScene(studentUIScene);
     }
 

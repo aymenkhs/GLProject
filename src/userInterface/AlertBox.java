@@ -24,7 +24,9 @@ public class AlertBox {
 
         layout.getChildren().addAll(mes, btn);
 
-        window.setScene(new Scene(layout));
+        Scene sc = new Scene(layout);
+        sc.getStylesheets().add(AlertBox.class.getResource("style.css").toExternalForm());
+        window.setScene(sc);
         window.showAndWait();
     }
 

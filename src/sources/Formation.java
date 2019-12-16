@@ -218,7 +218,7 @@ public class Formation {
         file.mkdirs();
     }
 
-    protected boolean delete(){
+    public boolean delete(){
         String requete = "delete from Formation where numFormation='" + numFormation + "'";
         return dataBase.deleteRequest(requete)!=0;
     }

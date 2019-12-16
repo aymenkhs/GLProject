@@ -59,7 +59,8 @@ public class LogSignScene {
         GridPane.setConstraints(userPasswordLabel, 0, 2);
 
         loginGrid.getChildren().addAll(userNameLabel, userName, userPasswordLabel, userPassword, loginButton, signinButton);
-        loginScene = new Scene(loginGrid, 300, 250);
+        loginScene = new Scene(loginGrid, 400, 350);
+        loginScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
     }
 
     public void moveToLoginScene(){
@@ -79,6 +80,8 @@ public class LogSignScene {
                 }else{ //admin
                     // call loaddmin when it writen
                 }
+            }else {
+                AlertBox.displayError("Invalid Credentials.");
             }
         }
     }
@@ -146,8 +149,8 @@ public class LogSignScene {
                 dateNaissanceLabel, userNameLabel, userPasswordLabel, matriculeText, lastNameText, firstNameText,
                 dateNaissance, emailText, typeChoice, userNameText, userPasswordText, signinButton, returnButton);
 
-        signInGrid.setStyle("-fx-background-color: #b9d8ff");
-        Scene signinScene = new Scene(signInGrid, 600, 333);
+        Scene signinScene = new Scene(signInGrid, 700, 450);
+        signinScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         window.setScene(signinScene);
     }
 

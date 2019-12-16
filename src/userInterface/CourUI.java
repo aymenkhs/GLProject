@@ -82,7 +82,8 @@ public class CourUI {
         coursGrid.setConstraints(buttonHBox, 0, 4);
         coursGrid.getChildren().add(buttonHBox);
 
-        openCoursScene = new Scene(coursGrid, 640, 390);
+        openCoursScene = new Scene(coursGrid, 740, 490);
+        openCoursScene.getStylesheets().add(CourUI.class.getResource("style.css").toExternalForm());
         addCoursPopUp.setScene(openCoursScene);
         addCoursPopUp.showAndWait();
     }
@@ -98,7 +99,8 @@ public class CourUI {
         coursGrid.setConstraints(buttonHBox, 0, 4);
         coursGrid.getChildren().add(buttonHBox);
         valider.setOnAction(e -> cours.sauvgCour(coursContent.getText()));
-        modifierCoursScene = new Scene(coursGrid, 640,390);
+        modifierCoursScene = new Scene(coursGrid, 740,490);
+        modifierCoursScene.getStylesheets().add(CourUI.class.getResource("style.css").toExternalForm());
         addCoursPopUp.setScene(modifierCoursScene);
         addCoursPopUp.showAndWait();
 

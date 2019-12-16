@@ -31,7 +31,7 @@ public abstract class UserUI {
     protected BorderPane userIntBorder;
     protected VBox firstLevelBox, thirdLevelBox, profileVbox;
     protected HBox secondLevelBox, topBorder;
-    protected GridPane formationGrid, sondageGrid;
+    protected GridPane formationGrid, sondageGrid, blogGrid;
     //protected GridPane wikiGrid; !!!???
 
     // Image that represents pdp
@@ -103,6 +103,9 @@ public abstract class UserUI {
         formationGrid = DefaultFct.defaultGrid();
         sondageGrid = DefaultFct.defaultGrid();
         sondageInnit(per);
+
+        blogGrid = DefaultFct.defaultGrid();
+        blogInnit(per);
     }
 
     protected void profilInnit(){
@@ -118,7 +121,6 @@ public abstract class UserUI {
         pfpView = new ImageView(image);
         pfpView.setFitHeight(50);
         pfpView.setPreserveRatio(true);
-        pfpView.setStyle("-fx-background-color: red");
 
         editProfilButton = new Button("Edit");
 
@@ -126,6 +128,28 @@ public abstract class UserUI {
                 emailLabel, DateNLabel, editProfilButton);
 
         secondLevelBox.getChildren().add(profileVbox);
+    }
+
+    protected void blogInnit(Personne per) {
+
+        Label blogLabel = new Label("BLOG");
+        blogLabel.setFont(new Font(20));
+
+        Button allPosts = new Button("Tous les posts");
+        allPosts.setOnAction(e -> {
+            showBlogPosts(0, per.getUserName());
+        });
+
+        Button myPosts = new Button("Mes Posts");
+        myPosts.setOnAction(e -> {
+            showBlogPosts(1, per.getUserName());
+        });
+
+        blogGrid.setConstraints(blogLabel,0,0);
+        blogGrid.setConstraints(allPosts, 0,1);
+        blogGrid.setConstraints(myPosts, 1, 1);
+        blogGrid.getChildren().addAll(blogLabel, allPosts, myPosts);
+        thirdLevelBox.getChildren().addAll(blogGrid);
     }
 
     protected void sondageInnit(Personne per){
@@ -147,7 +171,7 @@ public abstract class UserUI {
 
         Button addPollsButton = new Button("Ajouter un Sondages");
         GridPane.setConstraints(addPollsButton, 1, 3);
-        //addPollsButton.setOnAction(e->);
+        addPollsButton.setOnAction(e-> addSondage(per.getUserName()));
 
         sondageGrid.getChildren().addAll(sondageLabel, everyPollsButton, myPollsButton, answeredPollsButton, addPollsButton);
 
@@ -180,6 +204,7 @@ public abstract class UserUI {
         consulterFormButton.setOnAction(e->consulterFormAction());
 
         formScene = new Scene(formBorder, 600, 600);
+        formScene.getStylesheets().add(UserUI.class.getResource("style.css").toExternalForm());
     }
 
 
@@ -220,7 +245,6 @@ public abstract class UserUI {
         Stage pollStage = new Stage();
 
         BorderPane sondages = DefaultFct.defaultBorder();
-        sondages.setStyle("-fx-background-color: #b9d8ff");
 
         SondageView view = new SondageView(option, userName);
 
@@ -233,24 +257,32 @@ public abstract class UserUI {
         title.setStyle("-fx-text-fill: #ff8e47");
 
         Button quit = new Button("Quitter");
-        quit.setMinWidth(140);
+        quit.setMinWidth(185);
         quit.setOnAction(e -> pollStage.close());
 
         Button afficherResultat = new Button("Resultat de Sondage");
-        afficherResultat.setMinWidth(140);
+        afficherResultat.setMinWidth(185);
         afficherResultat.setOnAction(e -> showResults(sondageTable.getSelectionModel().getSelectedItem()));
 
         Button ajouter = new Button("Ajouter un Sondage");
-        ajouter.setMinWidth(140);
+        ajouter.setMinWidth(185);
         ajouter.setOnAction(e -> {
             addSondage(userName);
-//            pollStage.close();
-//            showPolls(option, userName);
-            System.out.println("Why isnt this working");
+            switch (option) {
+                case 0:
+                    sondageTable.setItems(view.getAllSondages());
+                    break;
+                case 1:
+                    sondageTable.setItems(view.getMySondages());
+                    break;
+                case 2:
+                    sondageTable.setItems(view.getSondagesPart());
+                    break;
+            }
         });
 
         Button repondre = new Button("Repondre Au Sondage");
-        repondre.setMinWidth(140);
+        repondre.setMinWidth(185);
         repondre.setOnAction(e -> {
             if(sondageTable.getSelectionModel().getSelectedItems().size() == 1) {
                 repondreAuSondage(sondageTable.getSelectionModel().getSelectedItem(), userName);
@@ -258,7 +290,7 @@ public abstract class UserUI {
         });
 
         Button supprimer = new Button("Supprimer le Sondage");
-        supprimer.setMinWidth(140);
+        supprimer.setMinWidth(185);
         supprimer.setOnAction(e -> {
             Sondage s =  sondageTable.getSelectionModel().getSelectedItem();
             if(deleteSondage(s, userName)) {
@@ -274,14 +306,23 @@ public abstract class UserUI {
         });
 
         Button unAnswer = new Button("Supprimer reponse");
-        unAnswer.setMinWidth(140);
+        unAnswer.setMinWidth(185);
         unAnswer.setOnAction(e -> {
             Sondage s = sondageTable.getSelectionModel().getSelectedItem();
             if(s.checkIfAnswered(userName)) {
                 if (s.deleteAnswer(userName)) {
                     AlertBox.display("Supprimé!", "Votre reponse au sondage a été supprimée");
-//                    pollStage.close();
-//                    showPolls(option, userName);
+                    switch (option) {
+                        case 0:
+                            sondageTable.setItems(view.getAllSondages());
+                            break;
+                        case 1:
+                            sondageTable.setItems(view.getMySondages());
+                            break;
+                        case 2:
+                            sondageTable.setItems(view.getSondagesPart());
+                            break;
+                    }
                 }else {
                     AlertBox.displayError("Unkown SQL error");
                 }
@@ -312,7 +353,8 @@ public abstract class UserUI {
         sondages.setCenter(sondageTable);
         sondages.setRight(buttonVbox);
 
-        Scene pollsScene = new Scene(sondages, 640,400);
+        Scene pollsScene = new Scene(sondages, 850,630);
+        pollsScene.getStylesheets().add(UserUI.class.getResource("style.css").toExternalForm());
         pollStage.setScene(pollsScene);
         pollStage.showAndWait();
 
@@ -332,13 +374,15 @@ public abstract class UserUI {
         Label results = s.choicesInLabel();
 
         Button quit = new Button("Fermer");
+        quit.setMinWidth(185);
         quit.setOnAction(e -> resultStage.close());
 
         resultPane.setTop(descriptionVbox);
         resultPane.setCenter(results);
         resultPane.setBottom(quit);
 
-        Scene resultsScene = new Scene(resultPane, 300,300);
+        Scene resultsScene = new Scene(resultPane, 400,400);
+        resultsScene.getStylesheets().add(UserUI.class.getResource("style.css").toExternalForm());
         resultStage.setScene(resultsScene);
         resultStage.showAndWait();
 
@@ -391,6 +435,7 @@ public abstract class UserUI {
         sondageVbox.getChildren().addAll(descriptionVbox, hbox1, hbox2, hbox3, hbox4);
 
         Button ajouter = new Button("Ajouter");
+        ajouter.setMinWidth(185);
         ajouter.setOnAction(e -> {
             if(description.getText().isBlank()) {
                 description.setPromptText("Ajouter une description!");
@@ -432,6 +477,7 @@ public abstract class UserUI {
         });
 
         Button annuler = new Button("Quitter");
+        annuler.setMinWidth(185);
         annuler.setOnAction(e -> addSondageStage.close());
 
         HBox buttonHbox = DefaultFct.defaultHbox();
@@ -444,7 +490,8 @@ public abstract class UserUI {
         addSondagePane.setBottom(buttonHbox);
         addSondagePane.setCenter(sondageVbox);
 
-        Scene addSondageScene = new Scene(addSondagePane,430,300);
+        Scene addSondageScene = new Scene(addSondagePane,530,400);
+        addSondageScene.getStylesheets().add(UserUI.class.getResource("style.css").toExternalForm());
         addSondageStage.setScene(addSondageScene);
         addSondageStage.showAndWait();
     }
@@ -478,6 +525,7 @@ public abstract class UserUI {
         infoVbox.getChildren().addAll(results, choiceHbox);
 
         Button answer = new Button("Repondre");
+        answer.setMinWidth(185);
         answer.setOnAction(e -> {
             if(!choices.getValue().isBlank()) {
                 if (s.checkIfAnswered(userName)) {
@@ -490,6 +538,7 @@ public abstract class UserUI {
             }
         });
         Button quit = new Button("Quitter");
+        quit.setMinWidth(185);
         quit.setOnAction(e -> repondSondageStage.close());
 
         HBox buttonHbox = DefaultFct.defaultHbox();
@@ -499,7 +548,8 @@ public abstract class UserUI {
         repondSondagePane.setCenter(infoVbox);
         repondSondagePane.setBottom(buttonHbox);
 
-        Scene repondSondageScene = new Scene(repondSondagePane, 400, 270);
+        Scene repondSondageScene = new Scene(repondSondagePane, 500, 370);
+        repondSondageScene.getStylesheets().add(UserUI.class.getResource("style.css").toExternalForm());
         repondSondageStage.setScene(repondSondageScene);
         repondSondageStage.showAndWait();
     }
@@ -604,7 +654,7 @@ public abstract class UserUI {
         blogPosts.setRight(buttonVBox);
 
         blogScene = new Scene(blogPosts, 860, 600);
-        blogScene.getStylesheets().add(UserUI.class.getResource("../style.css").toExternalForm());
+        blogScene.getStylesheets().add(UserUI.class.getResource("style.css").toExternalForm());
         blogStage.setScene(blogScene);
         blogStage.showAndWait();
     }
@@ -667,7 +717,7 @@ public abstract class UserUI {
         blogPostPane.setBottom(buttonHbox);
 
         Scene blogPostScene = new Scene(blogPostPane, 600, 370);
-        blogPostScene.getStylesheets().add(UserUI.class.getResource("../style.css").toExternalForm());
+        blogPostScene.getStylesheets().add(UserUI.class.getResource("style.css").toExternalForm());
         blogPost.setScene(blogPostScene);
         blogPost.showAndWait();
     }
@@ -723,7 +773,7 @@ public abstract class UserUI {
         blogPostPane.setBottom(buttonHbox);
 
         Scene blogScene = new Scene(blogPostPane, 600, 370);
-        blogScene.getStylesheets().add(UserUI.class.getResource("../style.css").toExternalForm());
+        blogScene.getStylesheets().add(UserUI.class.getResource("style.css").toExternalForm());
         blogPost.setScene(blogScene);
         blogPost.showAndWait();
     }

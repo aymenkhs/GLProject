@@ -18,15 +18,15 @@ public class SondageView {
         this.userName = userName;
 
         TableColumn<Sondage, Integer> numSCol = new TableColumn<>("Num Sondage");
-        numSCol.setMinWidth(150);
+        numSCol.setMinWidth(130);
         numSCol.setCellValueFactory(new PropertyValueFactory<>("numSondage"));
 
         TableColumn<Sondage, String> nomSCol = new TableColumn<>("Description de Sondage");
-        nomSCol.setMinWidth(150);
+        nomSCol.setMinWidth(235);
         nomSCol.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         TableColumn<Sondage, String> creatCol = new TableColumn<>("Nom Createur");
-        creatCol.setMinWidth(150);
+        creatCol.setMinWidth(235);
         creatCol.setCellValueFactory(new PropertyValueFactory<>("nomCreateur"));
 
         switch (option) {
@@ -49,7 +49,7 @@ public class SondageView {
         return sondageTable;
     }
 
-    private ObservableList<Sondage> getAllSondages(){
+    public ObservableList<Sondage> getAllSondages(){
 
         ObservableList<Sondage> sondageList = FXCollections.observableArrayList();
 
@@ -65,7 +65,7 @@ public class SondageView {
         return sondageList;
     }
 
-    private ObservableList<Sondage> getMySondages() {
+    public ObservableList<Sondage> getMySondages() {
 
         ObservableList<Sondage> sondageList = FXCollections.observableArrayList();
 
@@ -82,7 +82,7 @@ public class SondageView {
         return sondageList;
     }
 
-    private ObservableList<Sondage> getSondagesPart() {
+    public ObservableList<Sondage> getSondagesPart() {
 
         ObservableList<Sondage> sondageList = FXCollections.observableArrayList();
 
