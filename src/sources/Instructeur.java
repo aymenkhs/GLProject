@@ -15,6 +15,10 @@ public class Instructeur extends Personne {
         this.dommaine = dommaine;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 
     // Formtions
 

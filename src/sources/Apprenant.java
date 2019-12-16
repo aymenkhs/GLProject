@@ -17,6 +17,10 @@ public class Apprenant extends Personne {
     }
 
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 
     // Methodes Static
     public static Apprenant LoadApprenant(String userNameS) {

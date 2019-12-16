@@ -74,9 +74,9 @@ public class CourUI {
         setUpPopUp();
         Scene openCoursScene;
 
-        coursTitle.setDisable(true);
+        coursTitle.setEditable(false);
         coursTitle.setText(cours.getNomCour());
-        coursContent.setDisable(true);
+        coursContent.setEditable(false);
         coursContent.setText(cours.chargerCour());
         buttonHBox.getChildren().addAll(closePopPup);
         coursGrid.setConstraints(buttonHBox, 0, 4);
