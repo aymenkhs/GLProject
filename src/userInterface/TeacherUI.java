@@ -6,6 +6,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -15,7 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sources.*;
 
-import java.time.format.DateTimeFormatter;
+import java.io.File;
 
 public class TeacherUI extends UserUI{
 
@@ -71,7 +73,7 @@ public class TeacherUI extends UserUI{
         emailLabel.setText("Email: " + inst.getEmail());
         lastNameLabel.setText("Nom: " + inst.getNom());
         firstNameLabel.setText("Prenom: " + inst.getPrenom());
-        DateNLabel.setText("Date de Naissance: " + inst.getDateNaissance().format(DateTimeFormatter.ISO_DATE));
+        DateNLabel.setText("Date de Naissance: " + inst.getDateNaissance());
     }
 
     private void formationInnit(){
@@ -394,9 +396,7 @@ public class TeacherUI extends UserUI{
         listMembresBorder.setRight(buttons);
         listMembresBorder.setBottom(bottomBorder);
 
-        openMembre.setOnAction(e -> {
-            historique();
-        });
+        openMembre.setOnAction(e -> historique(membresList.getSelectionModel().getSelectedItem()));
 
         deleteMembre.setOnAction(e -> {
 
@@ -437,9 +437,62 @@ public class TeacherUI extends UserUI{
         formStage.setScene(listAppScene);
     }
 
-    private void historique(){
+    private void historique(Historique membre){
 
+        Scene AncSc = formStage.getScene();
+
+        HBox topLevel = DefaultFct.defaultHbox();
+
+        VBox info = DefaultFct.defaultVbox();
+
+        Image image = new Image(new File("Files/Images/Profil/__Default.png").toURI().toString());
+        ImageView pfpView = new ImageView(image);
+        pfpView.setFitHeight(50);
+        pfpView.setPreserveRatio(true);
+        pfpView.setStyle("-fx-background-color: red");
+
+        GridPane grid = DefaultFct.defaultGrid();
+        Label nom = new Label("nom : " + membre.getApp().getNom());
+        Label prenom = new Label("prenom : " + membre.getApp().getPrenom());
+        Label email = new Label("email : " + membre.getApp().getEmail());
+        Label userName = new Label("userName : " + membre.getApp().getUserName());
+        Label dateN = new Label("date de naissance : " + membre.getApp().getDateNaissance().toString());
+
+
+        GridPane.setConstraints(nom, 0, 0);
+        GridPane.setConstraints(prenom, 1, 0);
+        GridPane.setConstraints(userName, 0, 1);
+        GridPane.setConstraints(dateN, 1, 1);
+        GridPane.setConstraints(email, 0, 2, 2,1);
+
+        grid.getChildren().addAll(nom,prenom,userName,dateN,email);
+
+        Button retrun = new Button("return");
+        retrun.setOnAction(e->formStage.setScene(AncSc));
+
+        info.getChildren().addAll(pfpView, grid, retrun);
+
+        VBox his = DefaultFct.defaultVbox();
+        Label hisLabel = new Label("HISTORIQUE");
+        hisLabel.setFont(new Font(30));
+        hisLabel.setStyle("-fx-text-fill: #ff8e47");
+        ListView<String> listHist = genViews.getHistorique(membre);
+        listHist.setPrefWidth(300);
+        his.getChildren().addAll(hisLabel,listHist);
+
+        VBox passTest = DefaultFct.defaultVbox();
+        Label tstLabel = new Label("TESTES PASSER");
+        tstLabel.setFont(new Font(30));
+        hisLabel.setStyle("-fx-text-fill: #ff8e47");
+        TableView<MembrePassation> listTst = genViews.getTestPasser(membre);
+        passTest.getChildren().addAll(tstLabel,listTst);
+
+        topLevel.getChildren().addAll(info,his,passTest);
+        Scene sc = new Scene(topLevel);
+        sc.getStylesheets().add(TeacherUI.class.getResource("../style.css").toExternalForm());
+        formStage.setScene(sc);
     }
+
 
 
     private void deleteSelected(Formation form) {

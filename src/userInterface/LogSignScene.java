@@ -176,7 +176,7 @@ public class LogSignScene {
         if(verife()){
             if(typeChoice.getValue().equals("Etudiant")){
                 Apprenant app = Apprenant.SignUp(userNameText.getText(), userPasswordText.getText(), emailText.getText(),
-                        firstNameText.getText(), lastNameText.getText(), matriculeInt, dateNaissance.getValue(),
+                        firstNameText.getText(), lastNameText.getText(), matriculeInt, dateNaissance.getValue().toString(),
                         "isil", "L3");
                 if (app != null) {
                     launchHomeScreen(app);
@@ -185,7 +185,7 @@ public class LogSignScene {
                 }
             }else{
                 Instructeur inst = Instructeur.SignUp(userNameText.getText(), userPasswordText.getText(), emailText.getText(),
-                        firstNameText.getText(), lastNameText.getText(), matriculeInt, dateNaissance.getValue(),
+                        firstNameText.getText(), lastNameText.getText(), matriculeInt, dateNaissance.getValue().toString(),
                         "grd", "dom");
                 if (inst != null) {
                     launchHomeScreen(inst);

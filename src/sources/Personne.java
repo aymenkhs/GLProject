@@ -1,17 +1,15 @@
 package sources;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public abstract class Personne extends User {
 
     protected String nom, prenom;
     protected int matricule;
-    protected LocalDate dateNaissance;
+    protected String dateNaissance;
 
     public Personne(String userName, String password, String email,Langue lang, String nom, String prenom,
-                    int matricule, LocalDate dateNaissance) {
+                    int matricule, String dateNaissance) {
         super(userName, password, email,lang);
         this.nom = nom;
         this.prenom = prenom;
@@ -40,12 +38,17 @@ public abstract class Personne extends User {
         return matricule;
     }
 
-    public LocalDate getDateNaissance() {
+    public String getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance(LocalDate dateNaissance) {
+    public void setDateNaissance(String dateNaissance) {
         this.dateNaissance = dateNaissance;
+    }
+
+    @Override
+    public String toString() {
+        return "n°" + matricule + " " + userName + " " + nom + " "  + prenom;
     }
 
     // methodes
@@ -62,10 +65,10 @@ public abstract class Personne extends User {
     // Methodes Static (ajout de personne dans la table assossier dans la base de donnes)
 
     protected static boolean ajoutPersonne(String userNameS, String passwordS, String emailS, String nomS, String prenomS,
-                                           LocalDate dateNaissanceS, String type, Langue langue){
+                                           String dateNaissanceS, String type, Langue langue){
 
         String requete = "insert into Personne(userName, nom, prenom, DateN, email, password, langue, type) values('" +
-                userNameS + "','" + nomS + "','" + prenomS+ "','" + dateNaissanceS.format(DateTimeFormatter.ofPattern("d/MM/uuuu"))
+                userNameS + "','" + nomS + "','" + prenomS+ "','" + dateNaissanceS
                 + "','" + emailS + "','" + passwordS+ "','" + langue.name() + "','" + type +"')" ;
         int cp = 0;
 

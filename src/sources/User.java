@@ -106,4 +106,52 @@ public abstract class User {
         }catch(SQLException e){ return "";}
         return "";
     }
+
+    public static ArrayList<User> loadAllUsers(){
+        ArrayList<User> list = new ArrayList<>();
+
+        String requestUser = "select * From Personne";
+        ResultSet resUser = dataBase.selectRequest(requestUser);
+        try
+        {
+            while (resUser.next()) {
+
+                String type = resUser.getString("type");
+                String userNameS = resUser.getString("userName");
+                if(type.equals("etudiant")){
+                    String requestEtud = "select * From Etudiant where userName = '" + userNameS + "'";
+                    ResultSet resEtud = dataBase.selectRequest(requestEtud);
+
+                    if(resEtud.next()){
+
+                        Apprenant app = new Apprenant(userNameS, resUser.getString("password"),
+                                resUser.getString("email"),Langue.valueOf(resUser.getString("langue"))
+                                ,resUser.getString("nom"), resUser.getString("prenom"),
+                                resEtud.getInt("matriculeEtud"),resUser.getString("dateN"),
+                                resEtud.getString("specialite"), resEtud.getString("anneeCour"));
+
+                        list.add(app);
+                    }
+                }else if(type.equals("enseignant")){
+                    String requestEns = "select * From Enseignant where userName = '" + userNameS + "'";
+                    ResultSet resEns = dataBase.selectRequest(requestEns);
+
+                    if(resEns.next()){
+                        Instructeur inst = new Instructeur(userNameS, resUser.getString("password"),
+                                resUser.getString("email"),Langue.valueOf(resUser.getString("langue"))
+                                ,resUser.getString("nom"), resUser.getString("prenom"),
+                                resEns.getInt("matriculeEns"), resUser.getString("dateN"),
+                                resEns.getString("grade"), resEns.getString("dommaine"));
+
+                        list.add(inst);
+                    }
+                }else{ //admin
+                    Admin admin = new Admin(userNameS, resUser.getString("password"),
+                            resUser.getString("email"),Langue.valueOf(resUser.getString("langue")));
+                    list.add(admin);
+                }
+            }
+            return list;
+        }catch (SQLException e){ return null;}
+    }
 }

@@ -215,4 +215,20 @@ public class genViews {
         return obs;
     }
 
+    public static ListView<User> getAllUsers(){
+        ListView<User> users;
+        ObservableList<User> obsUsers = FXCollections.observableArrayList();
+
+        ArrayList<User> userArray = User.loadAllUsers();
+
+        if(!userArray.isEmpty()) {
+            for(User user : userArray) {
+                obsUsers.add(user);
+            }
+        }
+
+        users = new ListView<>(obsUsers);
+        return users;
+    }
+
 }

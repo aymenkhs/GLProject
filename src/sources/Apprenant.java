@@ -10,7 +10,7 @@ public class Apprenant extends Personne {
     private String specialite, anneeEtude;
 
     public Apprenant(String userName, String password, String email, Langue lang, String nom, String prenom, int matricule,
-                     LocalDate dateNaissance, String specialite, String anneeEtude) {
+                     String dateNaissance, String specialite, String anneeEtude) {
         super(userName, password, email, lang, nom, prenom, matricule, dateNaissance);
         this.specialite = specialite;
         this.anneeEtude = anneeEtude;
@@ -38,7 +38,7 @@ public class Apprenant extends Personne {
                         Apprenant app = new Apprenant(userNameS, resUser.getString("password"),
                                 resUser.getString("email"),Langue.valueOf(resUser.getString("langue"))
                                 ,resUser.getString("nom"), resUser.getString("prenom"),
-                                resEtud.getInt("matriculeEtud"),date,
+                                resEtud.getInt("matriculeEtud"),resUser.getString("dateN"),
                                 resEtud.getString("specialite"), resEtud.getString("anneeCour"));
 
                         return app;
@@ -73,7 +73,7 @@ public class Apprenant extends Personne {
                     Apprenant app = new Apprenant(userNameS, resUser.getString("password"),
                             resUser.getString("email"),Langue.valueOf(resUser.getString("langue"))
                             ,resUser.getString("nom"), resUser.getString("prenom"),
-                            resEtud.getInt("matriculeEtud"),date,
+                            resEtud.getInt("matriculeEtud"),resUser.getString("dateN"),
                             resEtud.getString("specialite"), resEtud.getString("anneeCour"));
 
                     list.add(app);
@@ -93,7 +93,7 @@ public class Apprenant extends Personne {
     }
 
     public static Apprenant SignUp(String userNameS, String passwordS, String emailS, String nomS, String prenomS,
-                                   int matriculeS, LocalDate dateNaissanceS, String specialiteS,
+                                   int matriculeS, String dateNaissanceS, String specialiteS,
                                    String anneeEtudeS){
 
         if(!UserNameExist(userNameS) && !emailExist(emailS)){

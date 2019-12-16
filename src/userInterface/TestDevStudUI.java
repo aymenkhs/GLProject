@@ -118,7 +118,7 @@ public class TestDevStudUI extends TestDevUI {
 
         Button finishTest = new Button("Deposer le test");
         finishTest.setOnAction(e->{
-
+            finishTest();
         });
 
         vb.getChildren().addAll(rep,list,finishTest);

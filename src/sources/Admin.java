@@ -9,7 +9,10 @@ public class Admin extends User {
         super(userName, password, email,lang);
     }
 
-
+    @Override
+    public String toString() {
+        return "ADMIN" + userName;
+    }
 
     // Methodes Static
     public static boolean thereIsAdmin(){

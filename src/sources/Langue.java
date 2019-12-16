@@ -2,5 +2,9 @@ package sources;
 
 public enum Langue {
     English,
-    French
+    French,
+    Arabic,
+    Spanish,
+    Japanese,
+    TEST_LANGUAGE
 }

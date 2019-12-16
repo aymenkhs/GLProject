@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 import sources.Apprenant;
 import sources.Cour;
 
-import java.time.format.DateTimeFormatter;
-
 public class StudentUI extends UserUI{
 
     /*
@@ -64,7 +62,7 @@ public class StudentUI extends UserUI{
         emailLabel.setText("Email: " + app.getEmail());
         lastNameLabel.setText("Nom: " + app.getNom());
         firstNameLabel.setText("Prenom: " + app.getPrenom());
-        DateNLabel.setText("Date de Naissance: " + app.getDateNaissance().format(DateTimeFormatter.ISO_DATE));
+        DateNLabel.setText("Date de Naissance: " + app.getDateNaissance());
     }
 
     private void formationInnit(){

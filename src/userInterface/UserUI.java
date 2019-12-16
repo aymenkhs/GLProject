@@ -78,6 +78,8 @@ public abstract class UserUI {
 
         // first the hbox in the top of the window
 
+        
+
         topBorder = DefaultFct.defaultHbox(Pos.TOP_RIGHT);
 
         Button optionButton = new Button("Options");
