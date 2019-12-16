@@ -41,6 +41,10 @@ public class Question{
         return randomChoice;
     }
 
+    public int getNumTest() {
+        return numTest;
+    }
+
     @Override
     public String toString() {
         return numQuestion + ". " + enoncerQuestion;
@@ -79,6 +83,47 @@ public class Question{
             int i = rand.nextInt(correctChoices.size());
             randomChoice.add(rand.nextInt(4) ,correctChoices.get(i));
         }
+
+        return randomChoice;
+    }
+
+    public ArrayList<ChoiceQst> genRandomChoices(ChoiceQst choice){
+        randomChoice = new ArrayList<>();
+
+        Random rand = new Random();
+
+        if(wrongChoices.size() <= 2){
+            randomChoice.addAll(wrongChoices);
+        }else{
+            // use random to select 3 wrong choice
+            int[] tab = new int[3];
+
+            tab[0] = rand.nextInt(wrongChoices.size());
+
+            do{
+                tab[1] = rand.nextInt(wrongChoices.size());
+            }while(tab[1] == tab[0]);
+
+            do{
+                tab[2] = rand.nextInt(wrongChoices.size());
+            }while(tab[2] == tab[0] || tab[2] == tab[1]);
+
+            randomChoice.add(wrongChoices.get(tab[0]));
+            randomChoice.add(wrongChoices.get(tab[1]));
+            randomChoice.add(wrongChoices.get(tab[2]));
+        }
+
+        randomChoice.add(rand.nextInt(3) ,choice);
+
+        if(correctChoices.size() == 1){
+            randomChoice.addAll(correctChoices);
+        }else{
+            // use random to select one correct choice
+            int i = rand.nextInt(correctChoices.size());
+            randomChoice.add(rand.nextInt(4) ,correctChoices.get(i));
+        }
+
+
 
         return randomChoice;
     }

@@ -29,6 +29,8 @@ public class TestDevStudUI extends TestDevUI {
 
     private HashMap<Question, Scene> listScene;
 
+    private RadioButton choix[];
+
     TestDevStudUI(Stage window, Formation form, Historique hs) {
         super(window, form);
         this.membre = hs;
@@ -132,11 +134,15 @@ public class TestDevStudUI extends TestDevUI {
         if(listScene.containsKey(qst)){
             passerTestStage.setScene(listScene.get(qst));
         }else{
-            initQuestion(qst);
+            if(membre.isHeAnswerTheQuestion(qst)){
+                chargerQst(qst, membre.getAnswer(qst));
+            }else {
+                initQuestion(qst, null);
+            }
         }
     }
 
-    private void initQuestion(Question qst){
+    private void initQuestion(Question qst , ChoiceQst ch){
 
         BorderPane borderQuestion = DefaultFct.defaultBorder();
 
@@ -154,9 +160,14 @@ public class TestDevStudUI extends TestDevUI {
 
         VBox choixVBox = DefaultFct.defaultVbox();
         choixVBox.setPadding(new Insets(10,10,10,10));
-        ArrayList<ChoiceQst> listChoix = qst.genRandomChoices();
+        ArrayList<ChoiceQst> listChoix;
+        if(ch == null){
+            listChoix = qst.genRandomChoices();
+        }else{
+            listChoix = qst.genRandomChoices(ch);
+        }
         ToggleGroup toggle = new ToggleGroup();
-        RadioButton choix[] = new RadioButton[listChoix.size()];
+        choix = new RadioButton[listChoix.size()];
 
         int i = 0;
         for(ChoiceQst choice:listChoix){
@@ -182,19 +193,19 @@ public class TestDevStudUI extends TestDevUI {
         bottom.getChildren().addAll(retour ,precedent, next, finish);
 
         retour.setOnAction(e->{
-            ajoutReponse(qst,listChoix,choix);
+            ajoutReponse(qst,listChoix);
             passerTestStage.setScene(listQstScene);
         });
         next.setOnAction(e->{
-            ajoutReponse(qst,listChoix,choix);
+            ajoutReponse(qst,listChoix);
             nextQst(qst);
         });
         precedent.setOnAction(e->{
-            ajoutReponse(qst,listChoix,choix);
+            ajoutReponse(qst,listChoix);
             precedentQst(qst);
         });
         finish.setOnAction(e->{
-            ajoutReponse(qst,listChoix,choix);
+            ajoutReponse(qst,listChoix);
             finishTest();
         });
 
@@ -203,6 +214,18 @@ public class TestDevStudUI extends TestDevUI {
         Scene myScene = new Scene(borderQuestion);
         listScene.put(qst, myScene);
         passerTestStage.setScene(myScene);
+    }
+
+    private void chargerQst(Question qst, ChoiceQst choice){
+        initQuestion(qst, choice);
+        int i = 0;
+        while(i<choix.length){
+            if(choix[i].equals(choice)){
+                choix[i].setSelected(true);
+                return;
+            }
+        }
+
     }
 
     private void nextQst(Question qst){
@@ -221,14 +244,23 @@ public class TestDevStudUI extends TestDevUI {
         }
     }
 
-    private void ajoutReponse (Question qst, ArrayList<ChoiceQst> listChoix, RadioButton choix[]){
-        int i = (determinerChoix(choix));
-        if (i >= 0){
-            membre.addRepQuestion(qst, listChoix.get(i));
+    private void ajoutReponse (Question qst, ArrayList<ChoiceQst> listChoix){
+        int i = (determinerChoix());
+
+        if(membre.isHeAnswerTheQuestion(qst)){
+            if (i >= 0){
+                membre.alterRepQustion(qst, listChoix.get(i));
+            }
+        }else{
+            if (i >= 0){
+                membre.addRepQuestion(qst, listChoix.get(i));
+            }
         }
+
+
     }
 
-    private int determinerChoix(RadioButton choix[]){
+    private int determinerChoix(){
         int i = 0;
         while (i<choix.length){
             if(choix[i].isSelected()){

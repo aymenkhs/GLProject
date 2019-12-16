@@ -142,6 +142,26 @@ public class Historique {
         }catch (SQLException e){System.out.println(e);}
     }
 
+    public boolean isHeAnswerTheQuestion(Question qst){
+        return dataBase.keyExist("ReponseQuestion", "numFormation = " + form.getNumFormation() + " and matriculeEtud = "
+                + app.getMatricule() + " and numTest = " + qst.getNumTest() + " and numQusetion = " + qst.getNumQuestion());
+    }
+
+    public ChoiceQst getAnswer(Question qst){
+        String request = "Select  numChoixQ from ReponseQuestion where  numFormation = " + form.getNumFormation() +
+                " and matriculeEtud = " + app.getMatricule() + " and numTest = " + qst.getNumTest() + " and numQusetion = "
+                + qst.getNumQuestion();
+        ResultSet res = dataBase.selectRequest(request);
+
+        try{
+            if(res.next()){
+                return qst.getChoice(res.getInt("numChoixQ"));
+            }
+
+        }catch (SQLException e){System.out.println(e);}
+        return null;
+    }
+
     public boolean isHePassedIt(Devoir dev){
         return dataBase.keyExist("PasseDevoir", "numFormation = " + form.getNumFormation() + " and matriculeEtud = "
                 + app.getMatricule() + " and numDevoir = " + dev.getNumDevoir());
